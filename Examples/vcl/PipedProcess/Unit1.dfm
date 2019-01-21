@@ -1,0 +1,59 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  Caption = 'Form1'
+  ClientHeight = 635
+  ClientWidth = 1190
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  KeyPreview = True
+  OldCreateOrder = False
+  OnKeyDown = FormKeyDown
+  PixelsPerInch = 96
+  TextHeight = 13
+  object ExecutableE: TSTDStringLabeledEdit
+    Left = 32
+    Top = 56
+    Width = 121
+    Height = 21
+    EditLabel.Width = 53
+    EditLabel.Height = 13
+    EditLabel.Caption = 'Executable'
+    TabOrder = 0
+    Text = 'P:\\build\\bin\\timer.exe'
+    Value = 'P:\\build\\bin\\timer.exe'
+  end
+  object ParametersE: TSTDStringLabeledEdit
+    Left = 176
+    Top = 56
+    Width = 121
+    Height = 21
+    EditLabel.Width = 55
+    EditLabel.Height = 13
+    EditLabel.Caption = 'Parameters'
+    TabOrder = 1
+    Text = '4'
+    Value = '4'
+  end
+  object RunBtn: TButton
+    Left = 32
+    Top = 120
+    Width = 121
+    Height = 25
+    Caption = 'Run'
+    TabOrder = 2
+    OnClick = RunBtnClick
+  end
+  object LogMemoFrame1: TLogMemoFrame
+    Left = 0
+    Top = 408
+    Width = 1190
+    Height = 227
+    Align = alBottom
+    TabOrder = 3
+  end
+end

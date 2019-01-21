@@ -1,0 +1,4 @@
+Moleculix++ is a C++ library for visualization of molecular structures.
+
+Moleculix++ library files are built by using the CMake build file generator software. 
+

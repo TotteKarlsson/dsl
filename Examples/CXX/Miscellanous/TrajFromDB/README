@@ -1,0 +1,22 @@
+This is the directory for the dipmysql module.
+
+The dipole-mysql is setup from a .ini file, supplied at the comman line, e.g
+	->dipmysql -i./../config/Modules.ini
+The required parameters to be set in the ini file are collected under the
+[DIPOLE_MYSQL] place holder, i.e.
+
+	[DIPOLE_MYSQL]
+	LOG_FILE_NAME = dipmysql.log
+	SQL_USER = totte
+	SQL_HOST = gurka
+	SQL_PASSWORD = totte
+	SQL_DATABASE = mvlins
+	SQL_TABLE = dipoles
+	SQL_PORT = 3309
+
+The dipolemysql module takes input from dipole-rotate.
+Typically, the dipole-mysql is reading from a Fifo file and started as
+	->cat Fifo1 | dipmysql -i./../config/Modules.ini
+Where Fifo1 is a regular Fifo file.
+
+

@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!-- C++Builder XML Project -->
+<PROJECT>
+  <MACROS>
+    <VERSION value="BCB.06.00"/>
+    <PROJECT value="..\..\..\bin\dipmysql.exe"/>
+    <OBJFILES value="dbTracker.obj DBClient.obj SQLTable.obj SQLClient.obj"/>
+    <RESFILES value=""/>
+    <IDLFILES value=""/>
+    <IDLGENFILES value=""/>
+    <DEFFILE value=""/>
+    <RESDEPEN value="$(RESFILES)"/>
+    <LIBFILES value="..\..\..\link\mysqlpp.lib ..\..\..\mysqlpp\lib\mysql.lib 
+      P:\mvlins\link_libs\utils.lib ..\..\..\link\vtkRendering.lib 
+      ..\..\..\link\mtkCommonD60.lib ..\..\..\link\mtkGraphicsD60.lib 
+      ..\..\..\link\vtkCommon.lib ..\..\..\link\vtkFiltering.lib 
+      ..\..\..\link\vtkGraphics.lib ..\..\..\link\vtkHybrid.lib"/>
+    <LIBRARIES value=""/>
+    <SPARELIBS value=""/>
+    <PACKAGES value="vcl.bpi rtl.bpi"/>
+    <PATHCPP value=".;"/>
+    <PATHPAS value=".;"/>
+    <PATHRC value=".;"/>
+    <PATHASM value=".;"/>
+    <DEBUGLIBPATH value="$(BCB)\lib\debug"/>
+    <RELEASELIBPATH value="$(BCB)\lib\release"/>
+    <LINKER value="ilink32"/>
+    <USERDEFINES value="_DEBUG;WINDOWS;USEPCH;NO_LONG_LONGS;USEMYSQLPP"/>
+    <SYSDEFINES value="NO_STRICT;_NO_VCL;_RTLDLL;USEPACKAGES"/>
+    <MAINSOURCE value="dipmysql.bpf"/>
+    <INCLUDEPATH value="..\utils;$(BCB)\include;..\..\INCLUDE\MYSQL;..\sqlplus;$(MySQL)\include;..\..\..\mysqlpp;..\..\..\mvlins\utils;$(MVLINS)\utils;$(vtkIncludes);$(mtkInclude)"/>
+    <LIBPATH value="..\mvmath;..\dipfind;&quot;C:\Program Files\Borland\CBuilder6\Projects&quot;;..\utils;..\sqlplus;..\..\LIB\DEB;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <WARNINGS value="-w-pck"/>
+    <LISTFILE value=""/>
+    <OTHERFILES value=""/>
+  </MACROS>
+  <OPTIONS>
+    <IDLCFLAGS value="-I$(BCB)\include -I..\..\INCLUDE\MYSQL -I..\sqlplus -src_suffix cpp 
+      -src_suffix cpp -D_DEBUG -no_stdstream -no_tie -boa"/>
+    <CFLAG1 value="-Od -H=temp.csm -Hc -Vx -Ve -X -r- -a4 -5 -b- -k -y -v -vi- -tWC -tWM -c"/>
+    <PFLAGS value="-$YD -$W -$O- -$A8 -v -JPHNE -M"/>
+    <AFLAGS value="/mx /w2 /zi"/>
+    <LFLAGS value="-D&quot;&quot; -ap -Tpe -x -Gn -v"/>
+    <OTHERFILES value=""/>
+  </OPTIONS>
+  <LINKER>
+    <ALLOBJ value="c0x32.obj $(PACKAGES) $(OBJFILES)"/>
+    <ALLRES value="$(RESFILES)"/>
+    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cw32mti.lib"/>
+    <OTHERFILES value=""/>
+  </LINKER>
+  <FILELIST>
+      <FILE FILENAME="dipmysql.bpf" FORMNAME="" UNITNAME="dipmysql" CONTAINERID="BPF" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="dbTracker.cpp" FORMNAME="" UNITNAME="dbTracker" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="DBClient.cpp" FORMNAME="" UNITNAME="DBClient" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="SQLTable.cpp" FORMNAME="" UNITNAME="SQLTable" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="SQLClient.cpp" FORMNAME="" UNITNAME="SQLClient" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\link\mysqlpp.lib" FORMNAME="" UNITNAME="mysqlpp.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\mysqlpp\lib\mysql.lib" FORMNAME="" UNITNAME="mysql.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="P:\mvlins\link_libs\utils.lib" FORMNAME="" UNITNAME="utils.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\link\vtkRendering.lib" FORMNAME="" UNITNAME="vtkRendering.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\link\mtkCommonD60.lib" FORMNAME="" UNITNAME="mtkCommonD60.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\link\mtkGraphicsD60.lib" FORMNAME="" UNITNAME="mtkGraphicsD60.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\link\vtkCommon.lib" FORMNAME="" UNITNAME="vtkCommon.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\link\vtkFiltering.lib" FORMNAME="" UNITNAME="vtkFiltering.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\link\vtkGraphics.lib" FORMNAME="" UNITNAME="vtkGraphics.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="..\..\..\link\vtkHybrid.lib" FORMNAME="" UNITNAME="vtkHybrid.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+  </FILELIST>
+  <BUILDTOOLS>
+  </BUILDTOOLS>
+
+  <IDEOPTIONS>
+[Version Info]
+IncludeVerInfo=0
+AutoIncBuild=0
+MajorVer=1
+MinorVer=0
+Release=0
+Build=0
+Debug=0
+PreRelease=0
+Special=0
+Private=0
+DLL=0
+Locale=2057
+CodePage=1252
+
+[Version Info Keys]
+CompanyName=
+FileDescription=
+FileVersion=1.0.0.0
+InternalName=
+LegalCopyright=
+LegalTrademarks=
+OriginalFilename=
+ProductName=
+ProductVersion=1.0.0.0
+Comments=
+
+[Excluded Packages]
+c:\program files\borland\cbuilder6\Bin\dclite60.bpl=Borland Integrated Translation Environment
+
+[HistoryLists\hlIncludePath]
+Count=14
+Item0=..\utils;$(BCB)\include;..\..\INCLUDE\MYSQL;..\sqlplus;$(MySQL)\include;..\..\..\mysqlpp;..\..\..\mvlins\utils;$(MVLINS)\utils;$(vtkIncludes);$(mtkInclude)
+Item1=..\utils;$(BCB)\include;..\..\INCLUDE\MYSQL;..\sqlplus;$(MySQL)\include;..\..\..\mysqlpp;..\..\..\mvlins\utils;$(MVLINS)\utils;$(vtkIncludes)
+Item2=..\utils;$(BCB)\include;..\..\INCLUDE\MYSQL;..\sqlplus;$(MySQL)\include;..\..\..\mysqlpp;..\..\..\mvlins\utils;$(MVLINS)\utils
+Item3=..\utils;$(BCB)\include;..\..\INCLUDE\MYSQL;..\sqlplus;$(MySQL)\include;..\..\..\mysqlpp;..\..\..\mvlins\utils
+Item4=..\utils;$(BCB)\include;..\..\INCLUDE\MYSQL;..\sqlplus;$(MySQL)\include;..\mysqlpp;..\..\..\mvlins\utils
+Item5=..\utils;$(BCB)\include;..\..\INCLUDE\MYSQL;..\sqlplus;$(MySQL)\include;..\mysqlpp
+Item6=C:\Program Files\Borland\CBuilder6\Projects;..\utils;$(BCB)\include;..\..\INCLUDE\MYSQL;..\sqlplus;$(MySQL)\include;P:\mvlins\mysqlpp
+Item7=..\utils;$(BCB)\include;..\..\INCLUDE\MYSQL;..\sqlplus;$(MySQL)\include;P:\mvlins\mysqlpp
+Item8=..\mvmath;..\dipfind;C:\Program Files\Borland\CBuilder6\Projects;..\utils;$(BCB)\include;..\..\INCLUDE\MYSQL;..\sqlplus;$(mtkProject)\mysqlpp;$(MySQL)\include
+Item9=..\mvmath;..\dipfind;C:\Program Files\Borland\CBuilder6\Projects;..\utils;$(BCB)\include;..\..\INCLUDE\MYSQL;..\sqlplus;$(mtkProject)\mysqlpp
+Item10=C:\Program Files\Borland\CBuilder6\Projects;..\utils;$(BCB)\include;..\..\INCLUDE\MYSQL;..\sqlplus;$(mtkProject)\mysqlpp
+Item11=..\utils;$(BCB)\include;..\..\INCLUDE\MYSQL;..\sqlplus;$(mtkProject)\mysqlpp
+Item12=$(BCB)\include;..\..\INCLUDE\MYSQL;..\sqlplus;$(mtkProject)\mysqlpp
+Item13=$(BCB)\include;..\..\INCLUDE\MYSQL;..\sqlplus
+
+[HistoryLists\hlLibraryPath]
+Count=4
+Item0=..\mvmath;..\dipfind;C:\Program Files\Borland\CBuilder6\Projects;..\utils;..\sqlplus;..\..\LIB\DEB;$(BCB)\lib\obj;$(BCB)\lib
+Item1=C:\Program Files\Borland\CBuilder6\Projects;..\utils;..\sqlplus;..\..\LIB\DEB;$(BCB)\lib\obj;$(BCB)\lib
+Item2=..\utils;..\sqlplus;..\..\LIB\DEB;$(BCB)\lib\obj;$(BCB)\lib
+Item3=..\sqlplus;..\..\LIB\DEB;$(BCB)\lib\obj;$(BCB)\lib
+
+[HistoryLists\hlDebugSourcePath]
+Count=3
+Item0=..\bin\;P:\src\mtkProject\mysqlpp\
+Item1=..\bin\
+Item2=P:\MySQL\Orig\src\sqlplus\
+
+[HistoryLists\hlConditionals]
+Count=6
+Item0=_DEBUG;WINDOWS;USEPCH;NO_LONG_LONGS;USEMYSQLPP
+Item1=_DEBUG;WINDOWS;USEPCH;NO_LONG_LONGS;USEMYSQL
+Item2=_DEBUG;WINDOWS;USEPCH;NO_LONG_LONGS
+Item3=_DEBUG;WINDOWS;USEPCH
+Item4=_DEBUG;WINDOWS
+Item5=_DEBUG
+
+[HistoryLists\hlFinalOutputDir]
+Count=5
+Item0=..\..\..\bin\
+Item1=..\bin\
+Item2=..\bin
+Item3=P:\mvlins\bin\
+Item4=P:\mvlins\bin
+
+[Debugging]
+DebugSourceDirs=..\bin\;P:\src\mtkProject\mysqlpp\
+
+[Parameters]
+RunParams=-i./../mtk/examples/TrajFromDB/&quot;RemoteDB.ini&quot;
+Launcher=
+UseLauncher=0
+DebugCWD=
+HostApplication=
+RemoteHost=
+RemotePath=
+RemoteLauncher=
+RemoteCWD=
+RemoteDebug=0
+
+[Compiler]
+ShowInfoMsgs=0
+LinkDebugVcl=0
+LinkCGLIB=0
+  </IDEOPTIONS>
+</PROJECT>

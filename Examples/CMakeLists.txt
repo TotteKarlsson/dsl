@@ -1,0 +1,12 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 2.6.3 FATAL_ERROR)
+PROJECT(MoleculixExamples)
+
+if(INSTALL_CXX_EXAMPLES)
+    add_subdirectory("CXX")
+endif()
+
+if(INSTALL_PYTHON_EXAMPLES)
+    add_subdirectory("Python")
+endif()
+
+

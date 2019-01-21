@@ -1,0 +1,767 @@
+Release 0.8.8 (March 27)
+============================
+* Using Tokyo IDE
+* Funky merges?
+* Renamed the TInifile
+* Added a closeLogFile function
+* Updating build system
+* Merge branch 'bcc32_develop' into to_dsl
+* Moving on to clean folder design
+* refactored dslCommonExporter
+* Cleaning up Forms and Frames folders
+* Compiling VCL Common as a DLL
+* Compiled Math
+* Moved obsolete files to archive
+* Removed all borland projects
+* Refactoring inside cpp files
+* Renamed project files
+* Moving to Tokyo
+* More file renames
+* Before changing filenames
+* More work on plugin and logfile reader
+* More plugin work
+* Created a simple LogFileReader component
+* Merge branch 'bcc32_develop' of https://bitbucket.org/TotteKarlsson/dslib into bcc32_develop
+* Working on plugin manager and TPlugin manager
+* Added getDefualtValue to Properties
+* Added using default value for registry props if not exists
+* Removed externals
+* Working both clang and bcc32
+* Compiling with clang32
+* Renamed mtkDSLException to dslException
+* Renamed MoleculixException to DSLException
+* Moved on to nullptr
+* Reafactored NULL -> DSL_NULL
+* Compiled using both clang and bcc32
+* Added database dll
+* Created new Math dll
+* Moved VTK stuff to Moleculix repository
+* Moved some obsolete frames to archive
+* Dividing up dsl and moleculix
+* Getting going with DSL and Moleculix
+* Some utility improvements
+* Changed loglevel for broadcast server message
+* Added  MOuseclick and click on window win32 util functions
+* Added some utility functions
+* Updated PanelManager
+* Updates to mtkProject
+* Added reverse function to StringList
+* Added a statusbar manager
+* Added restart function to stopwatch
+* Updated TIntegerEdit component
+* Added new component TIntegerEdit
+* Added getLineContaining function to StringList
+* Added get/set Clipboard text
+* Added a getNumber of checked items in a TCheckListBox
+* Added a getstrings to StingList function from Memo
+* Fixed bug in joinPath function
+* Changes to socket and socketclient classes
+* Allowing a thread to be paused
+* Removed the not visible windows state in TSaveFormToRegistry
+* Adapting using the phrase request for server incoming messages
+* Changed hex to be uppercase
+* Updated LogFileReader
+* Updated integer controls
+* Added some toHex functions
+* Added File info class
+* Defunct exefile class
+* Added function to zeropad string
+* Added a splitstring at word function
+* Enabled some old format functions.
+* Added creation of logfile, if it does not exist
+* Added vector<int> to Stringlist constructor
+
+------------------------- 2018 ------------------------------------
+
+Release 0.8.7 (Feb 04)
+============================
+* Some minor updates
+* Added integer Label component
+* Added some utility functions
+* Fixed linking in Graphics examples
+* Adding std string labeled VCLComponent
+* Updated electron domains on Fluorine and chlorine
+* Added functions to color class for using a color as a property
+* Removed some data in headers to improve pre-compilation
+* Updated RegistryProperties to allow reading/writing of Colors
+
+------------------------- 2016 ------------------------------------
+
+Release 0.8.6 (Aug 17)
+============================
+* Added utility function
+* Made some fixes to release projects
+* Added a createWindowTitle utility function
+* Changed behavior of the Explorer Object box
+* Removed buggy lines win Molecule observer, when subject dies
+* Created a custom boxwidget for explorer objects. Seem to work!
+* Added callback to moleculeObserver, to be called when a molecule is deleted. (rename to OnSubjectIsDying())
+* Added some utility functions to the Toggler
+* Added StopWatch class
+* Added a AxisSystem Observer
+* Created a unit for the explorerObjectBox callback
+* Changed much of how a explorerobject box works..
+* Added some utility code for center of mass stuff
+* Changed molecule to be selected after two clicks on one atom
+* Fixed position of rigidobject when selected and using the box widget
+* Added doubl& operator[] to Point class
+* Getting box selection going
+* Added bounding box to selected molecule
+* Getting explorer object selection enhanced
+* Added a boxwidget to handle rotation and translation of explorer objects
+* Preparing to use box widget to rotate and translate a rigid body
+* Added function to bonds to check possibility of rotation
+* Added some new exception classes
+* Played around with box widget as a tool for modifying molecular orientation
+* Changed DSL Exception to MoleculixException
+* Added getCenterOfMass function to molecule class
+* Updated writing reading of Molecular XML to properly position objects local Frame.
+* Fixed rotation of a molecule about an arbitrary vector
+* Every rigid body class need to implement rotations.
+* Added xml code for point class
+* Added a molecule observer class.
+* Added zoom function to the Explorer.
+* Removed the dragme object activation when selecting a molecule.
+* Added a Molecule observer to the BuildMoleculeInteractor.
+* Prevent a molecule to be built from molecular fragments at this point
+* Removed compiler warning -> MoleculixObject
+
+Release 0.8.5 (Aug 3)
+============================
+* Added function to create a double bond manually
+* Fixed a bug when getting electron domains.
+* Fixed getSelectedAtom function in the BuildMoleculeInteractor class
+* Updated BuildMoleculeInteractor to properly deal with selected atoms.
+* Added assignment operator for the AtomObserver
+* Added an atom observer
+* Cleaned up the ExplorerInteractor class
+* Preparing to implement building of molecules involving molecular fragments
+* Creating MoleculixObject observers, BondObserver
+* Updating widgets to use the Observer/Subject pattern
+* Getting the BuildMoleculeInteractor to use Observer pattern where applicable
+* Adding a moleculix object tracker
+* Refactoring: creating a 'BuildMoleculeInteractor' from atom and molecule interactor classes
+* Added more vtk examples
+* Preparing new molecularOBject interactor
+* Changed small thing on selecting atom in the AtomInteractor class
+* Added a copyFile to folder function
+
+Release 0.8.4 (July 25)
+============================
+* Creating new junior release (0.7.2)
+* Updated model file version to 0.6 from 0.5 (set tag)
+* Cleaning up the molecule interactor
+* Changed parent of an atoms explorer object in a molecule to be the explorer itself instead of the molecule
+* Added unique ID to all rigid bodies
+* Added UUID when creating atoms.
+* An Atoms UUID is used whenever an atom need to be uniquely identified
+* Changed molecule selected widget to be hidden 'under' the Atom
+* Changing functionality of explorer interactors
+* Cleaned up VCL code for reading writing to registry
+* Added function to check if an atom is connected to other hydrogens
+* Added access to last logmessage in logger class
+* Added some work to MessageContainer and MessageProcessor class..
+* Removed some meaningless functions in thread class
+* Fixed inconsistent function names in Timer class
+* Added getElapsedTimeSinceLastFire in Timer class
+* Added Timer Example
+* Removed some obsolete files
+* Working on Atom interactor logic
+* Fixing code for selection and moving of atoms
+* Improved bondlength calculations. If not in table of lengths, use covalent radius for the bondlength.
+* Fixed version class reporting as string
+
+Release 0.8.3 (June 18)
+============================
+* Adding ring building functions
+* Got the Core compiling
+* Setting up CMake again -> get python going
+* Created a stable BPL store
+* Fixed axes rotation about world Z axis
+* Fixed some rotations of AxisSystem
+* MoleculixCore -> Core
+* Cleaning out old dead meat
+* Added moleculix third party sources
+* Merging VCL and third parties
+* Creating Moleculix Junior 0.7.0
+* Fixed O-C bond length
+* Fixed many selection issues
+* Added atom push when breaking bonds
+* Added Classes for rotation of rigid bodies
+* Update before sweden
+* Changes to 0.6.9 release
+* Added classes for handling bond data; BondConstellation, BondLenghts classes
+* Upgraded sulfurs valence configuration
+* Got rotation of the molecule going!
+* Getting rotations more defined
+* Got local frame transformations going..
+* Added new example for rotating a molecule
+* Refactored frameofreference = frWorld to axisSystem = NULL
+* Moved archived files to global archive
+* Working on rotations, double bonds
+* Getting positioning zoomed in
+* Added toggler
+* Work on rotations
+* Getting rotation about arbitrary axis implemented
+* Added MoleculixIncludes header
+* Updated environment variables MLX -> MOLECULIX
+* Fixed rotation of AxisSystem and Molecule in world axes system
+* Fixed example code linking with new locations
+* Fixed rotation of molecule in arbitrary coordinate system
+* Started to implement a 'orient for double bond creation'
+* Added variables to the atom interactor when building bonds
+* Removed hardcoded distance in the collisions class
+* Added paths to release project files
+* Added randomness to atom orientation upon creation
+* Fixed XML reading of atom in the box
+* Updated reading writing XML in order to handle double bond creation properly
+* Fixed orientation ssue of single bond electron domains after reading from XML
+* Fixed visibility issue of single bond electron domains after reading from XML
+* Cleaned up bond creation
+* Fixed re implementation of double bonds
+* Getting saving of MoleculixObject tree to XML working
+* Simplification of internal working of the box
+* Added new units to handle MoleculixObjects and RigidBody collisions
+* Updated project files with new precompiled header
+* Major restructure
+* Created MoleculixCore module
+* Cleaned up bond population when molecule is cleaved
+* Removed much obsolete code and cleaning up deletion of molecule, bonds etc..
+* Many changes in how bonds and molecules are created
+* Implementing reading XML again...
+* Re-instated bond length setting when creating double bond
+* Added some vtk examples
+* Fixed accounting regarding double bonds
+* Getting deleting of molecules bonds and atoms fixed
+* Added RigidBodyCollision unit
+* Working on cleaning up destruction of molecules in the box
+* Cleaning up deletion of bonds and atoms in molecules
+* Fixing explorer interactor bugs
+* Updated projects to use debug version of third party libraries
+* Fixed orientation of atom when a double bond is created
+* Fixing double bond logic
+* Implemented creation of new molecules as bonds are deleted.
+* Added new operators to BondsSet and Molecules
+* Added utility function createMoleculeFrom(Atom*)
+* Adopt a box necessary for all creation/deletion of atoms/bonds and molecules
+* Updated how bonds are built
+* Changed some numbers related to colors
+* Fixed z-axis up in explorer
+* Changed size of DragMe object when a bond is selected and atom too
+* Added operator / to point class
+* Added a getSelected bond to molecule class
+* Removed TP_RELEASE environment variable in project files
+* Fixed bug when moving a molecule.
+* Fixing translation of complex molecule, i.e atom with more than one bond
+* Updating logic when selecting/deselecting subjects
+* Added more vtk examples
+* Updating ExplorerInteractor using a seed widget
+* Adding support for moving any explorer object
+* Looking into widgets
+* Added createFolder function, using POCO
+* Affine widget can be used to move a molecule or any other explorer object
+* Moved the logFileReader to VCL common since it is calling a closured function..
+
+Release 0.8.2 (April 2)
+============================
+* Implemented algorithm to delete a molecule
+* Implemented deletion of individual atom in a molecule.
+* Improving Molecule interaction.
+* Added getPosition function to AxisSystem
+* Added set/get position to Molecule object
+* Removed bond interactor and embedded bond interaction with the molecule interactor
+* Substantial work on object interactors
+
+Release 0.8.1 (March 30)
+============================
+* NOw breaking bond between hydrogens more or less works
+* Getting deletion of bonds working properly
+* Moved autolink files
+* Added new interactors; Bond and ExplorerInteractor
+* Added header holding Subject events
+* Changed subjectevents to be an enum instead of int.
+* Added selected/unselected event -> highlight/unHighlight explorer object
+* Updated color of bondrotator widget
+
+Release 0.8.0 (March 24)
+============================
+* Changed size of an electron
+* Updating remote version check
+* Created 0.6.0 Moleculix Junior pre release
+* Got hiding of electron domains implemented
+* Fixed double bondview updates
+* Rethink electronpair class
+* Show bond rotator widget only for single BondSet
+* Cleaning up deletion of atoms, bonds and molecules
+* Simplified code for bond indication in atom interactor
+* Added functions to get closest, second closest and third closest electron domain when creating bonds
+* Got algorithm to find closest electron domain to an atom implemented
+* Added ElectronDomainView class
+* Fixed double clicking and bond type indication when creating bonds
+* Getting double bondview implemented
+* Getting double bond creation implemented inside the atom interactor and atom
+* Adding poly line and poly line view classes
+* Setting it up for nice double bond view
+* Got rotations translations done for double bond creation..
+* Getting vector, object rotations working
+* Now using a RigidObjects local frame for position
+  use it for direction & orientation as well
+* More compiler warnings fixes
+* Removed bunch of compiler warnings
+* Re factored away some unnecessary Point, Vector3D functions
+* Fixing up rotations in point and vector classes
+* Adding dihderal angle class
+* Getting double bond creation implemented slowly
+* Adding Ellectrondomain class and Electrons
+* Added electron Pair class
+* Getting double bonds implemented
+* Getting double bonds going
+* Added reset to atom and molecule interactors
+* Cleaning up - moving unused files, classes to archives
+* Added fill with hydrogen action, function
+* Added some features regarding the orientation marker widget
+* Added reset functions to interactors
+* Got abandoned bonds to render properly
+* Getting bond building, setting length properly implemented
+* Updated Bond and AtomSet classes
+* Working on selecting atom algorithms
+* Getting mol fragment translations working properly
+* Some fixes when creating bonds
+* Getting moleculix back in shape
+* Merge branch 'develop' of https://bitbucket.org/TotteKarlsson/moleculix into develop
+* Update atom position in mouse up event
+* Fixed removal of Objects in Explorer object manager
+* Added removal of atoms to MoleculeInteractor
+* Changed createAtom function to return raw pointer
+* Added visual indicators to Atom interactor when creating bonds
+* Added function; orient for bonding.
+* Getting interactive bond creation going!
+* Allow creation of single, double and triple bonds using the atom interactor
+* Merge branch 'develop' of https://bitbucket.org/TotteKarlsson/moleculix into develop
+* Adjusting user experience for molecule and atom interactions
+* Getting interactive molecule building going
+* Added custom interactor for interacting with atoms
+* Updated MoleculeInteractor to switch to atominteractor when an atom is clicked
+* Added factory class for ExplorerObjects
+* Added circle example
+* Added circle class
+* Changed color of bondrotator widget
+* Adding sources for python module to compile
+* Setting up Visual studio build
+* Updating CMake files
+* Added update method to molecule interactor
+* Updated vtk example projects
+* Setting up the molecule interactor class
+* Getting rotations around bonds implemented
+* Adding bond rotator tools
+* Getting bond distance and rotation widgets implemented
+* Cleaned up Euler routines
+* Getting linux wrap going..
+* Added bucky ball info
+* Getting build for linux and visual studio going
+* Compiled VCL apps - linking issues resolved
+* Fixed rendering of AxisSystem.
+* Working on linking of vtk into a package
+* Simplifying explorer object deletion
+* Fixed so that lone electron pairs are not bonding
+* Getting closer to consistent object management in the box and the explorer, regarding subjects and observers
+* Updated vtk interactor mode handling for the explorer window
+* Getting allocating/deallocation of explorer objects working ok
+* Fixes to allocation/deallocation of explorer objects
+* Taking control of molecule, atoms and bond allocation and deallocation
+* Go back to codeguard debugging later
+* Creating codeguard option
+* Fixed bond generation algorithm
+* Getting memory allocation dealt with
+* Setting up Gods box
+* Cleaning up
+* Removed atomic element inheritance with a factory method...
+* Added static factory member to atom class
+* Cleaning up - enabling some vcl code
+* Simplifying addition of model viewers
+* moving to shared pointers
+* Trimming the creation of molecular entities visual representations
+* Implementing Molecular rotations and translations
+* Getting rotations working properly
+* Having estimation of eulerangles working...
+* Fixing derivation of EulerAngles - now working for alfa == 0, that is Z axes are colinear
+* Updated some Axes stuff
+* Updating 3D axis system classes
+* Getting the molecule view going
+* Added randomness when creating atoms
+* Getting the concept of a molecule going.
+* When a bond is being created between two atoms, themselves not part of a
+* Molecule object, a new molecule is created.
+* When a bond get longer than a certain distance, it is broken and disposed of.
+* The atom and bond-set classes are now simple containers helping to iterate trough objects.
+* Getting creation of a molecule possible
+* Can now create primitive bonds.
+* Restructuring code related to the creation of molecular bonds
+* Refactoring VirtualHole -> ElectronOrbital
+* Setting up bond creation
+* Updated how an atom gets its position and orientation updated.
+* Added a RigidBody transporter plugin
+* Added an ExplorerRenderCallback to be used when plugins are working in threads
+* Fixed plugin manager
+* Created a BodyTransporter
+* Added new plugin descendant - plugin with vents
+* Getting threaded body manipulators implemented
+* Adding commands
+* Added test source
+* Added test for a simple plugin
+* Updatesd vector class
+* Re defining Vector class
+* Moved all 'Views' to graphics
+* Got the bondgeometryview to work with new rendering subsystem
+* More simplifications
+* Updated line visualization
+* Beginning using Class property class
+* Added very simple class to handle class properties
+* Moved geometric code into math folder
+* Created a ExplorerPbject manager that handles all object creation/destruction related to the explorer
+* Creating a flexible and decoupled object rendering system
+* Added math for generation of the five basic atomic coordination geometries
+* Got first step to visualizing bond geometries, i.e hybridization ready
+* Simplified subject -observer pattern for explorer objects
+* Made atom being a sphere, moving sphere visualization to base class
+* Adding label, bondgeometry etc.. to atom class
+* Getting rendering of primitive Explorer Objects as well as more complex ones working easier
+* Added a renderwindow orientation marker widget
+* Refactored name of autlink files
+* Added a marker widget
+* Updating rendering of simple objects
+* Updating rendering pipeline
+* Rethinking Explorer object design -> use subject-observer pattern
+* Added Vector3D to graphics lib
+* Added a Vector3D class and view
+* Adding cone project
+* Getting visualization of vectors going
+* Cleaning up
+* Refactored EulerAngle classes
+* Cleaning up automatic linking
+* Getting code setup for testing with static RTL (SRTL)
+* Added dll projects built with static runtime
+* Got compiling with codeguard working
+* Trying to get CG debugging working
+* Updating
+* Added linker file
+* Merge branch 'develop' of https://bitbucket.org/TotteKarlsson/moleculix into develop
+* Added elements table to moleculix database
+* Added functions to get element data from database
+* Removed obsolete Elements.h file
+* Updating Moleculix database
+* Removed obsolete project files
+* Removed TimeStamp class. Use Poco Timestamp instead
+* More improvements to the Properties container.
+* Removed pure virtual worker method in thread class. Use run() instead.
+* Renamed IniProperties to IniFileProperties
+* Renamed IniProperties to IniFileProperties
+* Changed name of mtkIniParameter to mtkProperty
+* Renamed Parameter -> Property
+* Cleaning up support for Properties
+* Renaming Parameters -> properties
+* Merge branch 'develop' of https://bitbucket.org/TotteKarlsson/moleculix into develop
+* Updated pre-compiled header support
+* Updated build process
+* Working on a new release
+* Refactored iniparameter classes -> member function to lowercase
+* Refactored logger classes -> member function to lowercase
+* Added ExplorerEvents
+* Updated functions in Explorer
+* Updated OneAtom example
+* Added functions to empty an explorer object
+* Added molecule view enum
+* Moved some 'view' code to BS view class
+* Updated Molecular view themes
+* Updated CMakeLists
+* Updated Cmake file with latest version number
+* Updated CMake system on linux to compile the latest
+* Updated Moleculix for windows to 0.7.0
+* Updated Python examples
+* Removed atom conversion operators
+* Some namespace fixes
+* Merge branch 'develop' of bitbucket.org:TotteKarlsson/Moleculix into develop
+* Getting Moleculix on linux compiling
+* Updated Explorer event model
+* Added translate and rotate functions to Explorer object class
+* Added rotate, translate functions to Molecule and Axis System classes
+* Added getVisibility function to Explorer
+* Adding Events to Explorer class
+* Adding mechanics to subscribe to explorer events
+* Cleaned up Message container and message processor class
+
+------------------------- 2015 ------------------------------------
+Release 0.7.0 (November 5)
+============================
+* Many internal changes regarding rendering of Explorer objects
+* Project file logic started to becomes useful
+* Added a message container (non IPC)
+* Added a Message processor as well
+* Refactored Thread class
+* Compiled with Visual Studio
+* Updated for file name changes
+* Fixed molecule name in CML format reading/writing
+* Renamed mtk::Exception to DSLException to avoid name class with the VCL
+* Added purge function to the Explorer
+* Added reset function to Moleculix Project
+* Got loading/saving molecular format to project file working
+* Various cleanup in atomset and bondset classes
+* Added dfCML enum (data format CML)
+* Added molecule loading of CML format data
+* Renamed ProjectFile (base) class to ProjectFile
+* Added XML utility unit
+* Refactoring: Removed many functions with multiple interfaces (pointers and references). Favor references.
+* Updated Projectfile reading and creation of ExplorerObjects
+* Improved project properties
+* Added function to add ExplorerObjects to a projects XML
+* Added code to save AxisSystem to a Moleculix project
+* Added isModified flag to Project class
+* Added a gEOL constant
+* Refactoring: StringList add -> append
+* Working on getting iniFile reading writing of project and file history
+* Removed synProjectFiles script
+* Added Borland Project files to source tree
+* Updated label visibility properties
+* Made AtomView to inherit from Sphere object (isA)
+* Added SetVisibility function to ExplorerObject
+* Added a MoleculixUtils unit
+* Added BallAndStickView class, inheriting from Molecule view
+* Getting hiding & showing atoms and bonds working with tree view
+
+Release 0.6.6 (October 22)
+============================
+* Updated Python examples using some new contructs
+* Updated constness of Parent
+* Implementing object hierarchy design for explorer objects
+* Adding more CXX examples
+* Fixed bug related to translating a molecule
+* Added example for translating a molecule in 3D space
+* Updating Python examples to work with new semantics
+* Removed some obsolete code
+* Added ProjectFile sources to CMake System
+* Updating CMake files
+* Implemented isVisible() function for Atom and AxisLabels
+* Getting Explorer object tree philosophy implemented
+* Added ExplorerTree class.
+* Improved the adding of ExplorerObjects and its siblings, to the explorer
+* Got PDB reading re implemented after refactoring
+* Refactored many enums
+* Continuing re factoring efforts
+* Getting the whole code base in better shape for moleculix desktop.
+* Updated how atoms and bonds are translated and rotated involving such operations
+* Getting new molecule model implemented..
+* Refactoring:
+    * mtkBond to Bond
+    * mtkSingleBond to SingleBond
+
+* Got bond coloring and highligthing implemented
+* Added Line explorer object, with wire and tube representation.
+* Changed all vtk objects to use vtksmart pointers
+* More refactoring
+* Refactoring: Getting different bond types implemented
+* Refactoring: Viewers -> View
+* Added a Moleculix logo
+* In middle of total refactoring effort
+* Refactoring Molecule => Molecular Assembly
+* Refactoring Residue -> Molecule
+* Refactoring Molecule, Residue etc...
+* Updated Point class
+* More refactorign
+* More refactoring
+* Refactoring: mtk3DPoint -> Point
+* Refactoring: mtkExplorerText -> ExplorerText
+* Beginning refactoring to make all class member functions start with lower case letter.. phu..
+* Substantial refactoring..
+* Refactoring Atom classes
+* AtomViewer -> AtomView
+* Updated surface explorer object
+* Refactoring: ToDeg -> toDegree
+* Refactoring: ToRad -> toRadians
+* More rendering updates
+* Improving 3D axes rendering
+* Improved 3D text rendering
+* Improving library linking
+* Added tag property to explorer objects
+* Added more automatic linking files
+* Implemented setting visibility for multi actor explorer object
+* Refactoring: Euler -> EulerMatrix
+* mtkEulerAngle -> EulerAngle
+* Refactoring: mtkAxisSystem -> AxisSystem
+* Simplifying backend vtk object creation
+* Created ExplorerObjects and ExplorerObject classes
+* Simplifying linking
+* Added widen string utility function.
+* Added Camera member to explorer
+* Added Demo project file folder
+* Got saving of camera properties working
+* Implemented reading of Camera properties from project xml
+* Merge branch 'develop' of https://bitbucket.org/TotteKarlsson/moleculix into develop
+* Added autolink files
+* Removed obsolete files
+* Organizing files somewhat
+* Implementing project file support
+* Cleaning up
+* Adding project file functionality to moleculix class
+* Added third party library tinyxml to handle projectfile xml
+* Moved some platform dependent code to platform header, source
+* Removed linking to boost threads
+* Added some logging to opening closing database
+
+Release 0.6.5 (September 23)
+============================
+* Added Moleculix Icon to installer (Red Hat)
+* Changed output folder for python examples
+* Updated Notice and Readme information
+* Compiled DSL IPC module
+* Removed obsolete pragmas (when included in borland packages)
+* Updated Stringlist constructor
+
+Release 0.6.4 (September 10)
+============================
+* Added libCURL to ThirdParty sources. Will be used to check for remote version
+* Added Version class. Version class contain operators for comparison
+* Added new splitString functions that keep empty records when splitting strings (split)
+* Adding functionality to check for updates
+* Adding some thread work
+* Added rgbToString utility function
+* Fixed bug preventing MoleculixLibrary Manager to run when installed to C:\program files
+* Fixed bugs related to various molecular views, such as skinny, wireframe and vanderwalls views
+
+Release 0.6.3 (August 15)
+============================
+* Added a surface to python cube example
+* Started adding atomic elements to the Python wrapper
+* Adding some color enhancements
+* Adding surface to cmake system
+* Fixing python inheritance issues
+* Adding surface objects to be rendered from python
+* Fixed render window title issue
+* Fixed some compiler warnings
+* Set name of render window to Moleculix...
+* Created a color class
+* Cleaned up how colors are treated
+* Improved how background color is set in the explorer
+* Added the explorer as a new Python object
+* Fixed CPack path issue. Now make install works as well as make install package on Linux
+* Changed install paths on linux
+* Working on points
+* Fixed visualization of planes, surfaces
+* Updated rendering of 3D curves
+* Cleaned up code to visualize 3D curves
+* Creating more Examples; Surfaces, Trajectories, Planes
+* Changed CMake file so default build is the Moleculix Python module
+* Changed CMake default Build Type to be Release
+
+Release 0.6.2 (August 08)
+============================
+* Added example to place out atoms in space
+* Added 'SkinnyView' function to molecules
+* Added a SetCenter() function to Atoms that takes a double*, should maybe be double [3] if that is possible..
+* Added auto libs include file
+* Library updated so it compiles with CodeGear and vtk 6.1
+* Cleaning out some obsolete files in the repository
+* Added empty bucky ball script
+
+Release 0.6.1 (August 02)
+============================
+* Added python script to get information about current release
+* Fixed bug when creating bonds to sulfur atoms, as could be seen 
+- in cystein amino acids
+* Updated install script for windows. 
+* Disable Nuclear Spin features for the moment
+* Added some files for release process
+* Refactoring
+* Removed inheritance Nucleus and BondGeometry in Atom class
+* Added ability to render atom ids instead of labels
+* Fixed error message regarding the 'END' line in PDB data.
+* Use setup.py on MAC OSX for installation
+
+Release 0.6.0 (July 30)
+============================
+* raven.db -> moleculix.db
+* Refactoring Raven -> Moleculix
+* Fixed some vtk macros
+* Now using vtk 6.1
+* Added simple example with two Start calls to the interactor (bug on MACOSX)
+* Updated examples
+* Added cxx example that reads one molecule from the database
+* Added Python example that demonstrate how to extract all bond lengths in a molecule
+* Added more vtk examples
+* Organizing Examples
+* Compiled with latest vtk 5.10.2
+* Added new python example - sugar puckering. Not finished yet.
+* Start passing references to real objects in interfaces instead of pointers.. or both?
+* MacOSX first succesfull compilation
+
+Release 0.5.6 (July 21)
+============================
+* Adding nsis installer for windows
+* Fixed more atom memory leaks
+* Added simple reference count of atoms in AtomSet class
+* Fixed rendering of bond thicknesses, indirect bond colors
+* Improved rendering of indirect bonds
+* Removed borland project files from source tree
+* Removed obsolete Wrappers, C and CTypes efforts
+* No coredumps on linuxgit status
+
+Release 0.5.5 (July 17)
+============================
+* This version runs all python examples on windows with no issues
+* Fixed allocation issue in BondGeometry class
+* Added ethanol example to C++ Examples
+* Many CMake modifications to allow for a simpler build
+* Several code improvements in atom and bond classes
+* Simplifying building
+* Don't install mtk data files
+* Cleaning up ThirdParties.. no more part of main repository
+* Update to report gcc version
+
+Release 0.5.4 (July 15)
+============================
+* This version compiles on Ubunut 14.04 - experimental
+* Updated VTK to version 5.10.1
+* Enabled some POCO Cmake stuff
+* Fixed vtk memory leaks. Now Moleculix works within an internal python session
+* Fixing VTK initialization code, memory leaks
+* Fixed case on VERSION.txt
+* Built Moleculix after merging linux changes
+* Linux Fixes
+* Getting towards python module on linux
+* Compiled raven using GCC
+* Compiled DSL succesfully using gcc 4.8.1
+* Added poco submodule
+* Updated NOTICE.txt
+* Added a 'pure' vtk examples
+
+Release 0.5.3 (July 10)
+============================
+* Added C++ example on how to retrieve Raven information
+* Added API function to retrieve SQLite version -> getSQLiteVersion()
+* Simplified how an explorer is created. Use Open to open an explorer, openExplorer using a ravenobject
+* Changed query so loadMolecule() searches all molecule name filelds, i.e. short_name. long_name etc..
+* Changed database schema so that molecule names are case insensitive.
+* Added DB schema
+* More DB updates
+* Updated names of database tables. Use plural on tables holding multiple records, e.g. compounds instead of compound
+* Updated database with all aminoacids
+
+Release 0.5.2 (June 29)
+============================
+* Updated Python examples to use new API Functions
+* Updated version numbers
+* Changed renderInteractive() API function to explore()
+* Added openExplorer API function
+* Updated sphinx pages
+
+Release 0.5.1 (June 23)
+============================
+* Added license file
+* Added version/copyright info code
+* Added script to cycle trough the molecules in the database
+* Moving all examples to example folder in Raven root
+
+Release 0.5.0 (June 20)
+============================
+* Initiated effort to bring Raven-Python to public domain 
+
+------------------------- 2014 ------------------------------------

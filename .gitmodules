@@ -1,0 +1,3 @@
+[submodule "ThirdParties"]
+	path = ThirdParties
+	url = https://bitbucket.org/TotteKarlsson/dsl-tp/

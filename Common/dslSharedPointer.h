@@ -1,0 +1,19 @@
+#ifndef dslSharedPointerH
+#define dslSharedPointerH
+
+#if defined(__BORLANDC__) && !defined(__clang__)
+    #include <boost/tr1/memory.hpp>
+	#include <boost/make_shared.hpp>
+    using std::tr1::shared_ptr;
+#else
+    #include <memory>
+    using std::shared_ptr;
+#endif
+
+//#if defined(__BORLANDC__)
+//    using std::tr1::shared_ptr;
+//#else
+//    using std::shared_ptr;
+//#endif
+
+#endif

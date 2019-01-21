@@ -1,0 +1,13 @@
+The Moleculix library and applications was primarily designed and developed by
+
+    Totte Karlsson (totte@dunescientific.com)
+
+The following people have contributed in various ways:
+
+Young K. Lee (s43lee@ucsd.edu)
+    Feedback on Ubuntu, Python installation.
+    Ideas about suitable python examples, e.g. bucky balls.
+
+Michelle Isidro (michelle.isidro@gmail.com)
+    Refactoring, code beautification.
+

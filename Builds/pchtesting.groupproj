@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{46AF8424-0269-4FFE-A441-23D50EC663D8}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="dslCommon\dslCommon.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="dslFoundation\dslFoundation.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="dslCommon">
+        <MSBuild Projects="dslCommon\dslCommon.cbproj"/>
+    </Target>
+    <Target Name="dslCommon:Clean">
+        <MSBuild Projects="dslCommon\dslCommon.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="dslCommon:Make">
+        <MSBuild Projects="dslCommon\dslCommon.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="dslFoundation">
+        <MSBuild Projects="dslFoundation\dslFoundation.cbproj"/>
+    </Target>
+    <Target Name="dslFoundation:Clean">
+        <MSBuild Projects="dslFoundation\dslFoundation.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="dslFoundation:Make">
+        <MSBuild Projects="dslFoundation\dslFoundation.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="dslCommon;dslFoundation"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="dslCommon:Clean;dslFoundation:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="dslCommon:Make;dslFoundation:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

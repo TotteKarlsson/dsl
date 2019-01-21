@@ -1,0 +1,6 @@
+//------------------------------------------------------------------------------------
+#ifndef mtkTrayIconRH
+#define mtkTrayIconRH
+  #define sCannotCreate 0
+  #define sCannotRemove 5
+#endif 
