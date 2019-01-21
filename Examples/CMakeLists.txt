@@ -1,5 +1,5 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6.3 FATAL_ERROR)
-PROJECT(MoleculixExamples)
+PROJECT(DSLExamples)
 
 if(INSTALL_CXX_EXAMPLES)
     add_subdirectory("CXX")

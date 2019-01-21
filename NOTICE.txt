@@ -1,15 +1,11 @@
-Moleculix++ C++ API
+DSL++ C++ API
    Copyright 1995-2015 Dune Scientific, LLC
 
-The Moleculix software package make use of the following ThirdParty software libraries:
+The DSL software package make use of the following ThirdParty software libraries:
 
 POCO
     Distributed under the Boost License
     http://pocoproject.org/license.html
-
-VTK
-    Copyright (c) 1993-2005 Ken Martin, Will Schroeder, Bill Lorensen
-    All rights reserved.
 
 SQLite
     The source code for SQLite is in the public domain. 
