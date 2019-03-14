@@ -33,7 +33,7 @@ void TLogMemoFrame::init()
     }
 }
 
-//Time will tell if this works... may need a more elaborate shutdown mechanism
+//May need a more elaborate shutdown mechanism
 //---------------------------------------------------------------------------
 __fastcall TLogMemoFrame::~TLogMemoFrame()
 {
@@ -45,7 +45,6 @@ void __fastcall TLogMemoFrame::mClearLogMemoBtnClick(TObject *Sender)
 {
 	infoMemo->Clear();
 }
-
 
 //---------------------------------------------------------------------------
 void __fastcall TLogMemoFrame::LogLevelCBCloseUp(TObject *Sender)
