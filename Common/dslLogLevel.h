@@ -49,7 +49,7 @@ std::string Property<LogLevel>::getValueAsString() const
 template<> inline
 bool Property<LogLevel>::write(IniFile* iniFile, const string& section)
 {
-    if(&iniFile == nullptr)
+    if(iniFile == nullptr)
     {
         return false;
     }
@@ -63,7 +63,7 @@ bool Property<LogLevel>::write(IniFile* iniFile, const string& section)
 template<> inline
 bool Property<LogLevel>::read(IniFile* iniFile, const string& section)
 {
-    if(&iniFile == nullptr)
+    if(iniFile == nullptr)
     {
         return false;
     }

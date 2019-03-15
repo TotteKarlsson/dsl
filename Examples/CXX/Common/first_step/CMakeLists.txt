@@ -12,6 +12,12 @@ endif()
   
 target_link_libraries(${target} 
 dslFoundation
+#        target_link_libraries(${target} 
+#        ${CMAKE_INSTALL_PREFIX}/lib/libsqlite
+        tinyxml2
+        poco_foundation
+        pthread
+        -lrt
 )
 
 if(CMAKE_SYSTEM MATCHES "Linux") 

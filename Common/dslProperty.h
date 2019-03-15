@@ -362,7 +362,7 @@ bool Property<bool>::write(IniFile* iniFile, const string& section)
 template<> inline
 bool Property<unsigned int>::read(IniFile* iniFile, const string& section)
 {
-    if(&iniFile == nullptr)
+    if(iniFile == nullptr)
     {
         return false;
     }
@@ -425,7 +425,7 @@ bool Property<int>::write(IniFile* iniFile, const string& section)
 template<> inline
 bool Property<int>::read(IniFile* iniFile, const string& section)
 {
-    if(&iniFile == nullptr)
+    if(iniFile == nullptr)
     {
         return false;
     }

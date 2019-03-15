@@ -56,7 +56,7 @@ set(src
 ../Common/dslToggler
 ../Common/dslUtils
 ../Common/dslVersion
-../Common/dslWin32Utils
+#../Common/dslWin32Utils
 ../Common/dslXMLUtils
 
 ../Plugins/dslPlugin
@@ -64,19 +64,19 @@ set(src
 ../Plugins/dslPluginMetaData
 ../Plugins/dslPluginWithEvents
 
-../IPC/dslIPCData
-../IPC/dslIPCMessage
-../IPC/dslIPCMessageBuilder
-../IPC/dslIPCMessageEnums
-../IPC/dslIPCMessageProcessor
-../IPC/dslIPCReceiver
-../IPC/dslIPCServer
-../IPC/dslSocket
-../IPC/dslSocketClient
-../IPC/dslSocketReceiver
-../IPC/dslSocketServer
-../IPC/dslSocketWorker
-../IPC/dslToggleSocketConnectionThread
+#../IPC/dslIPCData
+#../IPC/dslIPCMessage
+#../IPC/dslIPCMessageBuilder
+#../IPC/dslIPCMessageEnums
+#../IPC/dslIPCMessageProcessor
+#../IPC/dslIPCReceiver
+#../IPC/dslIPCServer
+#../IPC/dslSocket
+#../IPC/dslSocketClient
+#../IPC/dslSocketReceiver
+#../IPC/dslSocketServer
+#../IPC/dslSocketWorker
+#../IPC/dslToggleSocketConnectionThread
 
 ../Math/dslDihedralAngle
 ../Math/dslAxisSystem
@@ -91,12 +91,12 @@ set(src
 ../Math/dslVector3D
 ../Math/mtrand/mtrand
 
-../DataBase/dslSQLite
-../DataBase/dslSQLiteBuffer
-../DataBase/dslSQLiteQuery
-../DataBase/dslSQLiteTable
-../DataBase/dslSQLiteStatement
-../DataBase/dslSQLiteException
+#../DataBase/dslSQLite
+#../DataBase/dslSQLiteBuffer
+#../DataBase/dslSQLiteQuery
+#../DataBase/dslSQLiteTable
+#../DataBase/dslSQLiteStatement
+#../DataBase/dslSQLiteException
 )
 
 #===== Shared library
@@ -116,20 +116,22 @@ if(${BUILD_SHARED_LIBS})
         EXPORT_DATABASE
     )
 
-    #link libraries
-    if(BUILD_THIRDPARTY_LIBS)
+#    #link libraries
+#    if(BUILD_THIRDPARTY_LIBS)
         target_link_libraries(${target} 
             tinyxml2
             poco_foundation
-            sqlite
+            pthread
+            -lrt
+#            sqlite
         )
-    else()
-        target_link_libraries(${target} 
-        ${CMAKE_INSTALL_PREFIX}/lib/sqlite.lib
-        ${CMAKE_INSTALL_PREFIX}/lib/tinyxml2.lib
-        ${CMAKE_INSTALL_PREFIX}/lib/poco_foundation.lib
-    )
-endif()
+#    else()
+#        target_link_libraries(${target} 
+#        ${CMAKE_INSTALL_PREFIX}/lib/libsqlite
+#        ${CMAKE_INSTALL_PREFIX}/lib/tinyxml2.lib
+#        ${CMAKE_INSTALL_PREFIX}/lib/poco_foundation.lib
+#    )
+##  endif()
 
     if(${INSTALL_CXX_LIBS})
         install(    
@@ -158,11 +160,11 @@ if(${INSTALL_CXX_LIBS})
         COMPONENT cxx_headers
     )
 
-    install(FILES
-        ${PROJECT_BINARY_DIR}/bin/${target}.tds
-        DESTINATION bin
-        COMPONENT debug
-    )
+#    install(FILES
+#        ${PROJECT_BINARY_DIR}/bin/${target}.tds
+#        DESTINATION bin
+#        COMPONENT debug
+#    )
 
 endif()
 

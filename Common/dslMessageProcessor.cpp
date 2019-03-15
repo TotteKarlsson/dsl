@@ -55,7 +55,8 @@ void MessageProcessor::run()
 void MessageProcessor::worker()
 {
     Log(lDebug)<<"Entering LogMessageProcessor Worker Function.";
-    mID =  GetCurrentThreadId();
+    //mID =  GetCurrentThreadId();
+    mID = -1;
 }
 
 bool MessageProcessor::start(bool inThread)

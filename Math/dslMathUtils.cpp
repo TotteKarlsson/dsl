@@ -1,5 +1,6 @@
 #pragma hdrstop
 #include "dslMathUtils.h"
+#include <cmath>
 
 using namespace std;
 namespace dsl

@@ -171,6 +171,120 @@ BaseProperty* Properties::getProperty(int index)
 void Properties::setupProperties()
 {}
 
+template <>
+string Properties::getPropertyValue<string>(const string& propName)
+{
+    BaseProperty* bp = this->getProperty(propName);
+    if(!bp)
+    {
+        stringstream str;
+        str << "The property: "<<propName<<" could not be found!";
+        throw(DSLException(str.str()));
+    }
+
+    if(bp->getPropertyType() != otStdString)
+    {
+        stringstream str;
+        str<<"Property \""<<propName<<"\" is of type: "<<dsl::toString(bp->getPropertyType())<<". Tried to use property type: "<<dsl::toString(otInt);
+        throw(DSLException(str.str()));
+    }
+
+    string* valueHandle = (string*) bp->getValueHandle();
+    return *valueHandle;
+}
+
+template <>
+bool Properties::setPropertyValue<string>(const string& propName, const string& newValue)
+{
+    BaseProperty* bp = this->getProperty(propName);
+    if(!bp)
+    {
+        stringstream str;
+        str << "The property: "<<propName<<" could not be found!";
+        throw(DSLException(str.str()));
+    }
+
+    if(bp->getPropertyType() != otStdString)
+    {
+        stringstream str;
+        str<<"Property \""<<propName<<"\" is of type: "<<dsl::toString(bp->getPropertyType())<<". Tried to use property type: "<<dsl::toString(otInt);
+        throw(DSLException(str.str()));
+    }
+
+    string* valueHandle = (string*) bp->getValueHandle();
+    *valueHandle = newValue;
+    return true;
+}
+
+template <>
+int Properties::getPropertyValue<int>(const string& propName)
+{
+    BaseProperty* bp = this->getProperty(propName);
+    if(!bp)
+    {
+        stringstream str;
+        str << "The property: "<<propName<<" could not be found!";
+        throw(DSLException(str.str()));
+    }
+
+    if(bp->getPropertyType() != otInt)
+    {
+        stringstream str;
+        str<<"Property \""<<propName<<"\" is of type: "<<dsl::toString(bp->getPropertyType())<<". Tried to use property of type: "<<dsl::toString(otInt);
+        throw(DSLException(str.str()));
+    }
+
+    int* valueHandle = (int*) bp->getValueHandle();
+    return *valueHandle;
+}
+
+template <>
+bool Properties::getPropertyValue<bool>(const string& propName)
+{
+    BaseProperty* bp = this->getProperty(propName);
+    if(!bp)
+    {
+        stringstream str;
+        str << "The property: "<<propName<<" could not be found!";
+        throw(DSLException(str.str()));
+    }
+
+    if(bp->getPropertyType() != otBool)
+    {
+        stringstream str;
+        str<<"Property \""<<propName<<"\" is of type: "<<dsl::toString(bp->getPropertyType())<<". Tried to use property of type: "<<dsl::toString(otInt);
+        throw(DSLException(str.str()));
+    }
+
+    bool* valueHandle = (bool*) bp->getValueHandle();
+    return *valueHandle;
+}
+
+template <>
+bool Properties::setPropertyValue<bool>(const string& propName, const bool& newValue)
+{
+    BaseProperty* bp = this->getProperty(propName);
+    if(!bp)
+    {
+        stringstream str;
+        str << "The property: "<<propName<<" could not be found!";
+        throw(DSLException(str.str()));
+    }
+
+    if(bp->getPropertyType() != otBool)
+    {
+        stringstream str;
+        str<<"Property \""<<propName<<"\" is of type: "<<dsl::toString(bp->getPropertyType())<<". Tried to use property type: "<<dsl::toString(otInt);
+        throw(DSLException(str.str()));
+    }
+
+    bool* valueHandle = (bool*) bp->getValueHandle();
+    *valueHandle = newValue;
+    return true;
+}
+
+
+
 ostream&  operator<<(ostream& stream, const Properties& p)
 {
 	return stream;

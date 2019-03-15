@@ -97,7 +97,7 @@ bool Property<StringList>::assignValueFromString(const string& v)
 template<> inline
 bool Property<StringList>::write(IniFile* iniFile, const string& section)
 {
-    if(&iniFile == nullptr)
+    if(iniFile == nullptr)
     {
         return false;
     }
@@ -111,7 +111,7 @@ bool Property<StringList>::write(IniFile* iniFile, const string& section)
 template<> inline
 bool Property<StringList>::read(IniFile* iniFile, const string& section)
 {
-    if(&iniFile == nullptr)
+    if(iniFile == nullptr)
     {
         return false;
     }

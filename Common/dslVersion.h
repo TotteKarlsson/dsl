@@ -5,6 +5,7 @@
 
 namespace dsl
 {
+using std::ostream;
 
 //Class to track an application or library version
 class DSL_COMMON Version
