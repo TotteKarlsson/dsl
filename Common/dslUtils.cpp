@@ -8,6 +8,7 @@
 #include "Poco/Thread.h"
 #include "Poco/UUID.h"
 #include "Poco/UUIDGenerator.h"
+#include <cmath>
 //---------------------------------------------------------------------------
 
 namespace dsl

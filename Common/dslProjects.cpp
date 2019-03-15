@@ -4,6 +4,7 @@
 #include "dslStringList.h"
 #include <sstream>
 #include "dslException.h"
+#include <algorithm>
 //---------------------------------------------------------------------------
 
 namespace dsl
