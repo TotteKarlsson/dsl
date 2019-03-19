@@ -8,7 +8,7 @@
 //#include "dslStringList.h"
 //#include "dslUtils.h"
 //#include "dslException.h"
-#include "ezOptionParser.h"
+#include "optionparser/ezOptionParser.h"
 //---------------------------------------------------------------------------
 using namespace std;
 using namespace ez;
