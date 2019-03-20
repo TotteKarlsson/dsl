@@ -9,7 +9,11 @@
 #include "Poco/UUID.h"
 #include "Poco/UUIDGenerator.h"
 #include <cmath>
-#include <unistd.h>
+#if defined(__BORLANDC__)
+    #include <dir.h>
+#else
+	#include <unistd.h>
+#endif
 //---------------------------------------------------------------------------
 
 namespace dsl
@@ -29,12 +33,12 @@ string getUUID()
 string getCWD()
 {
     //Get the working directory
-    char buffer[sizeof(char) * max_path_len];
+    char buffer[sizeof(char) * 512];
     char* answer = getcwd(buffer, sizeof(buffer));
     // Get the current working directory:
     if(!answer)
     {
-        Log(Logger::LOG_ERROR)<<"getCWD() failed";
+        Log(lError)<<"getCWD() failed";
         return "";
     }
 
