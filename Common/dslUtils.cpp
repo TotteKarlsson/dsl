@@ -43,7 +43,7 @@ string getCWD()
     }
 
     string cwd = buffer;
-    free(buffer);
+    //free(buffer);
 
     return cwd;
 }
