@@ -25,6 +25,27 @@ string getUUID()
     return uuid1.toString();
 }
 
+string getCWD()
+{
+    //Get the working directory
+    char *buffer;
+
+    string cwd;
+    // Get the current working directory:
+    if( (buffer = getcwd( NULL, 512 )) == NULL )
+    {
+        Log(Logger::LOG_ERROR)<<"getCWD failed";
+        return "";
+    }
+    else
+    {
+      cwd = buffer;
+      free(buffer);
+    }
+
+    return cwd;
+}
+
 string rgbToString(double rgb[3])
 {
     string rgbs;

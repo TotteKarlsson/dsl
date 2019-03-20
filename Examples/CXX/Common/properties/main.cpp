@@ -1,8 +1,7 @@
 #pragma hdrstop
-#include "dslProperties.h"
 #include "dslLogger.h"
+#include "dslProperties.h"
 
-ToNarrow
 using namespace dsl;
 
 int main()
@@ -30,3 +29,4 @@ int main()
 }
 
 #pragma comment(lib, "dslFoundation")
+#pragma comment(lib, "poco_foundation")

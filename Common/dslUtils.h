@@ -20,6 +20,7 @@ DSL_COMMON bool 				isEqual(double x, double y, double resolution);
 DSL_COMMON string				getUUID();
 DSL_COMMON string              	zeroPadIntLeft(int nr, int width);
 DSL_COMMON string              	zeroPadIntRight(int nr, int width);
+DSL_COMMON string 				getCWD();
 
 }
 #endif

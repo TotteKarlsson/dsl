@@ -108,7 +108,7 @@
         <DynamicRTL>true</DynamicRTL>
         <BCC_PCHInject>..\..\pch\dsl_pch.h</BCC_PCHInject>
         <IncludePath>C:\Python37\include;$(IncludePath)</IncludePath>
-        <ILINK_LibraryPath>C:\Python37\libs;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>C:\Python37\libs;$(DEBUG_BCC32)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <BCC_PCHName>..\..\pch\dsl_pch.pch</BCC_PCHName>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
@@ -429,14 +429,7 @@
                     <ProjectProperties Name="VerifyPackages">True</ProjectProperties>
                     <ProjectProperties Name="IndexFiles">False</ProjectProperties>
                 </ProjectProperties>
-                <Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\BPL\dslVCLVisualComponents.bpl">Dune Visual Components</Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\BPL\dslVCLComponents.bpl">Dune Components</Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\BPL\atVCLVisualComponents.bpl">AT Frames and Forms</Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\BPL\atVCLComponents.bpl">AT VCL Components</Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\BPL\DcefBrowser.bpl">DCef browser</Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\debug\BPL\atVCLAPTVisualComponents.bpl">File p:\build\debug\BPL\atVCLAPTVisualComponents.bpl not found</Excluded_Packages>
-                </Excluded_Packages>
+                <Excluded_Packages/>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="3">
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32c250mt.dll" Class="DependencyModule">

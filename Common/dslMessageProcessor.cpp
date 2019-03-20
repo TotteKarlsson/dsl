@@ -55,8 +55,14 @@ void MessageProcessor::run()
 void MessageProcessor::worker()
 {
     Log(lDebug)<<"Entering LogMessageProcessor Worker Function.";
-    //mID =  GetCurrentThreadId();
+#if defined(_WIN32)
+    mID =  GetCurrentThreadId();
+#elif defined(__linux__)
+    mID = gettid();
+#else
     mID = -1;
+#endif
+
 }
 
 bool MessageProcessor::start(bool inThread)
