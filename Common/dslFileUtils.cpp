@@ -118,25 +118,6 @@ bool clearFile(const string& file)
 	return result;
 }
 
-string getCWD()
-{
-	//Get the working directory
-	char *buffer;
-	string cwd;
-	// Get the current working directory:
-	if( (buffer = getcwd( nullptr, 512 )) == nullptr )
-	{
-		Log(lError)<<"getCWD failed";
-		return "";
-	}
-	else
-	{
-	  cwd = buffer;
-	  free(buffer);
-	}
-	return cwd;
-}
-
 bool saveStringToFile(const string& src, const string& fName)
 {
     ofstream f(fName.c_str());
