@@ -3,7 +3,6 @@ PROJECT(DSLExamples)
 
 link_directories(					
     ${CMAKE_INSTALL_PREFIX}/lib
-    ${THIRDPARTY_INSTALL}/lib
 )
 
 include_directories(

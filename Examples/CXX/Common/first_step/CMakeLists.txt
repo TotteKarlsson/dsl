@@ -10,15 +10,21 @@ else()
     add_executable(${target} main.cpp)
 endif()
   
+if (CMAKE_SYSTEM MATCHES "Linux")
+
 target_link_libraries(${target} 
-dslFoundation
-#        target_link_libraries(${target} 
-#        ${CMAKE_INSTALL_PREFIX}/lib/libsqlite
-        tinyxml2
-        poco_foundation
-        pthread
-        -lrt
+    dslFoundation
+    tinyxml2
+    poco_foundation
+    pthread
+    -lrt
 )
+elseif(CMAKE_SYSTEM MATCHES "Windows")
+    target_link_libraries(${target} 
+    dslFoundation
+)
+
+endif()
 
 if(CMAKE_SYSTEM MATCHES "Linux") 
     set (CMAKE_CXX_LINK_EXECUTABLE "${CMAKE_CXX_LINK_EXECUTABLE} -ldl")
