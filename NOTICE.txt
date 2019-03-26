@@ -1,5 +1,6 @@
 DSL++ C++ API
-   Copyright 1995-2015 Dune Scientific, LLC
+   Copyright 1995-2019 Dune Scientific, LLC
+   DSL is distributed under the Apache2 License
 
 The DSL software package make use of the following ThirdParty software libraries:
 
@@ -13,7 +14,7 @@ SQLite
 
 libcURL
     libcurl is probably the most portable, most powerful and most often used 
-    C-based multi-platform file transfer library on this planet – be it open source or 
+    C-based multi-platform file transfer library on this planet ï¿½ be it open source or 
     commercial. libcurl are true Open Source/Free Software and meet all definitions as 
     such. It means that you are free to modify and redistribute all contents of the 
     curl distributed archives. You may also freely use curl and libcurl in your commercial 
