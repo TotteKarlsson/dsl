@@ -98,6 +98,9 @@ set(src
 #../DataBase/dslSQLiteStatement
 #../DataBase/dslSQLiteException
 )
+if (CMAKE_SYSTEM MATCHES "Windows")
+    set(src ${src} )
+endif()
 
 #===== Shared library
 if(${BUILD_SHARED_LIBS})
@@ -116,22 +119,23 @@ if(${BUILD_SHARED_LIBS})
         EXPORT_DATABASE
     )
 
-#    #link libraries
-#    if(BUILD_THIRDPARTY_LIBS)
-        target_link_libraries(${target} 
-            tinyxml2
-            poco_foundation
-            pthread
-            -lrt
-#            sqlite
+    #link libraries
+    if (CMAKE_SYSTEM MATCHES "Linux")
+            target_link_libraries(${target} 
+                tinyxml2
+                poco_foundation
+                pthread
+                -lrt
+    #            sqlite
+            )
+    endif()        
+    if (CMAKE_SYSTEM MATCHES "Windows")
+            target_link_libraries(${target} 
+            ${CMAKE_INSTALL_PREFIX}/lib/sqlite.lib
+            ${CMAKE_INSTALL_PREFIX}/lib/tinyxml2.lib
+            ${CMAKE_INSTALL_PREFIX}/lib/poco_foundation.lib
         )
-#    else()
-#        target_link_libraries(${target} 
-#        ${CMAKE_INSTALL_PREFIX}/lib/libsqlite
-#        ${CMAKE_INSTALL_PREFIX}/lib/tinyxml2.lib
-#        ${CMAKE_INSTALL_PREFIX}/lib/poco_foundation.lib
-#    )
-##  endif()
+    endif()
 
     if(${INSTALL_CXX_LIBS})
         install(    
@@ -160,11 +164,14 @@ if(${INSTALL_CXX_LIBS})
         COMPONENT cxx_headers
     )
 
-#    install(FILES
-#        ${PROJECT_BINARY_DIR}/bin/${target}.tds
-#        DESTINATION bin
-#        COMPONENT debug
-#    )
+    if(${BORLAND})
+
+        install(FILES
+            ${PROJECT_BINARY_DIR}/bin/${target}.tds
+            DESTINATION bin
+            COMPONENT debug
+        )
+    endif()        
 
 endif()
 
