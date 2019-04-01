@@ -17,6 +17,7 @@ using std::map;
 using Poco::Path;
 //using Poco::File;
 using Poco::Mutex;
+using std::ostream;
 
 typedef Poco::File PocoFile;
 typedef list<PocoFile> FileList;

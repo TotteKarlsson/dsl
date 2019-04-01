@@ -873,7 +873,7 @@ string replaceCharacter(const char& replace_this, const char& with_this, const s
 string sqlEscape(const string& in_this)
 {
     string escaped(in_this);
-    escaped = replaceCharacter(' ', '\ ', escaped);
+    //escaped = replaceCharacter(' ', '\ ', escaped);
     escaped = replaceSubstring("'", "''", escaped);
     return escaped;
 }
@@ -1129,29 +1129,29 @@ long toLong(const string& str)
     return atol(str.c_str());
 }
 
-STR2INT_ERROR str2int (int &i, char const *s, int base)
-{
-    char *end;
-    long  l;
-    errno = 0;
-    l = strtol(s, &end, base);
-    if ((errno == ERANGE && l == LONG_MAX) || l > INT_MAX)
-    {
-        return OVERFLOW;
-    }
-
-    if ((errno == ERANGE && l == LONG_MIN) || l < INT_MIN)
-    {
-        return UNDERFLOW;
-    }
-
-    if (*s == '\0' || *end != '\0')
-    {
-        return INCONVERTIBLE;
-    }
-    i = l;
-    return SUCCESS;
-}
+//STR2INT_ERROR str2int (int &i, char const *s, int base)
+//{
+//    char *end;
+//    long  l;
+//    errno = 0;
+//    l = strtol(s, &end, base);
+//    if ((errno == ERANGE && l == LONG_MAX) || l > INT_MAX)
+//    {
+//        return OVERFLOW;
+//    }
+//
+//    if ((errno == ERANGE && l == LONG_MIN) || l < INT_MIN)
+//    {
+//        return UNDERFLOW;
+//    }
+//
+//    if (*s == '\0' || *end != '\0')
+//    {
+//        return INCONVERTIBLE;
+//    }
+//    i = l;
+//    return SUCCESS;
+//}
 
 bool toBool(const string& str)
 {
@@ -1632,9 +1632,6 @@ const char* toCString(const DateTime& dt, const string& format)
 }
 
 //===== End of toString functions ===========
-#if defined(__GNUC__)
-#define stricmp strcasecmp
-#endif
 
 bool compareStrings(const string& str1, const string& str2, CASE_SENSITIVITY sens)
 {
@@ -1648,10 +1645,15 @@ bool compareStrings(const string& str1, const string& str2, CASE_SENSITIVITY sen
     }
 }
 
-bool compareNoCase(const string& str1, const string& str2)
+bool compareNoCase(const string& a, const string& b)
 {
-    int res = stricmp(str1.c_str(), str2.c_str());
-    return res == 0 ? true : false;
+    unsigned int sz = a.size();
+    if (b.size() != sz)
+        return false;
+    for (unsigned int i = 0; i < sz; ++i)
+        if (tolower(a[i]) != tolower(b[i]))
+            return false;
+    return true;
 }
 
 string getFormattedParStr(const string& varS, const double var, const int width)

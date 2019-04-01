@@ -37,7 +37,6 @@ DSL_COMMON string				getHumanReadableFileSize(double sizeInBytes);
 
 /*** Get The current directory including the driveletter ***/
 DSL_COMMON string               intToDriveLetter(int Number);
-DSL_COMMON string               getCWD();
 DSL_COMMON string               getSystemTempFolder();
 }
 #endif

@@ -8,6 +8,12 @@
 #include "Poco/Thread.h"
 #include "Poco/UUID.h"
 #include "Poco/UUIDGenerator.h"
+#include <cmath>
+#if defined(__BORLANDC__)
+    #include <dir.h>
+#else
+	#include <unistd.h>
+#endif
 //---------------------------------------------------------------------------
 
 namespace dsl
@@ -22,6 +28,24 @@ string getUUID()
 	UUIDGenerator& generator = UUIDGenerator::defaultGenerator();
 	UUID uuid1(generator.create()); // time based
     return uuid1.toString();
+}
+
+string getCWD()
+{
+    //Get the working directory
+    char buffer[sizeof(char) * 512];
+    char* answer = getcwd(buffer, sizeof(buffer));
+    // Get the current working directory:
+    if(!answer)
+    {
+        Log(lError)<<"getCWD() failed";
+        return "";
+    }
+
+    string cwd = buffer;
+    //free(buffer);
+
+    return cwd;
 }
 
 string rgbToString(double rgb[3])

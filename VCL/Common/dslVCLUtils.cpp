@@ -222,6 +222,7 @@ bool __fastcall clearStringGrid(TStringGrid* grid)
 //    }
 //}
 
+
 string __fastcall stdstr(const String& str)
 {
     wstring test(str.c_str());

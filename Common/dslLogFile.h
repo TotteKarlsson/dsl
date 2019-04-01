@@ -9,11 +9,8 @@
 //---------------------------------------------------------------------------
 
 //Global class holding logfile and other settings. Persist trougout the life of the application that is using it. Based on RAII
-
 namespace dsl
 {
-
-//using std::unique_ptr;
 
 class DSL_COMMON LogFile : public DSLObject
 {

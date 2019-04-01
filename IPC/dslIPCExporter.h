@@ -1,6 +1,7 @@
 #ifndef IPCExporterH
 #define IPCExporterH
 
+#if defined (_WIN32)
 #if defined(DSL_STATIC)
     #define DSL_IPC
 #else
@@ -9,6 +10,9 @@
     #else
         #define DSL_IPC __declspec(dllimport)
     #endif
+	#endif
+#else
+	#define DSL_IPC
 #endif
 
 #endif

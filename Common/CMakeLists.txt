@@ -49,7 +49,7 @@ dslTimer
 dslTypeInfo
 dslUtils
 dslVersion
-dslWin32Utils
+#dslWin32Utils
 dslXMLUtils
 )
 

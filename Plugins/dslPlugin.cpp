@@ -265,6 +265,44 @@ BaseProperty* Plugin::getProperty(const string& propName)
     return mProperties.getProperty(propName);
 }
 
+template <> inline
+string Plugin::getPropertyValue(const string& nameOf)
+{
+    BaseProperty* bp = mProperties.getProperty(nameOf);
+    if(!bp)
+    {
+        return "";
+        //throw
+    }
+    Property<string>* p = dynamic_cast< Property<string>* >(bp);
+    return p->getValue();
+}
+
+template <>
+int Plugin::getPropertyValue(const string& nameOf)
+{
+    BaseProperty* bp = mProperties.getProperty(nameOf);
+    if(!bp)
+    {
+        return -1;
+        //throw
+    }
+    Property<int>* p = dynamic_cast< Property<int>* >(bp);
+    return p->getValue();
+}
+
+template <>
+double Plugin::getPropertyValue(const string& nameOf)
+{
+    BaseProperty* bp = mProperties.getProperty(nameOf);
+    if(!bp)
+    {
+        return -1;
+    }
+    Property<double>* p = dynamic_cast< Property<double>* >(bp);
+    return p->getValue();
+}
+
 string Plugin::getPropertyValueAsString(const string& propName)
 {
     BaseProperty* prop =  mProperties.getProperty(propName);

@@ -4,6 +4,13 @@
 #include "dslMessageContainer.h"
 #include "Poco/Mutex.h"
 #include "dslLogger.h"
+
+#if defined(__linux__)
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/syscall.h>
+
+#endif
 //----------------------------------------------------------------
 
 namespace dsl
@@ -55,7 +62,14 @@ void MessageProcessor::run()
 void MessageProcessor::worker()
 {
     Log(lDebug)<<"Entering LogMessageProcessor Worker Function.";
+#if defined(_WIN32)
     mID =  GetCurrentThreadId();
+#elif defined(__linux__)
+    mID =syscall( __NR_gettid );
+#else
+    mID = -1;
+#endif
+
 }
 
 bool MessageProcessor::start(bool inThread)
