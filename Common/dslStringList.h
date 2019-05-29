@@ -26,7 +26,8 @@ class DSL_COMMON StringList : public DSLObject
                                                                 //Copy constructor
                                                                 StringList(const StringList& cp);
                                                                 ~StringList();
-
+        void                                                    strip(const StringList& chars);
+        void                                                    outerStrip(const StringList& chars);
         virtual void                                            reSize(int size);
         virtual void                                            insertAt(int index, const string& item);
 

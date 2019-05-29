@@ -7,6 +7,7 @@
 #include "dslLogger.h"
 #include "dslApplicationInfo.h"
 #include "dslVersion.h"
+//#include <atl/atlbase.h>
 #pragma package(smart_init)
 
 namespace dsl
@@ -763,6 +764,15 @@ string __fastcall browseForFolder(const string& startFolder)
             }
 
             // Show the Open dialog box.
+
+			IShellItem* psiFolder;
+
+        	hr = SHCreateItemFromParsingName ( wstdstr(startFolder).c_str(), NULL, IID_PPV_ARGS(&psiFolder) );
+
+            if ( SUCCEEDED(hr) )
+              pfd->SetFolder ( psiFolder );
+
+
             hr = pfd->Show(nullptr);
 
             // Get the file name from the dialog box.

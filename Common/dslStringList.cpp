@@ -22,7 +22,6 @@ mDelimiter(',')
     {
     	mStrings.push_back(toString(ints[i]));
     }
-
 }
 
 StringList::StringList(const vector<string>& strings)
@@ -50,6 +49,28 @@ StringList::~StringList()
 {}
 
 
+void StringList::strip(const StringList& chars)
+{
+    for(int i = 0; i < chars.count(); i++)
+    {
+        for(uint j = 0; j < count(); j++)
+        {
+        	mStrings[j]  = dsl::stripCharacters(chars[i], mStrings[j]);
+        }
+    }
+}
+
+void StringList::outerStrip(const StringList& chars)
+{
+    if(count())
+    {
+        for(int i = 0; i < chars.count(); i++)
+    	{
+        	mStrings[0] = dsl::stripCharacters(chars[i], mStrings[0]);
+			mStrings[count() - 1] = dsl::stripCharacters(chars[i], mStrings[count() - 1]);
+        }
+    }
+}
 
 bool is_not_digit(char c)
 {

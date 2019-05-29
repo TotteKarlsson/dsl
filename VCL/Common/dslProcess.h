@@ -19,10 +19,12 @@ class Process;
 enum ProcessState {psRunning, psPaused, psTerminated, psFinished, psUndefined};
 enum MessageHandling {mhIgnoreMessages = 0, mhCatchMessages, mhShowMessages};
 
+typedef boost::function<void(void* opaque1, void* opaque2)> Callback;
 //!This class should be written to use Poco process instead of win32 functions..
 class VCLCOMMON Process : public dsl::Thread
 {
-	typedef boost::function<void(void* opaque1, void* opaque2)> Callback;
+
+
     public:
                                             Process(const string& exeFName = gEmptyString, const string& wd = gEmptyString);
                                             ~Process();
@@ -43,6 +45,7 @@ class VCLCOMMON Process : public dsl::Thread
         STARTUPINFOA*                       getStartUpInfo(){return &mSI;}
         PROCESS_INFORMATION*                getProcessInfo(){return &mPI;}
         MessageHandling                     getMessageHandling(){mMessageHandling;}
+
 
     protected:
 	    Callback 			                onEnter;

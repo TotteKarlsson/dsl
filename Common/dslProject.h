@@ -33,6 +33,9 @@ class DSL_COMMON Project : public Subject
         bool                                    isOpen();
         virtual bool         	                isModified();
 
+                                                //Delete data associated with project
+        virtual bool                            deleteData(){return false;}
+
         virtual bool                            open(const string& fName = gEmptyString);
         virtual bool                            close();
 
