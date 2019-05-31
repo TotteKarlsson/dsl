@@ -65,8 +65,8 @@ DSL_COMMON string           stripCharacters(const string& chars, const string& s
 
 DSL_COMMON string           trimChars(const string& str, const string& chars = gEmptyString);
 DSL_COMMON string           trim(const string& str, const char& aChar = ' ');
-DSL_COMMON string           trimBack(const string& str, const char& aChar = ' ');
-DSL_COMMON string           trimFront(const string& str, const char& aChar = ' ');
+DSL_COMMON string           trimBack(const string& str, const char& aChar = ' ', int max_trim = 1);
+DSL_COMMON string           trimFront(const string& str, const char& aChar = ' ', int max_trim = 1);
 
 DSL_COMMON string           trimWS(const string& str);
 DSL_COMMON string           trimWSBack(const string& str);

@@ -257,23 +257,35 @@ string trim(const string& _s, const char& ch)
 }
 
 // trim from start
-string trimFront(const string& _s, const char& ch)
+string trimFront(const string& _s, const char& ch, int max_trim)
 {
     string s(_s);
+    int count(0);
     while(s.size() > 0 && s[0] == ch)
     {
         s.erase(0, 1);
+        count++;
+        if(count >= max_trim)
+        {
+            break;
+        }
     }
     return s;
 }
 
 // trim from end
-string trimBack(const string& _s, const char& ch)
+string trimBack(const string& _s, const char& ch, int max_trim)
 {
     string s(_s);
+    int count(0);
     while(s[s.size() - 1] == ch)
     {
         s.erase(s.size() - 1);
+        count++;
+        if(count >= max_trim)
+        {
+            break;
+        }
     }
     return s;
 }
