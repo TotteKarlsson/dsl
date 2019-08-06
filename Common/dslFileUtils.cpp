@@ -8,7 +8,7 @@
 #include <string>
 #include <cerrno>
 #include <set>
-
+//#include "Poco/Exception.h"
 
 #if !defined(_Linux)
 //#include <io.h>
@@ -161,13 +161,21 @@ bool removeFile(const string& fName)
 
 bool fileExists(const string& fName)
 {
-    if (!fName.size())
+    try
     {
+        if (!fName.size())
+        {
+            return false;
+        }
+        Poco::File file(fName);
+        bool res = file.exists();
+        return res;
+    }
+    catch(const Poco::PathSyntaxException& e)
+    {
+        Log(lError) << "The path \"" << fName << "\" is not valid";
         return false;
     }
-    Poco::File file(fName);
-    bool res = file.exists();
-    return res;
 }
 
 bool folderExists(const string& folder)
