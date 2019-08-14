@@ -7,6 +7,14 @@
 #include "dslLogger.h"
 #include "dslFileUtils.h"
 #include "dslIniFile.h"
+
+#ifdef _MSC_VER && _MSC_VER < 1900 
+#include <stdio.h>
+#include <stdlib.h>
+
+#define snprintf(buf,len, format,...) _snprintf_s(buf, len,len, format, __VA_ARGS__)
+
+#endif
 //#include "dslOSSpecifics.h"
 //---------------------------------------------------------------------------
 //#undef CreateFile

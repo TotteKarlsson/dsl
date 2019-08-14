@@ -62,6 +62,7 @@ bool BaseProperty::isInEditMode()
 bool BaseProperty::setEditMode(bool val)
 {
 	mIsInEditMode = val;
+	return true;
 }
 
 void BaseProperty::discardEdit()

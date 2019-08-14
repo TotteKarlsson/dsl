@@ -62,7 +62,7 @@ void Timer::worker() //The threads worker function
     while(mIsTimeToDie == false)
     {
         Timestamp now;
-        long intervall = mInterval.totalMilliseconds();
+        long intervall = (long) mInterval.totalMilliseconds();
 
         sleep(10); //Resolution is 10 milliseconds
         Timespan current = now - mTheLastFire;

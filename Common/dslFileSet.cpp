@@ -78,7 +78,7 @@ long FileSet::getNumberOfFiles()
     for (map<FileExtension, FileList>::iterator it=mFiles.begin(); it!=mFiles.end(); ++it)
     {
         //Log(lInfo) << it->first << " => " << it->second << '\n';
-        nr += it->second.size();
+        nr += (long) it->second.size();
     }
 
     mFileSetMutex.unlock();

@@ -23,7 +23,7 @@ class StringList;
 template<typename T>
 class Range;
 
-enum STR2INT_ERROR { SUCCESS, OVERFLOW, UNDERFLOW, INCONVERTIBLE };
+enum STR2INT_ERROR { stiSUCCESS, stiOVERFLOW, stiUNDERFLOW, stiINCONVERTIBLE };
 DSL_COMMON STR2INT_ERROR 	str2int (int &i, char const *s, int base = 0);
 
 DSL_COMMON string			toHex(int byte);

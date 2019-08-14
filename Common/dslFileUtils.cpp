@@ -8,7 +8,7 @@
 #include <string>
 #include <cerrno>
 #include <set>
-//#include "Poco/Exception.h"
+#include "Poco/Exception.h"
 
 #if !defined(_Linux)
 //#include <io.h>
@@ -199,7 +199,7 @@ int countFiles(const string& folder, const string& searchPattern)
 
     std::set<std::string> files;
     Glob::glob(search, files); // Glob::glob("/usr/include/*/*.h", files);
-    return files.size();
+    return (int) files.size();
 }
 
 StringList getFilesInFolder(const string& folder, const string& ext, bool withPath)

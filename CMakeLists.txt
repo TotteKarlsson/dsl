@@ -1,4 +1,5 @@
-cmake_minimum_required(VERSION 2.8)
+#cmake_policy(SET CMP0054 NEW)
+cmake_minimum_required(VERSION 3.13)
 project(dsl)
 
 SET(DSL_MAJOR_VERSION 0)
@@ -29,15 +30,15 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY 	${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY 	${PROJECT_BINARY_DIR}/bin)
 
 #=== COMPILER SPECIFICS 
-if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Embarcadero" AND ${CMAKE_BASE_NAME} STREQUAL "bcc32" )
+if(CMAKE_CXX_COMPILER_ID STREQUAL "Embarcadero" AND CMAKE_BASE_NAME STREQUAL "bcc32" )
     set(SUPPRESS_WARNINGS   "-w-8128 -w-8057 -w-8012 -w-8004 -w-8070" )
     set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug;Release")
     message("Using bcc32")
 
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Embarcadero" AND ${CMAKE_BASE_NAME} STREQUAL "bcc32c") 
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Embarcadero" AND CMAKE_BASE_NAME STREQUAL "bcc32c") 
     message("Using bcc32c")
 #    set(SUPPRESS_WARNINGS "-Wunused-value")
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     set(SUPPRESS_WARNINGS   "/wd4221 /wd4018 /wd4996 /wd4251" )
 #    set(CMAKE_CXX_FLAGS                "${CMAKE_CXX_FLAGS} /EHsc ")
 #    set(CMAKE_CXX_MP_FLAG               ON CACHE BOOL "")
@@ -70,6 +71,13 @@ include_directories(
 ${PYTHON_INCLUDE_DIRS}
 ${BOOST_ROOT}
 ${BOOST_ROOT}/boost/tr1/tr1
+)
+
+link_directories(
+
+
+${BOOST_ROOT}/lib64-msvc-12.0
+
 )
 
 if(BUILD_FOUNDATION)

@@ -11,6 +11,9 @@
 #include <cmath>
 #if defined(__BORLANDC__)
     #include <dir.h>
+#elif defined (_MSC_VER)
+	#include <direct.h>
+	#define _getcwd getcwd
 #else
 	#include <unistd.h>
 #endif
@@ -34,7 +37,8 @@ string getCWD()
 {
     //Get the working directory
     char buffer[sizeof(char) * 512];
-    char* answer = getcwd(buffer, sizeof(buffer));
+  	char* answer = getcwd(buffer, sizeof(buffer));
+
     // Get the current working directory:
     if(!answer)
     {

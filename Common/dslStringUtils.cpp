@@ -13,6 +13,10 @@
 #include <sstream>
 #include <iomanip>
 #include <clocale>
+
+#ifdef _MSC_VER
+#include <ctype.h>
+#endif
 //---------------------------------------------------------------------------
 
 namespace dsl
@@ -294,7 +298,7 @@ string trimBack(const string& _s, const char& ch, int max_trim)
 string trimWSFront(const string& _s)
 {
     string s(_s);
-    s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1( std::ptr_fun<int, int>(std::isspace))));
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1( std::ptr_fun<int, int>(isspace))));
     return s;
 }
 
@@ -302,7 +306,7 @@ string trimWSFront(const string& _s)
 string trimWSBack(const string& _s)
 {
     string s(_s);
-    s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
+    s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(isspace))).base(), s.end());
     return s;
 }
 
@@ -982,10 +986,10 @@ vector<string> splitString(const string& text, const string &separators, bool cu
 {
     vector<string> words;
     int n = text.length();
-    int start = text.find_first_not_of(separators);
+    size_t start = text.find_first_not_of(separators);
     while( (start >= 0) && (start < n) )
     {
-        int stop = text.find_first_of(separators, start);
+        size_t stop = text.find_first_of(separators, start);
         if( (stop < 0) || (stop > n) )
         {
             stop = n;

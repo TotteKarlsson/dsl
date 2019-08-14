@@ -128,10 +128,11 @@ if(${BUILD_SHARED_LIBS})
                 -lrt
     #            sqlite
             )
-    endif()        
+    endif()  
+
     if (CMAKE_SYSTEM MATCHES "Windows")
             target_link_libraries(${target} 
-            ${CMAKE_INSTALL_PREFIX}/lib/sqlite.lib
+            #${CMAKE_INSTALL_PREFIX}/lib/sqlite.lib
             ${CMAKE_INSTALL_PREFIX}/lib/tinyxml2.lib
             ${CMAKE_INSTALL_PREFIX}/lib/poco_foundation.lib
         )
@@ -146,7 +147,7 @@ if(${BUILD_SHARED_LIBS})
         )            
     endif()
 
-    set(pcHeader "${CMAKE_SOURCE_DIR}/pch/dsl_pch.h")
+    #set(pcHeader "${CMAKE_SOURCE_DIR}/pch/dsl_pch.h")
 endif() #Shared lib
 
 #===== General Installs
