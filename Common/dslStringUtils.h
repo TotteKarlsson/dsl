@@ -108,7 +108,7 @@ DSL_COMMON string           getFormattedDateTimeString(const string& format);   
 DSL_COMMON vector<string>   split(const string &s, char delim);
 DSL_COMMON vector<string>&  split(const string &s, char delim, vector<string> &elems);
 
-DSL_COMMON int              splitString(vector<string>& strs, const string &text, const string &separators);
+DSL_COMMON size_t           splitString(vector<string>& strs, const string &text, const string &separators);
 DSL_COMMON vector<string>   splitString(const string& input, const char& delimiter);
 DSL_COMMON vector<string>   splitString(const string& input, const string& delimiters, bool cutDel = true);
 DSL_COMMON vector<string>   splitStringAtWord(const string& input, const string& word);

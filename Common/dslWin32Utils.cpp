@@ -143,7 +143,7 @@ bool clickOnWindow(const string& winCaption, int localX, int localY)
     HWND hwnd = FindWindow(0, (winCaption).c_str());
     if(hwnd)
     {
-    	bool isIconic(IsIconic(hwnd));
+    	BOOL isIconic(IsIconic(hwnd));
     	if (isIconic)
         {
         	ShowWindow(hwnd, SW_RESTORE);

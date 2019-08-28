@@ -18,7 +18,7 @@ class DSL_COMMON MessageContainer : public DSLObject
     public:
                                                 MessageContainer();
 		virtual                                 ~MessageContainer();
-		virtual int                             count();
+		virtual unsigned int                    count();
 
                                                 //Post a message to the message list
 		virtual void                            postMessage(const string& msg);

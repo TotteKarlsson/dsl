@@ -56,7 +56,7 @@ set(src
 ../Common/dslToggler
 ../Common/dslUtils
 ../Common/dslVersion
-#../Common/dslWin32Utils
+../Common/dslWin32Utils
 ../Common/dslXMLUtils
 
 ../Plugins/dslPlugin

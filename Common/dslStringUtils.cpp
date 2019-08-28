@@ -591,7 +591,7 @@ string eatRecord(string &text, const string& sep)
     text = text.substr(stop,text.size());
     if(text.size())
     {
-        int ws = text.find_first_not_of(sep);
+        size_t ws = text.find_first_not_of(sep);
         if(ws == -1) //Means there is only whitespace!
         {
             text = "";
@@ -967,11 +967,11 @@ vector<string> splitString(const string &text, const char& oneSep)
 vector<string> splitString(const string &text, const string &separators)
 {
     vector<string> words;
-    int n = text.length();
-    int start = text.find_first_not_of(separators);
+    size_t n = text.length();
+    size_t start = text.find_first_not_of(separators);
     while( (start >= 0) && (start < n) )
     {
-        int stop = text.find_first_of(separators, start);
+        size_t stop = text.find_first_of(separators, start);
         if( (stop < 0) || (stop > n) )
         {
             stop = n;
@@ -985,7 +985,7 @@ vector<string> splitString(const string &text, const string &separators)
 vector<string> splitString(const string& text, const string &separators, bool cutDelimiter)
 {
     vector<string> words;
-    int n = text.length();
+    size_t n = text.length();
     size_t start = text.find_first_not_of(separators);
     while( (start >= 0) && (start < n) )
     {
@@ -1020,13 +1020,13 @@ vector<string> splitString(const string& text, const string &separators, bool cu
     return words;
 }
 
-int splitString(vector<string>& words, const string &text, const string &separators)
+size_t splitString(vector<string>& words, const string &text, const string &separators)
 {
-    int n = text.length();
-    int start = text.find_first_not_of(separators);
+    size_t n = text.length();
+    size_t start = text.find_first_not_of(separators);
     while( (start >= 0) && (start < n) )
     {
-        int stop = text.find_first_of(separators, start);
+        size_t stop = text.find_first_of(separators, start);
         if( (stop < 0) || (stop > n) )
         {
             stop = n;
@@ -1199,8 +1199,8 @@ string extractPathTo(const string& filePathOrJustPath, const char& pathSeparator
 {
     string file = filePathOrJustPath;
     //Check if the file comes with a path..
-    int start = file.find_first_of(pathSeparator);
-    int end   = file.find_last_of(pathSeparator);
+    size_t start = file.find_first_of(pathSeparator);
+    size_t end   = file.find_last_of(pathSeparator);
     if(start < 0)
     {
         return string("");
@@ -1663,7 +1663,7 @@ bool compareStrings(const string& str1, const string& str2, CASE_SENSITIVITY sen
 
 bool compareNoCase(const string& a, const string& b)
 {
-    unsigned int sz = a.size();
+    size_t sz = a.size();
     if (b.size() != sz)
         return false;
     for (unsigned int i = 0; i < sz; ++i)

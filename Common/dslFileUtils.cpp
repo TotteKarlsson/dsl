@@ -173,7 +173,7 @@ bool fileExists(const string& fName)
     }
     catch(const Poco::PathSyntaxException& e)
     {
-        Log(lError) << "The path \"" << fName << "\" is not valid";
+        Log(lError) << "The path \"" << fName << "\" is not valid: " << e.what();
         return false;
     }
 }

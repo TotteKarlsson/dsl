@@ -898,13 +898,13 @@ IniSection* IniFile::createSection(const string& Section, const string& Comment,
 }
 
 // Simply returns the number of sections in the list.
-int IniFile::sectionCount()
+unsigned int IniFile::sectionCount()
 {
     return mSections.size();
 }
 
 // Returns the total number of keys contained within all the sections.
-int IniFile::keyCount()
+unsigned int IniFile::keyCount()
 {
     int nCounter = 0;
     SectionItor s_pos;
@@ -913,7 +913,7 @@ int IniFile::keyCount()
     return nCounter;
 }
 
-int IniFile::keyCount(const string& section)
+unsigned int IniFile::keyCount(const string& section)
 {
     //Get the section
     IniSection* iniSection = getSection(section);
@@ -1002,7 +1002,7 @@ string IniFile::commentStr(string& mComment)
 // remainder.  Returns the key
 string IniFile::getNextWord(string& CommandLine)
 {
-    int nPos = CommandLine.find_first_of(mEqualIndicator);
+    size_t nPos = CommandLine.find_first_of(mEqualIndicator);
     string sWord = string("");
     if ( nPos > -1 )
     {
@@ -1063,9 +1063,9 @@ int IniFile::writeLine(fstream& stream, const char* fmt, ...)
     return nLength;
 }
 
-int IniFile::getNumberOfSections()
+unsigned int IniFile::getNumberOfSections()
 {
-    return mSections.size();
+    return (int) mSections.size();
 }
 
 string IniFile::getFileName()
