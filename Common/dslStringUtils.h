@@ -38,7 +38,7 @@ DSL_COMMON string 			createZeroPaddedString(unsigned int z, unsigned int digits)
 DSL_COMMON string           stdstr(const char* str );
 DSL_COMMON string           stdstr(vector<char>& str );
 DSL_COMMON string           stdstr(const string& str );
-DSL_COMMON string 			stdstr( const std::wstring& str );
+DSL_COMMON string 			stdstr(const std::wstring& str );
 DSL_COMMON wstring 			wstdstr(const string& str);
 
 DSL_COMMON StringList       getLinesInFile(const string& fName);
@@ -63,8 +63,8 @@ DSL_COMMON string           stripNewLine(const string& str);
 DSL_COMMON string           stripCharacter(const char& ch, const string& source);
 DSL_COMMON string           stripCharacters(const string& chars, const string& source);
 
-DSL_COMMON string           trimChars(const string& str, const string& chars = gEmptyString);
-DSL_COMMON string           trim(const string& str, const char& aChar = ' ');
+DSL_COMMON string           trimChars(const string& str, const string& chars = gEmptyString, int max_trim = 100);
+DSL_COMMON string           trim(const string& str, const char& aChar = ' ', int max_trim = 1);
 DSL_COMMON string           trimBack(const string& str, const char& aChar = ' ', int max_trim = 1);
 DSL_COMMON string           trimFront(const string& str, const char& aChar = ' ', int max_trim = 1);
 

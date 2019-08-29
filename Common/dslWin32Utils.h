@@ -9,6 +9,8 @@ DSL_COMMON string 	ws2s(const std::wstring& s);
 DSL_COMMON string 	getClipBoardText();
 DSL_COMMON void 	sendToClipBoard(const string& str);
 DSL_COMMON string 	getSpecialFolder(int fldr);
+DSL_COMMON string 	getKnownFolder(GUID folder, DWORD flags = 0);
+
 DSL_COMMON string 	getLastWin32Error();
 
 DSL_COMMON void 	MouseClick(int x, int y);

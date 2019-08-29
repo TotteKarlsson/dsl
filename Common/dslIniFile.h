@@ -121,7 +121,6 @@ class DSL_COMMON IniFile : public DSLObject
 
                                                 // General Purpose Utility Functions
         string                                  getNextWord(string& CommandLine);
-        string                                  trim(string& Str);
         int                                     writeLine(fstream& stream, const char* fmt, ...);
 };
 

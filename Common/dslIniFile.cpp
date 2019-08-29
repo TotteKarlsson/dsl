@@ -178,7 +178,7 @@ bool IniFile::load(const string& newfName)
             lines++;
 
             string Line = buffer;
-            trim(Line);
+            trimChars(Line, mWhiteSpace);
 
             bDone = ( file.eof() || file.bad() || file.fail() );
 
@@ -205,17 +205,17 @@ bool IniFile::load(const string& newfName)
                 if(record.size() > 1)
                 {
                     string Comment = "";
-                    string Key = trim(record[0]);
-                    string Value = trim(record[1]);
+                    string Key = trimChars(record[0], mWhiteSpace);
+                    string Value = trimChars(record[1], mWhiteSpace);
                     if(record.size() > 2)
                     {
-                        Comment = record[2];
+                        Comment = trimChars(record[2], mWhiteSpace);
                     }
 
                     if(pSection)
                     {
                         writeValue(Key, Value, Comment, pSection->mName);
-                        //Log(lDebug5)<<Key << " = "  <<Value;
+                        Log(lDebug5)<<Key << " = "  <<Value;
                     }
                     else
                     {
@@ -277,7 +277,7 @@ bool IniFile::loadFromString(const string& iniData)
             lines++;
 
             string Line = buffer;
-            trim(Line);
+            trimChars(Line, mWhiteSpace);
 
             bDone = ( file.eof() || file.bad() || file.fail() );
 
@@ -304,8 +304,8 @@ bool IniFile::loadFromString(const string& iniData)
                 if(record.size() > 1)
                 {
                     string Comment = "";
-                    string Key = trim(record[0]);
-                    string Value = trim(record[1]);
+                    string Key = trimChars(record[0], mWhiteSpace);
+                    string Value = trimChars(record[1], mWhiteSpace);
                     if(record.size() > 2)
                     {
                         Comment = record[2];
@@ -397,7 +397,7 @@ IniSection* IniFile::loadSection(const string& theSection)
             file.getline(buffer, MAX_LINE_BUFFER_SIZE);
 
             string Line = buffer;
-            trim(Line);
+            trimChars(Line, mWhiteSpace);
 
             bDone = ( file.eof() || file.bad() || file.fail() );
 
@@ -431,11 +431,11 @@ IniSection* IniFile::loadSection(const string& theSection)
                     if(pSection)
                     {
                         writeValue(Key, Value, Comment, pSection->mName);
-                                        Log(lDebug5)<<"Read Key " + Key + " Value = " + Value;
+                                        Log(lDebug3)<<"Read Key " + Key + " Value = " + Value;
                     }
                     else
                     {
-                                        Log(lDebug5)<<"Read Key " + Key + " Value = " + Value;
+                                        Log(lDebug3)<<"Read Key " + Key + " Value = " + Value;
                                         Log(lWarning)<<"No section for key" + Key + ". Key was ignored..";
                     }
                     Comment = string("");
@@ -510,13 +510,11 @@ bool IniFile::save(ios_base::openmode openMode)
 
                 if ( Key->mKey.size() > 0 && Key->mValue.size() > 0 )
                 {
-                        writeLine(aFstream, "%s%s%s%s%c%s",
-                        Key->mComment.size() > 0 ? "\n" : "",
-                        commentStr(Key->mComment).c_str(),
-                        Key->mComment.size() > 0 ? "\n" : "",
-                        Key->mKey.c_str(),
-                        mEqualIndicator[0],
-                        Key->mValue.c_str());
+                    aFstream << Key->mKey <<'='<<Key->mValue;
+                    if(Key->mComment.size() > 0 )
+                    {
+                        aFstream << " ; " << Key->mComment <<'\n';
+                    }
                 }
             }
         }
@@ -982,7 +980,7 @@ IniSection* IniFile::getSection(unsigned int sectionNr)
 string IniFile::commentStr(string& mComment)
 {
     string szNewStr = string("");
-    trim(mComment);
+    trimChars(mComment, mWhiteSpace);
     if ( mComment.size() == 0 )
     {
         return mComment;
@@ -1014,29 +1012,8 @@ string IniFile::getNextWord(string& CommandLine)
         sWord = CommandLine;
         CommandLine = string("");
     }
-    trim(sWord);
+    trimChars(sWord, mWhiteSpace);
     return sWord;
-}
-
-string IniFile::trim(string& str)
-{
-    string szTrimChars(mWhiteSpace);
-    szTrimChars += mEqualIndicator;
-
-    // Trim Both leading and trailing spaces
-    size_t startpos = str.find_first_not_of(szTrimChars);     // Find the first character position after excluding leading blank spaces
-    size_t endpos     = str.find_last_not_of(szTrimChars);     // Find the first character position from reverse af
-
-    // if all spaces or empty return an empty string
-    if(( string::npos == startpos ) || ( string::npos == endpos))
-    {
-        str = "";
-    }
-    else
-    {
-        str = str.substr(startpos, endpos-startpos + 1);
-    }
-    return str;
 }
 
 // writes the formatted output to the file stream, returning the number of

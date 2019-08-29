@@ -135,6 +135,7 @@ if(${BUILD_SHARED_LIBS})
             #${CMAKE_INSTALL_PREFIX}/lib/sqlite.lib
             ${CMAKE_INSTALL_PREFIX}/lib/tinyxml2.lib
             ${CMAKE_INSTALL_PREFIX}/lib/poco_foundation.lib
+            Shell32.lib
         )
     endif()
 

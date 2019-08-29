@@ -244,20 +244,20 @@ string stripNewLine(const string& msg)
     return aMsg;
 }
 
-string trimChars(const string& str, const string& chars)
+string trimChars(const string& str, const string& chars, int max_trim)
 {
     string res(str);
     for(uint i = 0; i < chars.size(); i++)
     {
-        res = trim(res, chars[i]);
+        res = trim(res, chars[i], max_trim);
     }
     return res;
 }
 
 // trim from both ends
-string trim(const string& _s, const char& ch)
+string trim(const string& _s, const char& ch, int max_trim)
 {
-    return trimFront(trimBack(_s, ch), ch);
+    return trimFront(trimBack(_s, ch, max_trim), ch, max_trim);
 }
 
 // trim from start

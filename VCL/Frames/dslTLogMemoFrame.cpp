@@ -15,7 +15,8 @@ using namespace dsl;
 __fastcall TLogMemoFrame::TLogMemoFrame(TComponent* Owner)
 	: TFrame(Owner)
 {
-    LogFileReader1->start();
+    //Start manually..
+//    LogFileReader1->start();
 }
 
 //---------------------------------------------------------------------------

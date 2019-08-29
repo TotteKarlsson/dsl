@@ -3,7 +3,6 @@
 #include "dslLogFileReader.h"
 #include "dslLogger.h"
 #include "dslFileUtils.h"
-
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
