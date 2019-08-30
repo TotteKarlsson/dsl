@@ -9,17 +9,26 @@ using Sysutils::IntToStr;
 //---------------------------------------------------------------------------
 __fastcall TSTDStringLabeledEdit::TSTDStringLabeledEdit(TComponent* Owner)
 :
-TLabeledEdit(Owner),
-mProperty(nullptr),
+TLabeledPropertyEdit(Owner),
 FValue(&mDummy)
 {
 	TLabeledEdit::OnChange = (this->DerivedOnChange);
-	mProperty = new Property<string>("", "PropertyLabel");
-	setReference(mProperty->getValueReference());
+	mBaseProperty = new Property<string>("", "PropertyLabel");
+	setReference(getProperty()->getValueReference());
+}
+
+Property<string>* TSTDStringLabeledEdit::getProperty()
+{
+    return dynamic_cast< Property<string>* >(mBaseProperty);
+}
+
+void TSTDStringLabeledEdit::setValueFromString(const string& v)
+{
+    setValue(v);
 }
 
 //---------------------------------------------------------------------------
-void __fastcall TSTDStringLabeledEdit::assignExternalProperty(Property<string>* prop, bool directAccess)
+void TSTDStringLabeledEdit::assignExternalProperty(Property<string>* prop, bool directAccess)
 {
     mDirectExternalPropertyAccess = directAccess;
     if(!prop)
@@ -27,14 +36,14 @@ void __fastcall TSTDStringLabeledEdit::assignExternalProperty(Property<string>* 
         return;
     }
 
-    mProperty = prop;
+    mBaseProperty = prop;
     if(mDirectExternalPropertyAccess)
     {
-        setReference(mProperty->getValueReference());
+        setReference(getProperty()->getValueReference());
     }
     else
     {
-        setReference(mProperty->getEditValueReference());
+        setReference(getProperty()->getEditValueReference());
     }
 
     //Transfer external property value to VCL component
@@ -43,34 +52,34 @@ void __fastcall TSTDStringLabeledEdit::assignExternalProperty(Property<string>* 
 }
 
 //---------------------------------------------------------------------------
-void __fastcall TSTDStringLabeledEdit::setReference(string& val)
+void TSTDStringLabeledEdit::setReference(string& val)
 {
     FValue = &val;
     update();
 }
 
+////---------------------------------------------------------------------------
+//Property<string>* __fastcall TSTDStringLabeledEdit::getProperty()
+//{
+//    return mBaseProperty;
+//}
+//
 //---------------------------------------------------------------------------
-Property<string>* __fastcall TSTDStringLabeledEdit::getProperty()
-{
-    return mProperty;
-}
-
-//---------------------------------------------------------------------------
-string& __fastcall TSTDStringLabeledEdit::getReference()
+string& TSTDStringLabeledEdit::getReference()
 {
     return *FValue;
 }
 
 //---------------------------------------------------------------------------
-void __fastcall TSTDStringLabeledEdit::KeyDown(Word &Key, Classes::TShiftState Shift)
-{
-    if(Key == VK_RETURN)
-    {
-        SelectAll();
-        DoExit();
-    }
-    TLabeledEdit::KeyDown(Key, Shift);
-}
+//void __fastcall TSTDStringLabeledEdit::KeyDown(Word &Key, Classes::TShiftState Shift)
+//{
+//    if(Key == VK_RETURN)
+//    {
+//        SelectAll();
+//        DoExit();
+//    }
+//    TLabeledEdit::KeyDown(Key, Shift);
+//}
 
 //---------------------------------------------------------------------------
 void __fastcall TSTDStringLabeledEdit::DerivedOnChange(TObject *Sender)
@@ -83,7 +92,7 @@ void __fastcall TSTDStringLabeledEdit::DerivedOnChange(TObject *Sender)
     try
     {
         *FValue = stdstr(Text);
-        mProperty->setModified();
+        mBaseProperty->setModified();
     }
     catch(Exception &E)
     {}
@@ -122,7 +131,7 @@ String __fastcall TSTDStringLabeledEdit::getStringValue()
     }
 }
 
-string __fastcall TSTDStringLabeledEdit::getValue()
+string TSTDStringLabeledEdit::getValue()
 {
     try
     {
@@ -136,29 +145,29 @@ string __fastcall TSTDStringLabeledEdit::getValue()
     }
 }
 
-void __fastcall TSTDStringLabeledEdit::setValue(const string& val)
+void TSTDStringLabeledEdit::setValue(const string& val)
 {
-    if(mProperty->isInEditMode())
+    if(mBaseProperty->isInEditMode())
     {
-    	mProperty->setModified();
+    	mBaseProperty->setModified();
     }
 
     *FValue = val;
     Text = vclstr(*FValue);
 }
 
-void __fastcall TSTDStringLabeledEdit::setStringValue(String val)
+void __fastcall TSTDStringLabeledEdit::setValueFromUnicodeString(const String& val)
 {
     setValue(stdstr(val));
 }
 
-void __fastcall TSTDStringLabeledEdit::update(void)
+void TSTDStringLabeledEdit::update(void)
 {
     Text = vclstr(*FValue);
     TWinControl::Update();
 }
 
-void __fastcall TSTDStringLabeledEdit::updateFromCaption()
+void TSTDStringLabeledEdit::updateFromCaption()
 {
     try
     {

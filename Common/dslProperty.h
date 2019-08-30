@@ -22,7 +22,7 @@ template <class T>
 class Property : public BaseProperty
 {
     public:
-                                                    Property(const T& value, const string& lbl = gNoneString);
+                                                    Property(const T& value, const string& lbl = gNoneString, const string& comment =gNoneString );
 
                                                     ~Property();
 		void                                        setDefaultValue(const T& val);
@@ -58,9 +58,6 @@ class Property : public BaseProperty
                                                         return stream;
                                                     }
 
-        string                                      getLabel();
-        void                                        setLabel(const string& lbl);
-
         string                                      getINIRecord();
         const char*                                 c_str() const;
 
@@ -85,9 +82,9 @@ class Property : public BaseProperty
 };
 
 template <class T> inline
-Property<T>::Property(const T& value, const string& lbl)
+Property<T>::Property(const T& value, const string& lbl, const string& comment)
 :
-BaseProperty(lbl)
+BaseProperty(lbl, comment)
 {
     mDummyValue = value;
     mValue = &mDummyValue;
@@ -219,18 +216,6 @@ bool Property<T>::operator==(const T& val)
 }
 
 template<class T> inline
-string Property<T>::getLabel()
-{
-    return mKey;
-}
-
-template<class T> inline
-void Property<T>::setLabel(const string& lbl)
-{
-    mKey = lbl;
-}
-
-template<class T> inline
 Property<T>& Property<T>::setup(const string& lbl, const T& val, bool readIt)
 {
     mKey = lbl;
@@ -354,7 +339,7 @@ bool Property<bool>::write(IniFile* iniFile, const string& section)
         return false;
     }
 
-    iniFile->writeBool(mKey, getValue(), "", section);
+    iniFile->writeBool(mKey, getValue(), mComment, section);
     return true;
 }
 
@@ -380,7 +365,7 @@ bool Property<unsigned int>::write(IniFile* iniFile, const string& section)
         return false;
     }
 
-    iniFile->writeInteger(mKey, getValue(), "", section);
+    iniFile->writeInteger(mKey, getValue(), mComment, section);
     return true;
 }
 
@@ -418,7 +403,7 @@ bool Property<int>::write(IniFile* iniFile, const string& section)
         return false;
     }
 
-    iniFile->writeInteger(mKey, getValue(), "", section);
+    iniFile->writeInteger(mKey, getValue(), mComment, section);
     return true;
 }
 
@@ -470,7 +455,7 @@ bool Property<double>::write(IniFile* iniFile, const string& section)
         return false;
     }
 
-    iniFile->writeFloat(mKey, getValue(), "", section);
+    iniFile->writeFloat(mKey, getValue(), mComment, section);
     return true;
 }
 
@@ -525,7 +510,7 @@ bool Property<std::string>::write(IniFile* iniFile, const string& section)
 {
     if(iniFile)
     {
-        iniFile->writeString(mKey, getValue(), "", section);
+        iniFile->writeString(mKey, getValue(), mComment, section);
         return true;
     }
     else
@@ -585,7 +570,7 @@ bool Property<Poco::DateTime>::write(IniFile* iniFile, const string& section)
 		//string fmt(Poco::DateTimeFormat::ISO8601_FORMAT);
 		string fmt("%Y-%m-%dT%H:%m:%SZ");
 		string tmp(DateTimeFormatter::format(getValue(), fmt));
-        iniFile->writeString(mKey, tmp, "", section);
+        iniFile->writeString(mKey, tmp, mComment, section);
         return true;
     }
     else

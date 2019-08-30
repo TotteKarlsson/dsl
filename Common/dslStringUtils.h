@@ -138,7 +138,7 @@ DSL_COMMON string           toString(const int n,            const string& forma
 DSL_COMMON string           toString(const unsigned int n,   const string& format = gIntFormat, const int nBase=10);
 DSL_COMMON string           toString(const long n,           const int nBase=10);
 DSL_COMMON string           toString(const unsigned long n,  const int nBase=10);
-DSL_COMMON string           toString(double d, const string& format = gDoubleFormat);
+DSL_COMMON string           toString(double d, int precision = 10);
 DSL_COMMON string           toString(const string& s);
 DSL_COMMON string           toString(const vector<int>& 	vec, const string& sep = gCommaSpace);
 DSL_COMMON string           toString(const vector<double>& 	vec, const string& sep = gCommaSpace);

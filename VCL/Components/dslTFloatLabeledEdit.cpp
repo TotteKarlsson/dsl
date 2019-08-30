@@ -6,18 +6,27 @@ using namespace dsl;
 //---------------------------------------------------------------------------
 __fastcall TFloatLabeledEdit::TFloatLabeledEdit(TComponent* Owner)
   :
-TLabeledEdit(Owner),
-FNrOfDecimals(2),
-mProperty(0),
+TLabeledPropertyEdit(Owner),
+FNrOfDecimals(8),
 FValue(&mDummy)
 {
-//    Text = "0.0";
-	mProperty = new Property<double>(-1, "PropertyLabel");
-	setReference(mProperty->getValueReference());
+	mBaseProperty = new Property<double>(-1, "<no label>");
+	setReference(getProperty()->getValueReference());
+}
+
+void TFloatLabeledEdit::setValueFromString(const string& v)
+{
+	setValue(toDouble(v));
 }
 
 //---------------------------------------------------------------------------
-void __fastcall TFloatLabeledEdit::assignExternalProperty(Property<double>* prop, bool directAccess)
+Property<double>* TFloatLabeledEdit::getProperty()
+{
+	return dynamic_cast< Property<double>* > (mBaseProperty);
+}
+
+//---------------------------------------------------------------------------
+void TFloatLabeledEdit::assignExternalProperty(Property<double>* prop, bool directAccess)
 {
 	mDirectExternalPropertyAccess = directAccess;
 	if(!prop)
@@ -25,14 +34,14 @@ void __fastcall TFloatLabeledEdit::assignExternalProperty(Property<double>* prop
 		return;
 	}
 
-	mProperty = prop;
+	mBaseProperty = prop;
 	if(mDirectExternalPropertyAccess)
 	{
-		setReference(mProperty->getValueReference());
+		setReference(getProperty()->getValueReference());
 	}
 	else
 	{
-		setReference(mProperty->getEditValueReference());
+		setReference(getProperty()->getEditValueReference());
 	}
 
 	//Transfer external property value to VCL component
@@ -40,33 +49,16 @@ void __fastcall TFloatLabeledEdit::assignExternalProperty(Property<double>* prop
 }
 
 //---------------------------------------------------------------------------
-Property<double>* __fastcall TFloatLabeledEdit::getProperty()
-{
-	return mProperty;
-}
-
-//---------------------------------------------------------------------------
-double& __fastcall TFloatLabeledEdit::getReference()
+double& TFloatLabeledEdit::getReference()
 {
     return *FValue;
 }
 
 //---------------------------------------------------------------------------
-void __fastcall TFloatLabeledEdit::setReference(double& val)
+void TFloatLabeledEdit::setReference(double& val)
 {
     FValue = &val;
-    Text = FloatToStrF(*FValue, ffFixed, 4,2);
-}
-
-//---------------------------------------------------------------------------
-void __fastcall TFloatLabeledEdit::KeyDown(Word &Key, Classes::TShiftState Shift)
-{
-    if(Key == VK_RETURN)
-    {
-        SelectAll();
-        DoExit();
-    }
-    TLabeledEdit::KeyDown(Key, Shift);
+    Text = FloatToStrF(*FValue, ffFixed, 15, FNrOfDecimals);
 }
 
 //---------------------------------------------------------------------------
@@ -96,7 +88,7 @@ void __fastcall TFloatLabeledEdit::DoExit()
     catch(Exception &E)
     {
         *FValue = temp;
-        Text = FloatToStrF(temp, ffFixed, 4, 2);
+        Text = FloatToStrF(temp, ffFixed, 15, FNrOfDecimals);
     }
 }
 
@@ -111,7 +103,7 @@ double __fastcall TFloatLabeledEdit::getValue()
     catch(Exception &E)
     {
         *FValue = temp;
-        Text = FloatToStrF(temp, ffFixed, 4,2);
+        Text = FloatToStrF(temp, ffFixed, 15, FNrOfDecimals);
         SelectAll();
         SetFocus();
     }
@@ -121,14 +113,11 @@ double __fastcall TFloatLabeledEdit::getValue()
 void __fastcall TFloatLabeledEdit::setValue(double val)
 {
     *FValue = val;
-    Text = FloatToStrF(*FValue, ffFixed, 18, 4);
+    Text = FloatToStrF(*FValue, ffFixed, 15, FNrOfDecimals);
 }
 
-void __fastcall TFloatLabeledEdit::update(void)
+void TFloatLabeledEdit::update(void)
 {
-    Text = FloatToStrF(*FValue, ffFixed, 18, 4);
+    Text = FloatToStrF(*FValue, ffFixed, 15, FNrOfDecimals);
     TWinControl::Update();
 }
-
-
-

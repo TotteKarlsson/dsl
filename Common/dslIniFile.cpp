@@ -15,10 +15,6 @@
 #define snprintf(buf,len, format,...) _snprintf_s(buf, len,len, format, __VA_ARGS__)
 
 #endif
-//#include "dslOSSpecifics.h"
-//---------------------------------------------------------------------------
-//#undef CreateFile
-
 namespace dsl
 {
 
@@ -661,11 +657,10 @@ bool IniFile::writeNonKey(const string& nonKey, const string& section)
 }
 
 // Passes the given float to WriteValue as a string
-bool IniFile::writeFloat(const string& mKey, double value, const string& mComment, const string& szSection)
+bool IniFile::writeFloat(const string& key, double value, const string& comment, const string& section)
 {
-    char szStr[64];
-    snprintf(szStr, 64, "%g", value);
-    return writeValue(mKey, szStr, mComment, szSection);
+    string v = toString(value);
+    return writeValue(key, v, comment, section);
 }
 
 // Passes the given int to writeValue as a string
@@ -854,7 +849,7 @@ IniSection* IniFile::createSection(const string& Section, const string& mComment
         Log(lDebug5)<<"[IniFile::CreateSection] Section "<<Section.c_str()<<" already exists. Aborting.";
         return nullptr;
     }
-    pSection = new IniSection;
+    pSection = new IniSection(*this);
     pSection->mName = Section;
     pSection->mComment = mComment;
     mSections.push_back(pSection);

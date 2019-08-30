@@ -1424,11 +1424,11 @@ string toString(const unsigned char n)
 	return string(sBuffer);
 }
 
-string toString(double val, const string& format)
+string toString(double val, int precision)
 {
-	char sBuffer[256];
-	sprintf(sBuffer, format.c_str(), val);
-	return string(sBuffer);
+    stringstream s;
+    s << std::setprecision(precision) << val;
+	return s.str();
 }
 
 string toString(const DateTime& dt, const string& format)

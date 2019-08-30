@@ -5,15 +5,15 @@
 namespace dsl
 {
 
-BaseProperty::BaseProperty()
-:
-mKey("<none>"),
-mWasRead(false),
-mIsModified(false),
-mIsInEditMode(false)
-{}
+//BaseProperty::BaseProperty()
+//:
+//mKey("<none>"),
+//mWasRead(false),
+//mIsModified(false),
+//mIsInEditMode(false)
+//{}
 
-BaseProperty::BaseProperty(const string& lbl)
+BaseProperty::BaseProperty(const string& lbl, const string& comment)
 :
 mKey(lbl),
 mWasRead(false),
@@ -27,6 +27,26 @@ BaseProperty::~BaseProperty()
 const char* BaseProperty::c_str() const
 {
     return "Implement c_str() in derived property!";
+}
+
+string BaseProperty::getLabel()
+{
+    return mKey;
+}
+
+void BaseProperty::setLabel(const string& lbl)
+{
+    mKey = lbl;
+}
+
+string BaseProperty::getComment()
+{
+    return mComment;
+}
+
+void BaseProperty::setComment(const string& c)
+{
+    mComment = c;
 }
 
 bool BaseProperty::doReadFromINI()

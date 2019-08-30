@@ -95,10 +95,8 @@ class DSL_COMMON IniFile : public DSLObject
 		IniSection*                             getSection(unsigned int secNr);
 		IniSection*                             getSection(const string& Section, bool create = false);
         StringList								getListOfSections();
-
 		bool                                    clearSection(const string& section);
 		bool                                    isModified();
-
 
 	protected:
 		SectionList                             mSections;          // List of sections
