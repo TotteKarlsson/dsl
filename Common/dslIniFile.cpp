@@ -509,8 +509,9 @@ bool IniFile::save(ios_base::openmode openMode)
                     aFstream << Key->mKey <<'='<<Key->mValue;
                     if(Key->mComment.size() > 0 )
                     {
-                        aFstream << " ; " << Key->mComment <<'\n';
+                        aFstream << " ; " << Key->mComment;
                     }
+                    aFstream << '\n';
                 }
             }
         }
