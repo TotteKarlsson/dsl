@@ -1,32 +1,29 @@
 object IniSectionFrame: TIniSectionFrame
   Left = 0
   Top = 0
-  Width = 561
-  Height = 369
+  Width = 497
+  Height = 139
   TabOrder = 0
   object SectionGB: TGroupBox
     Left = 0
     Top = 0
-    Width = 561
-    Height = 369
+    Width = 497
+    Height = 139
     Align = alClient
     Caption = 'SectionGB'
     TabOrder = 0
-    ExplicitLeft = 240
-    ExplicitTop = 160
-    ExplicitWidth = 185
-    ExplicitHeight = 105
-    object FlowPanel: TFlowPanel
+    object ConfigParasPanel: TFlowPanel
       Left = 2
       Top = 15
-      Width = 557
-      Height = 352
+      Width = 493
+      Height = 122
       Align = alClient
+      AutoSize = True
+      BevelEdges = []
+      BevelOuter = bvNone
+      FlowStyle = fsTopBottomLeftRight
+      ShowCaption = False
       TabOrder = 0
-      ExplicitLeft = 160
-      ExplicitTop = 184
-      ExplicitWidth = 185
-      ExplicitHeight = 41
     end
   end
 end

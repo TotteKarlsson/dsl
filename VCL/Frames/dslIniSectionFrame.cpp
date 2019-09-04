@@ -11,6 +11,7 @@
 TIniSectionFrame *IniSectionFrame;
 
 using namespace dsl;
+static count(1);
 //---------------------------------------------------------------------------
 __fastcall TIniSectionFrame::TIniSectionFrame(IniSection* section, TComponent* Owner)
 	: TFrame(Owner),
@@ -23,6 +24,7 @@ __fastcall TIniSectionFrame::TIniSectionFrame(IniSection* section, TComponent* O
         IniKey* aKey = mSection->getKey(i);
         addKey(aKey);
     }
+    this->Name = String("IniSectionFrame") + IntToStr(count++);
 }
 
 __fastcall TIniSectionFrame::~TIniSectionFrame()
@@ -45,11 +47,8 @@ void  TIniSectionFrame::write()
 
 void TIniSectionFrame::addKey(IniKey* key)
 {
-    TPanel* aPanel = new TPanel(this);
-    aPanel->Caption = "";
-
 	TLabeledPropertyEdit* edit;
-
+	TPanel* aPanel = new TPanel(this);
     if(key && key->mComment == "integer")
     {
 	    edit = new TIntegerLabeledEdit(aPanel);
@@ -65,13 +64,16 @@ void TIniSectionFrame::addKey(IniKey* key)
         edit = new TSTDStringLabeledEdit(aPanel);
     }
 
+
+    aPanel->Caption = "";
+
     edit->setValueFromString(key->mValue);
     edit->getProperty()->setLabel(key->mKey);
     edit->getProperty()->setComment(key->mComment);
     edit->EditLabel->Caption = vclstr(key->mKey);
     edit->Parent = aPanel;
     edit->Align = alBottom;
-    aPanel->Parent = FlowPanel;
+    aPanel->Parent = ConfigParasPanel;
     mEdits.push_back(edit);
 }
 

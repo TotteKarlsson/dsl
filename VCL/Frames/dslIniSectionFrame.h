@@ -18,7 +18,7 @@ class PACKAGE TIniSectionFrame : public TFrame
 {
     __published:
 		TGroupBox *SectionGB;
-		TFlowPanel *FlowPanel;
+		TFlowPanel *ConfigParasPanel;
 
     private:
         IniSection*             		mSection;

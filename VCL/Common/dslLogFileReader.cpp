@@ -93,7 +93,6 @@ void LogFileReader::worker()
         {
             mIsTimeToDie = true;
         }
-
     }
 	if(!mCallBackFnc)
 	{

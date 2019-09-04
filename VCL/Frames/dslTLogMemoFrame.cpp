@@ -16,7 +16,7 @@ __fastcall TLogMemoFrame::TLogMemoFrame(TComponent* Owner)
 	: TFrame(Owner)
 {
     //Start manually..
-//    LogFileReader1->start();
+	//LogFileReader1->start();
 }
 
 //---------------------------------------------------------------------------

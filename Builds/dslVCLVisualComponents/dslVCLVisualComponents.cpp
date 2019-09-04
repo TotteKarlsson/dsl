@@ -20,9 +20,9 @@ extern "C" int _libmain(unsigned long reason)
 
 //---------------------------------------------------------------------------
 #pragma comment(lib, "dslFoundation")
-#pragma comment(lib, "poco_foundation.lib")
+#pragma comment(lib, "poco_foundation")
 
 #pragma comment(lib, "dslVCLCommon")
-#pragma comment(lib, "dslVCLComponents.bpi")
+#pragma comment(lib, "dslVCLComponents")
 
 #pragma link "vcl.bpi"
