@@ -46,7 +46,7 @@ bool IniFileProperties::read()
             para->read(mIniFile, mSectionName);
             if(!para->wasRead())
             {
-                Log(lError)<<"The parameter "<<para->getLabel()<<" was not found in the ini file: "<<mIniFile->getFullFileName()<<" under section "<<mSectionName;
+                Log(lError)<<"The parameter "<<para->getLabel()<<" was not found in the ini file: "<<mIniFile->getFullFileName()<<" under section \""<<mSectionName << "\"";
                 if(mIniFile->createKey(para->getLabel(), para->getValueAsString(), "", mSectionName))
                 {
                     Log(lDebug4)<<"The parameter "<<para->getLabel()<<" was created. Default value is :"<<para->getValueAsString();

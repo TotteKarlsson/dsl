@@ -8,7 +8,7 @@
 #include "dslFileUtils.h"
 #include "dslIniFile.h"
 
-#ifdef _MSC_VER && _MSC_VER < 1900 
+#ifdef _MSC_VER && _MSC_VER < 1900
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -26,11 +26,11 @@ mFlags(0),
 mIniFileName(szFileName),
 mIsDirty(false),
 mAutoSave(autoSave),
+mAutoCreateSections(true),
+mAutoCreateKeys(true),
 mCommentIndicators(";#"),
 mEqualIndicator("="),
-mWhiteSpace(" \t\n\r"),
-mAutoCreateKeys(true),
-mAutoCreateSections(true)
+mWhiteSpace(" \t\n\r")
 {
     if(mAutoCreateSections)
     {
