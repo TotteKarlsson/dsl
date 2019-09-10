@@ -129,7 +129,7 @@ string getLastWin32Error()
         nullptr,
         dw,
         MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-        (LPTSTR) &lpMsgBuf,
+        (LPWSTR) &lpMsgBuf,
         0, nullptr );
 
     LPCTSTR aMsg = (LPCTSTR) lpMsgBuf;

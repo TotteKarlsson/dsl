@@ -12,7 +12,7 @@ using namespace std;
 
 namespace dsl
 {
-
+    typedef unsigned int uint;
 StringList::StringList(const vector<int>& ints)
 :
 mStrings(),

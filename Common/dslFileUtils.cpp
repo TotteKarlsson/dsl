@@ -41,7 +41,7 @@
 
 namespace dsl
 {
-
+typedef unsigned int uint;
 using namespace std;
 using namespace Poco;
 

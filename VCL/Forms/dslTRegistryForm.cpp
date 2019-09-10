@@ -7,6 +7,7 @@
 
 TRegistryForm *RegistryForm;
 
+//---------------------------------------------------------------------------
 __fastcall TRegistryForm::TRegistryForm(const string& regRoot, const string& formName, TComponent* Owner)
 :
 TForm(Owner),
@@ -42,6 +43,7 @@ void __fastcall TRegistryForm::CreateParams(TCreateParams &Params)
 	TForm::FormStyle = fsNormal;
 }
 
+//---------------------------------------------------------------------------
 void __fastcall TRegistryForm::FormClose(TObject *Sender, TCloseAction &Action)
 {
     writeToRegistry();

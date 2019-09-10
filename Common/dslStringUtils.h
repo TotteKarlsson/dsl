@@ -48,7 +48,7 @@ DSL_COMMON string           getParentFolder(const string& folder);
 DSL_COMMON string           getStringFromSeconds(long seconds);
 DSL_COMMON int              indexOf(const std::vector<std::string>& vec, const std::string& elem);
 
-DSL_COMMON bool             startsWith( const string& prefix, const string& src);
+DSL_COMMON bool             startsWith( const string& prefix, const string& src, bool caseLess = false);
 DSL_COMMON bool             endsWith(const string& postFix, const string& src);
 DSL_COMMON DATA_FORMAT      intToDataFormat(int type);
 

@@ -8,6 +8,8 @@
 namespace dsl
 {
 
+    typedef unsigned int uint;
+
 IniSection::IniSection(const IniFile& iniFile)
 :
 mIniFile(iniFile),

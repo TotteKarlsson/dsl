@@ -49,21 +49,26 @@ void TIniSectionFrame::addKey(IniKey* key)
 {
 	TLabeledPropertyEdit* edit;
 	TPanel* aPanel = new TPanel(this);
-    if(key && key->mComment == "integer")
-    {
-	    edit = new TIntegerLabeledEdit(aPanel);
-    }
-    else if(key && key->mComment == "double")
-    {
-        edit = new TFloatLabeledEdit(aPanel);
-        TFloatLabeledEdit* fe(dynamic_cast<TFloatLabeledEdit*>(edit));
-        fe->NrOfDecimals = 10;
-    }
-    else if(key && key->mComment == "string")
-    {
-        edit = new TSTDStringLabeledEdit(aPanel);
-    }
 
+//    if(key && key->mComment == "integer")
+//    {
+//	    edit = new TIntegerLabeledEdit(aPanel);
+//    }
+//    else if(key && key->mComment == "double")
+//    {
+//        edit = new TFloatLabeledEdit(aPanel);
+//        TFloatLabeledEdit* fe(dynamic_cast<TFloatLabeledEdit*>(edit));
+//        fe->NrOfDecimals = 10;
+//    }
+//    else if(key && key->mComment == "string")
+//    {
+        edit = new TSTDStringLabeledEdit(aPanel);
+//    }
+
+//    else if(key)
+//    {
+//        edit = new TSTDStringLabeledEdit(aPanel);
+//    }
 
     aPanel->Caption = "";
 
@@ -74,6 +79,10 @@ void TIniSectionFrame::addKey(IniKey* key)
     edit->Parent = aPanel;
     edit->Align = alBottom;
     aPanel->Parent = ConfigParasPanel;
+    aPanel->Padding->Left = 5;
+    aPanel->Padding->Right = 5;
+    aPanel->Padding->Bottom = 5;
+    aPanel->Padding->Top= 5;
     mEdits.push_back(edit);
 }
 

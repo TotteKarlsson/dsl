@@ -21,7 +21,7 @@
 
 namespace dsl
 {
-
+    typedef unsigned int uint;
 using namespace std;
 using Poco::DateTimeParser;
 
@@ -133,13 +133,16 @@ string readFirstWord(const string& sline)
     return words.size() ? words[0] : string("");
 }
 
-bool startsWith(const string& prefix, const string& theStr)
+bool startsWith(const string& prefix, const string& theStr, bool caseLess)
 {
-	if (theStr.find(prefix) == 0)
-	{
-		return true;
-	}
-	return false;
+    string s(theStr), p(prefix);
+    if(caseLess == true)
+    {
+    	s = toLowerCase(theStr);
+    	p = toLowerCase(prefix);
+    }
+
+	return (s.find(p) == 0) ? true : false;
 }
 
 bool contains(const string& aWord, const string& aString, CASE_SENSITIVITY casing)
