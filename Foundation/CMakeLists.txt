@@ -110,15 +110,10 @@ if(${BUILD_SHARED_LIBS})
     ${src}
     )
     
-    set_property(TARGET ${target}  
-        PROPERTY COMPILE_DEFINITIONS 
-        EXPORT_COMMON
-        EXPORT_PLUGINS
-        EXPORT_IPC
-        EXPORT_MATH
-        EXPORT_DATABASE
+    set_target_properties(${target}  PROPERTIES 
+        OUTPUT_NAME ${target}${LIBRARY_POSTFIX}
     )
-
+    target_compile_definitions(${target} PRIVATE EXPORT_COMMON EXPORT_PLUGINS EXPORT_IPC EXPORT_MATH EXPORT_DATABASE)
     #link libraries
     if (CMAKE_SYSTEM MATCHES "Linux")
             target_link_libraries(${target} 
@@ -133,8 +128,8 @@ if(${BUILD_SHARED_LIBS})
     if (CMAKE_SYSTEM MATCHES "Windows")
             target_link_libraries(${target} 
             #${CMAKE_INSTALL_PREFIX}/lib/sqlite.lib
-            ${CMAKE_INSTALL_PREFIX}/lib/tinyxml2.lib
-            ${CMAKE_INSTALL_PREFIX}/lib/poco_foundation.lib
+            ${CMAKE_INSTALL_PREFIX}/lib/tinyxml2${LIBRARY_POSTFIX}.lib
+            ${CMAKE_INSTALL_PREFIX}/lib/poco_foundation${LIBRARY_POSTFIX}.lib
             Shell32.lib
         )
     endif()

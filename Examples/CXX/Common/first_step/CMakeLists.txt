@@ -13,15 +13,15 @@ endif()
 if (CMAKE_SYSTEM MATCHES "Linux")
 
 target_link_libraries(${target} 
-    dslFoundation
-    tinyxml2
-    poco_foundation
+    dslFoundation${LIBRARY_POSTFIX}
+    tinyxml2${LIBRARY_POSTFIX}
+    poco_foundation${LIBRARY_POSTFIX}
     pthread
     -lrt
 )
 elseif(CMAKE_SYSTEM MATCHES "Windows")
     target_link_libraries(${target} 
-    dslFoundation
+    dslFoundation${LIBRARY_POSTFIX}
 )
 
 endif()
