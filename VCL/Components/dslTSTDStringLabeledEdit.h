@@ -41,10 +41,8 @@ class PACKAGE TSTDStringLabeledEdit : public TLabeledPropertyEdit
 
                                                     //Access value trough the property.
         String                      __fastcall      getStringValue();
-		void 						__fastcall		setValueFromUnicodeString(const String& val);
+		void 						__fastcall		setValueFromUnicodeString(String val);
         DYNAMIC void                __fastcall      DoExit(void);
-//        DYNAMIC void                __fastcall      KeyDown(Word &Key, Classes::TShiftState Shift);
-
 
     __published:
                                                     //Use the property to access value directly

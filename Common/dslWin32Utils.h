@@ -1,6 +1,7 @@
 #ifndef dslWin32UtilsH
 #define dslWin32UtilsH
 #include "dslObject.h"
+#include <windows.h>
 
 namespace dsl
 {

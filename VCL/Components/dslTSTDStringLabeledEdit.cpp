@@ -58,28 +58,11 @@ void TSTDStringLabeledEdit::setReference(string& val)
     update();
 }
 
-////---------------------------------------------------------------------------
-//Property<string>* __fastcall TSTDStringLabeledEdit::getProperty()
-//{
-//    return mBaseProperty;
-//}
-//
 //---------------------------------------------------------------------------
 string& TSTDStringLabeledEdit::getReference()
 {
     return *FValue;
 }
-
-//---------------------------------------------------------------------------
-//void __fastcall TSTDStringLabeledEdit::KeyDown(Word &Key, Classes::TShiftState Shift)
-//{
-//    if(Key == VK_RETURN)
-//    {
-//        SelectAll();
-//        DoExit();
-//    }
-//    TLabeledEdit::KeyDown(Key, Shift);
-//}
 
 //---------------------------------------------------------------------------
 void __fastcall TSTDStringLabeledEdit::DerivedOnChange(TObject *Sender)
@@ -156,7 +139,7 @@ void TSTDStringLabeledEdit::setValue(const string& val)
     Text = vclstr(*FValue);
 }
 
-void __fastcall TSTDStringLabeledEdit::setValueFromUnicodeString(const String& val)
+void __fastcall TSTDStringLabeledEdit::setValueFromUnicodeString(String val)
 {
     setValue(stdstr(val));
 }
@@ -174,8 +157,7 @@ void TSTDStringLabeledEdit::updateFromCaption()
         *FValue = stdstr(Text);
     }
     catch(Exception &E)
-    {
-    }
+    {}
 }
 
 

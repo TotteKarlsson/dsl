@@ -1089,8 +1089,6 @@ string getTimeString()
     return theTime;
 }
 
-
-
 string getFormattedDateTimeString(const string& format)
 {
     struct tm *time_now;
@@ -1102,7 +1100,6 @@ string getFormattedDateTimeString(const string& format)
     return string(str);
 }
 
-
 string getDateTimeString()
 {
     string theTime = getTimeString();
@@ -1111,8 +1108,6 @@ string getDateTimeString()
     string timeStr = tTimeTbl[4] + " " + tTimeTbl[1] + " " + tTimeTbl[2] + " " + tTimeTbl[3];
     return timeStr;
 }
-
-
 
 int toInt(const string& str, bool fromBeginning)
 {

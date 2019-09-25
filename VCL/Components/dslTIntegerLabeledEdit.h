@@ -36,9 +36,10 @@ class PACKAGE TIntegerLabeledEdit : public TLabeledPropertyEdit
         void __fastcall                             setValue(int val);
         void                                        setValueFromString(const string& v);
         void __fastcall                             DerivedOnChange(TObject *Sender);
+	  	Property<int>* 				          		getProperty();
 
     protected:
-	  	Property<int>* 				          		getProperty();
+
         int*                                        FValue;
         int                                         mDummy;
 //        Property<int>*                              mProperty;

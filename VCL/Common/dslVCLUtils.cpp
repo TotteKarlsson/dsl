@@ -75,6 +75,28 @@ int __fastcall compareStringListItems(TStringList* l, int index1, int index2)
     }
 }
 
+TRect getStretchedDimensions(int width, int height, int maxWidth, int maxHeight)
+{
+   	//calculate aspect ratio
+	double scaleHeight = maxHeight / (double)height;
+	double scaleWidth =  maxWidth / (double)width;
+    double scale = min(scaleHeight, scaleWidth);
+
+	TRect r(0,0, (width * scale), (height * scale));
+    if(maxWidth >= maxHeight)
+    {
+		double gap = maxWidth - r.GetWidth();
+        r.SetLocation(gap/2.0, 0);
+    }
+    else
+    {
+		double gap = maxHeight - r.GetHeight();
+        r.SetLocation(0, gap/2.0);
+    }
+
+    return r;
+}
+
 string __fastcall createWindowTitle(const string& appName, TApplication* app)
 {
 	stringstream title;
