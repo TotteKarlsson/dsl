@@ -34,6 +34,9 @@ DSL_COMMON int                  countFiles(const string& folder, const string& e
 DSL_COMMON bool                 checkIfDBExistsInFolder(const string& dbName,const string& folder);
 DSL_COMMON string               getFileContent(const string& fName);
 DSL_COMMON string				getHumanReadableFileSize(double sizeInBytes);
+DSL_COMMON double 				getFileSize(const string& file, FileSizeType type);
+
+
 
 /*** Get The current directory including the driveletter ***/
 DSL_COMMON string               intToDriveLetter(int Number);
