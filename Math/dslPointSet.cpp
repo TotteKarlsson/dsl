@@ -90,12 +90,12 @@ void PointSet::setNumberOfPoints(int nroftriplets)
     mPointSet.resize(nroftriplets);
 }
 
-int PointSet::count() const
+size_t PointSet::count() const
 {
     return mPointSet.size();
 }
 
-int PointSet::size() const
+size_t PointSet::size() const
 {
     return count();
 }

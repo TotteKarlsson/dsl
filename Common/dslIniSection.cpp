@@ -8,16 +8,20 @@
 namespace dsl
 {
 
-IniSection::IniSection()
+    typedef unsigned int uint;
+
+IniSection::IniSection(const IniFile& iniFile)
 :
+mIniFile(iniFile),
 mIsDirty(true),
 mName(gEmptyString),
 mComment(gEmptyString)
 {
 }
 
-IniSection::IniSection(const string& nameValueString, const char& sep)
+IniSection::IniSection(const string& nameValueString, const char& sep, const IniFile& iniFile)
 :
+mIniFile(iniFile),
 mIsDirty(true),
 mName(gEmptyString),
 mComment(gEmptyString)
@@ -40,6 +44,11 @@ IniSection::~IniSection()
            delete key;
     }
     mKeys.clear();
+}
+
+const IniFile* IniSection::getIniFile()
+{
+    return &mIniFile;
 }
 
 //IniKey function

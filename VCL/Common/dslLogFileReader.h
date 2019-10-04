@@ -4,8 +4,6 @@
 #include <fstream>
 #include "dslVCLCommonExporter.h"
 #include "dslThread.h"
-
-
 //---------------------------------------------------------------------------
 
 typedef void __fastcall (__closure *Callback)(void);

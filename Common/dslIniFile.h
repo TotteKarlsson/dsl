@@ -41,7 +41,7 @@ class DSL_COMMON IniFile : public DSLObject
 
         virtual                                ~IniFile();
 
-        int                                     getNumberOfSections();
+        unsigned int                            getNumberOfSections();
         bool                                    loadFromString(const string& iniData);
 
         // File handling methods
@@ -85,9 +85,9 @@ class DSL_COMMON IniFile : public DSLObject
         IniSection*                             createSection(const string& Section, const string& Comment, KeyList Keys);
 
         // Utility Methods
-        int                                     sectionCount();
-        int                                     keyCount();
-        int                                     keyCount(const string& section);
+        unsigned int                            sectionCount();
+        unsigned int                            keyCount();
+        unsigned int                            keyCount(const string& section);
         void                                    clear();
         void                                    setFileName(const string& fName);
         string                                  commentStr(string& Comment);
@@ -95,10 +95,8 @@ class DSL_COMMON IniFile : public DSLObject
 		IniSection*                             getSection(unsigned int secNr);
 		IniSection*                             getSection(const string& Section, bool create = false);
         StringList								getListOfSections();
-
 		bool                                    clearSection(const string& section);
 		bool                                    isModified();
-
 
 	protected:
 		SectionList                             mSections;          // List of sections
@@ -121,7 +119,6 @@ class DSL_COMMON IniFile : public DSLObject
 
                                                 // General Purpose Utility Functions
         string                                  getNextWord(string& CommandLine);
-        string                                  trim(string& Str);
         int                                     writeLine(fstream& stream, const char* fmt, ...);
 };
 

@@ -4,13 +4,10 @@
 #include "dslLogLevel.h"
 #include "dslObject.h"
 #include "dslLogFile.h"
-//#include <memory>
 //---------------------------------------------------------------------------
 
 namespace dsl
 {
-
-//using std::unique_ptr;
 
 //Global class holding logfile and other settings.
 //Persist trougout the life of the application that is using it. Based on RAII
@@ -21,7 +18,6 @@ class DSL_COMMON Logging : public DSLObject
                                         Logging();
                                        ~Logging();
         string                          mLastLogMessage;
-
         string                          getLogPrefix();
         string                          getLogFileName();
         void                            showLogPrefix(bool doIt = true);
@@ -37,13 +33,11 @@ class DSL_COMMON Logging : public DSLObject
         void                            write(const char* str);
         bool                            mLogToServer;
 
-    private:
-        //unique_ptr<LogFile>             mLogFile;
+    private:        
         LogFile*                        mLogFile;
         string                          mLogPrefix;
         LogLevel                        mLogLevel;
         static int                      mNrOfInstances;
-
 
                                         // prevent copying and assignment
                                         Logging(const Logging& logFile);
@@ -53,8 +47,7 @@ class DSL_COMMON Logging : public DSLObject
 extern DSL_COMMON Logging  gLogger;
 
 }
-#define Log(level) \
-    if (level > getHighestLogLevel()) ;\
-    else if (level > dsl::gLogger.getLogLevel()) ; \
-    else Logger().get(level)
+
+
 #endif
+

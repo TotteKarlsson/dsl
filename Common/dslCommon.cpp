@@ -1,5 +1,4 @@
 #pragma hdrstop
-#pragma argsused
 #include "dslCommon.h"
 #include <string>
 

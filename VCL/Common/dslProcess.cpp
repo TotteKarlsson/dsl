@@ -58,7 +58,7 @@ void Process::assignOpaqueData(void* one, void* two)
 
 bool Process::setup(const string& commandLine, MessageHandling mh)
 {
-    if(mIsRunning)
+    if(mIsWorking)
     {
         return false;
     }
@@ -135,7 +135,7 @@ bool Process::start(bool inThread)
 void Process::run()
 {
     Log(lInfo) << "Entered Process Thread..";
-    mIsRunning = true;
+    mIsWorking = true;
     mIsStarted = true;
     if(onEnter)
     {
@@ -196,7 +196,7 @@ void Process::run()
     }
 
     mIsFinished = true;
-    mIsRunning = false;
+    mIsWorking = false;
     Log(lInfo) << "Finished process thread..";
 }
 

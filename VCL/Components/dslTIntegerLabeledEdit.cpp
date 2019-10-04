@@ -8,17 +8,24 @@ using Sysutils::IntToStr;
 //---------------------------------------------------------------------------
 __fastcall TIntegerLabeledEdit::TIntegerLabeledEdit(TComponent* Owner)
 :
-TLabeledEdit(Owner),
-mProperty(nullptr),
+TLabeledPropertyEdit(Owner),
+//mProperty(nullptr),
 FValue(&mDummy)
 {
 	TLabeledEdit::OnChange = (this->DerivedOnChange);
-	mProperty = new Property<int>(-1,"PropertyLabel");
-	setReference(mProperty->getValueReference());
+
+	mBaseProperty = new Property<int>(-1,"PropertyLabel");
+	setReference(getProperty()->getValueReference());
 }
 
+Property<int>* TIntegerLabeledEdit::getProperty()
+{
+    return dynamic_cast< Property<int>* >(mBaseProperty);
+}
+
+
 //---------------------------------------------------------------------------
-void __fastcall TIntegerLabeledEdit::assignExternalProperty(Property<int>* prop, bool directAccess)
+void TIntegerLabeledEdit::assignExternalProperty(Property<int>* prop, bool directAccess)
 {
     mDirectExternalPropertyAccess = directAccess;
     if(!prop)
@@ -26,14 +33,14 @@ void __fastcall TIntegerLabeledEdit::assignExternalProperty(Property<int>* prop,
         return;
     }
 
-    mProperty = prop;
+    mBaseProperty = prop;
     if(mDirectExternalPropertyAccess)
     {
-        setReference(mProperty->getValueReference());
+        setReference(getProperty()->getValueReference());
     }
     else
     {
-        setReference(mProperty->getEditValueReference());
+        setReference(getProperty()->getEditValueReference());
     }
 
     //Transfer external property value to VCL component
@@ -42,20 +49,14 @@ void __fastcall TIntegerLabeledEdit::assignExternalProperty(Property<int>* prop,
 }
 
 //---------------------------------------------------------------------------
-void __fastcall TIntegerLabeledEdit::setReference(int& val)
+void TIntegerLabeledEdit::setReference(int& val)
 {
     FValue = &val;
     update();
 }
 
 //---------------------------------------------------------------------------
-Property<int>* __fastcall TIntegerLabeledEdit::getProperty()
-{
-	return mProperty;
-}
-
-//---------------------------------------------------------------------------
-int& __fastcall TIntegerLabeledEdit::getReference()
+int& TIntegerLabeledEdit::getReference()
 {
     return *FValue;
 }
@@ -82,7 +83,7 @@ void __fastcall TIntegerLabeledEdit::DerivedOnChange(TObject *Sender)
     try
     {
         *FValue = Text.ToInt();
-        mProperty->setModified();
+        mBaseProperty->setModified();
     }
     catch(Exception &E)
     {}
@@ -121,18 +122,23 @@ int __fastcall TIntegerLabeledEdit::getValue()
     return *FValue;
 }
 
+void TIntegerLabeledEdit::setValueFromString(const string& v)
+{
+    setValue(toInt(v));
+}
+
 void __fastcall TIntegerLabeledEdit::setValue(int val)
 {
-    if(mProperty->isInEditMode())
+    if(mBaseProperty->isInEditMode())
     {
-    	mProperty->setModified();
+    	mBaseProperty->setModified();
     }
 
     *FValue = val;
     Text = IntToStr(*FValue);
 }
 
-void __fastcall TIntegerLabeledEdit::update(void)
+void TIntegerLabeledEdit::update(void)
 {
     Text = IntToStr(*FValue);
     TWinControl::Update();
