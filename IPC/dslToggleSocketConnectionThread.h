@@ -12,7 +12,7 @@ class DSL_IPC ToggleSocketConnectionThread : public Thread
 	public:
 		                                    ToggleSocketConnectionThread(SocketClient* aSocketClient);
 		                                    ~ToggleSocketConnectionThread(){}
-		bool                                isTogglingConnection(){return mIsRunning;}
+		bool                                isTogglingConnection(){return mIsWorking;}
 		void                                setSocket(SocketClient* aSocket){mClient = aSocket;}
 		void                                worker();
 		void                                run();

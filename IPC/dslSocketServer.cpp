@@ -206,7 +206,7 @@ bool SocketServer::SendToWorker(const string& msg, int socketID)
 //----------------------------------------------------------------
 void SocketServer::Worker() //Waiting for connections, or UDP data grams
 {
-    mIsRunning = true;
+    mIsWorking = true;
     mIsStarted = true;
 
     while(!mIsTimeToDie)
@@ -235,7 +235,7 @@ void SocketServer::Worker() //Waiting for connections, or UDP data grams
         }
     }
 
-    mIsRunning = false;
+    mIsWorking = false;
     mIsFinished = true;
 }
 

@@ -3,6 +3,7 @@
 #include "dslCommonExporter.h"
 #include "dslConstants.h"
 #include "dslVersion.h"
+#include "dslFileUtils.h"
 #include <string>
 //---------------------------------------------------------------------------
 

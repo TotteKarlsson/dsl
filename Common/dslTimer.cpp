@@ -55,7 +55,7 @@ bool Timer::start(bool runInThread)
 void Timer::worker() //The threads worker function
 {
     mIsStarted = true;            //Use to indicate if Worker function is entered
-    mIsRunning = true;
+    mIsWorking = true;
     mTheStart.update();
     mTheLastFire.update();
 
@@ -78,7 +78,7 @@ void Timer::worker() //The threads worker function
         }
     }
 
-    mIsRunning  = false;
+    mIsWorking  = false;
     mIsFinished = true;
     Log(lDebug) <<"Timer Worker Finished";
 }

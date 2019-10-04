@@ -286,9 +286,27 @@ string getLastFolderInPath(const string& p)
     return gEmptyString;
 }
 
+string getSecondToLastFolderInPath(const string& _p)
+{
+    StringList p(_p, gPathSeparator);
+    string path;
+
+    for(int i = 0; i < p.count() - 1; i++)
+    {
+        if(i == 0)
+        {
+	        path = p[i];
+        }
+        else
+        {
+            path = path + gPathSeparator + p[i];
+        }
+    }
+    return path;
+}
+
 StringList getSubFoldersInFolder(const string& folder, bool withFullPath)
 {
-
     if(!folderExists(folder))
     {
         Log(lWarning) << "The folder: " << folder<<" do not exist.";

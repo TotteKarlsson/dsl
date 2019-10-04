@@ -26,6 +26,7 @@ DSL_COMMON StringList        	getFilesInFolder(const string& folder, const strin
 DSL_COMMON StringList        	getFilesInFolder(const string& folder, const string& startingWith, const string& fileExtension, bool withPath = true);
 DSL_COMMON StringList        	getSubFoldersInFolder(const string& folder, bool withFullPath = false);
 DSL_COMMON string				getLastFolderInPath(const string& p);
+DSL_COMMON string				getSecondToLastFolderInPath(const string& p);
 
 DSL_COMMON DATA_FORMAT          processDataHeader(const string& h);
 DSL_COMMON bool                 folderExists(const string& folder);

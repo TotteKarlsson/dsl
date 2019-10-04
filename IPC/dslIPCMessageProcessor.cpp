@@ -46,7 +46,7 @@ void IPCMessageProcessor::run()
 void IPCMessageProcessor::worker()
 {
     mIsStarted = true;
-    mIsRunning = true;
+    mIsWorking = true;
 
     Log(lDebug3)<<"Entering IPCMessage processor thread.";
 
@@ -68,7 +68,7 @@ void IPCMessageProcessor::worker()
 
     Log(lDebug3)<<"Exiting Process Messages Thread...";
     mIsFinished = true;
-    mIsRunning = false;
+    mIsWorking = false;
 }
 
 
