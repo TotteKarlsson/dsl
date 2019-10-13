@@ -105,6 +105,7 @@ string getParentFolder(const string& folder)
         {
             prnt +="\\" + path[i];
         }
+
         return prnt;
     }
     return folder;
