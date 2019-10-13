@@ -8,7 +8,7 @@
 #include <string>
 #include <cerrno>
 #include <set>
-//#include "Poco/Exception.h"
+#include "Poco/Exception.h"
 
 #if !defined(_Linux)
 //#include <io.h>

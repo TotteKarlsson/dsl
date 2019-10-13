@@ -133,7 +133,7 @@ if(${BUILD_SHARED_LIBS})
             target_link_libraries(${target} 
             ${CMAKE_INSTALL_PREFIX}/lib/sqlite.lib
             ${CMAKE_INSTALL_PREFIX}/lib/tinyxml2.lib
-            ${CMAKE_INSTALL_PREFIX}/lib/poco_foundation.lib
+            ${CMAKE_INSTALL_PREFIX}/lib/PocoFoundation.lib
         )
     endif()
 
