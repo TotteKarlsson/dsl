@@ -12,7 +12,7 @@ Timer::Timer(const Timespan& interval, EventFunction class_func_ptr, const strin
 :
 mInterval(interval),
 Thread(label),
-OnTimer(nullptr)
+OnTimer(0)
 {}
 
 Timer::~Timer()

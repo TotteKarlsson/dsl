@@ -8,7 +8,7 @@ extern "C" int _libmain(unsigned long reason)
 
 #if defined(_WIN32)
     #pragma comment(lib, "sqlite.lib")
-    #pragma comment(lib, "poco_foundation.lib")
+    #pragma comment(lib, "PocoFoundation.lib")
     #pragma comment(lib, "tinyxml2.lib")
     #pragma comment(lib, "shell32.lib")
 #endif
