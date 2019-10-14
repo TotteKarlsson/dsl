@@ -27,12 +27,14 @@ class DSL_COMMON Thread : public DSLObject, public Poco::Runnable
         bool                                        isTimeToDie();
         bool                                        isAlive();
         bool                                        isStarted();
+        bool                                        isWorking();
         bool                                        isRunning();
         virtual bool                                isFinished();
 
         virtual void                                reset();
 
         virtual bool                                start(bool inThread = true);
+
         void                                        pause();
         void                                        resume();
         virtual void                                stop();
@@ -49,7 +51,9 @@ class DSL_COMMON Thread : public DSLObject, public Poco::Runnable
         static int                                  mThreadCount;
         bool                                        mIsStarted;            //Use to indicate if Worker function is entered
         bool                                        mIsFinished;           //Use to indicate if Worker function is exiting
-        bool                                        mIsRunning;             //Set to true in worker
+
+        bool                                        mIsWorking;             //Set to true in worker. A thread can be running, but not working (while waiting for  a condition
+        																	//for example
         bool                                        mIsPaused;              //Use to pause a thread... has to be implemented in derived classes..
         int                                         mExitStatus;            //Read exit status to get some ideas on what happened in the worker
 };

@@ -3,7 +3,6 @@
 #include "dslLogFileReader.h"
 #include "dslLogger.h"
 #include "dslFileUtils.h"
-
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
@@ -84,7 +83,7 @@ void LogFileReader::purge()
 void LogFileReader::worker()
 {
     Log(lInfo)<<"Entering logFile Reader thread function";
-    mIsRunning = true;
+    mIsWorking = true;
     mIsFinished = false;
 
     if(!mFS.is_open())
@@ -94,7 +93,6 @@ void LogFileReader::worker()
         {
             mIsTimeToDie = true;
         }
-
     }
 	if(!mCallBackFnc)
 	{
@@ -144,7 +142,7 @@ void LogFileReader::worker()
 		Sleep(5);
 	}
 
-	mIsRunning = false;
+	mIsWorking = false;
 	mIsFinished = true;
 	Log(lInfo)<<"Exiting logFile Reader thread function";
 }

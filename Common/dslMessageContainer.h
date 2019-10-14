@@ -15,10 +15,13 @@ class MessageProcessor;
 //!A threadsafe container
 class DSL_COMMON MessageContainer : public DSLObject
 {
+	//Friends can access our mutexes
+	friend                                  MessageProcessor;
+
     public:
                                                 MessageContainer();
 		virtual                                 ~MessageContainer();
-		virtual int                             count();
+		virtual unsigned int                    count();
 
                                                 //Post a message to the message list
 		virtual void                            postMessage(const string& msg);
@@ -31,9 +34,6 @@ class DSL_COMMON MessageContainer : public DSLObject
 	protected:
 		unsigned int                            mNrOfProcessedMessages;
 		deque<string>                           mMessages;
-
-		//Friends can access our mutexes
-		friend                                  MessageProcessor;
 };
 
 }

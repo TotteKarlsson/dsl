@@ -8,21 +8,19 @@
 namespace dsl
 {
 
-Timer::Timer(const Timespan& interval, OnTimerCFPtr class_func_ptr, const string& label)
+Timer::Timer(const Timespan& interval, EventFunction class_func_ptr, const string& label)
 :
 mInterval(interval),
-OnTimerC(class_func_ptr),
-OnTimerF(NULL),
-Thread(label)//,
-//mIsPaused(false)
+Thread(label),
+OnTimer(nullptr)
 {}
 
 Timer::~Timer()
 {}
 
-bool Timer::assignTimerFunction(OnTimerCFPtr func_ptr)
+bool Timer::assignTimerFunction(EventFunction ef)
 {
-    OnTimerC = func_ptr;
+    OnTimer = ef;
     return true;
 }
 
@@ -57,34 +55,30 @@ bool Timer::start(bool runInThread)
 void Timer::worker() //The threads worker function
 {
     mIsStarted = true;            //Use to indicate if Worker function is entered
-    mIsRunning = true;
+    mIsWorking = true;
     mTheStart.update();
     mTheLastFire.update();
 
     while(mIsTimeToDie == false)
     {
         Timestamp now;
-        long intervall = mInterval.totalMilliseconds();
+        long intervall = (long) mInterval.totalMilliseconds();
 
         sleep(10); //Resolution is 10 milliseconds
         Timespan current = now - mTheLastFire;
 
         if(current  > mInterval)
         {
-            if(OnTimerC != NULL && mIsPaused == false && !mIsTimeToDie)
+            if(OnTimer != NULL && mIsPaused == false && !mIsTimeToDie)
             {
-                OnTimerC();
+                OnTimer();
             }
 
-            if(OnTimerF != NULL && mIsPaused == false && !mIsTimeToDie)
-            {
-                OnTimerF();
-            }
             mTheLastFire.update();
         }
     }
 
-    mIsRunning  = false;
+    mIsWorking  = false;
     mIsFinished = true;
     Log(lDebug) <<"Timer Worker Finished";
 }

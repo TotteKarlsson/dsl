@@ -15,20 +15,26 @@ using std::string;
 using std::ostream;
 class IniFile;
 
-//abstract class for inifile parameters
+//abstract class for Properties
 //a non template base class allow us to store derived objects,
 //of any type, in a vector for example
 class DSL_COMMON BaseProperty : public DSLObject
 {
 	public:
-                                                        BaseProperty();
-                                                        BaseProperty(const string& lbl);
+//                                                        BaseProperty();
+                                                        BaseProperty(const string& lbl, const string& comment);
         virtual                                         ~BaseProperty();
 
         //Interface
         virtual string                                  getINIRecord() {return string("Setup in baseclass!");}
         virtual bool                                    assignValueFromString(const string& val) = 0;
-        virtual string                                  getLabel() = 0;
+        string                              	        getComment();
+        void                            	            setComment(const string& c);
+
+        string                              	        getLabel();
+        void                            	            setLabel(const string& lbl);
+
+
         virtual string                                  getValueAsString() const = 0;
         virtual void*                                   getValueHandle() = 0;
         virtual void*                                   getEditValueHandle() = 0;
@@ -36,7 +42,6 @@ class DSL_COMMON BaseProperty : public DSLObject
         virtual ObjectType                              getPropertyType() = 0;
         virtual bool                                    read(IniFile* iniFile, const string& section) = 0;
         virtual bool                                    write(IniFile* iniFile, const string& section) = 0;
-
         virtual const char*                             c_str() const;
 
         //Utilities

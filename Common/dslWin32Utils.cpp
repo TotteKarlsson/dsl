@@ -93,19 +93,43 @@ string getSpecialFolder(int folder)
     }
 }
 
+
+string getKnownFolder(GUID folderID, DWORD flags)
+{
+    PWSTR path;
+    if (SUCCEEDED(SHGetKnownFolderPath(folderID, flags, nullptr, &path)))
+    {
+        string theFolder = stdstr(path);
+
+        if(!folderExists(theFolder))
+        {
+            stringstream msg;
+            msg<< "Got folder path, but the folder don't exist in function getSpecial folder. Folder ID was: " << folderID.Data4;
+            throw(dsl::DSLException(msg.str()));
+        }
+        return theFolder;
+    }
+    else
+    {
+        stringstream msg;
+        msg<< "Failed to get path to folder: " << folderID.Data4;
+        throw(dsl::DSLException(msg.str()));
+    }
+}
+
 string getLastWin32Error()
 {
     LPVOID lpMsgBuf;
     DWORD dw = GetLastError();
 
-    FormatMessageA(
+    FormatMessageW(
         FORMAT_MESSAGE_ALLOCATE_BUFFER |
         FORMAT_MESSAGE_FROM_SYSTEM |
         FORMAT_MESSAGE_IGNORE_INSERTS,
         nullptr,
         dw,
         MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-        (LPTSTR) &lpMsgBuf,
+        (LPWSTR) &lpMsgBuf,
         0, nullptr );
 
     LPCTSTR aMsg = (LPCTSTR) lpMsgBuf;
@@ -114,36 +138,14 @@ string getLastWin32Error()
     return msg;
 }
 
-//String __fastcall getLastWin32Error()
-//{
-//    LPVOID lpMsgBuf;
-//    DWORD dw = GetLastError();
-//
-//    FormatMessage(
-//        FORMAT_MESSAGE_ALLOCATE_BUFFER |
-//        FORMAT_MESSAGE_FROM_SYSTEM |
-//        FORMAT_MESSAGE_IGNORE_INSERTS,
-//        nullptr,
-//        dw,
-//        MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-//        (LPTSTR) &lpMsgBuf,
-//        0, nullptr );
-//
-//    String aMsg = (LPCTSTR) lpMsgBuf;
-//    LocalFree(lpMsgBuf);
-//    return aMsg;
-//}
-
-
-
 bool clickOnWindow(const string& winCaption, int localX, int localY)
 {
 	bool result(false);
 	HWND phwnd = GetForegroundWindow();
-    HWND hwnd = FindWindow(0, (winCaption).c_str());
+    HWND hwnd = FindWindowA(0, (winCaption).c_str());
     if(hwnd)
     {
-    	bool isIconic(IsIconic(hwnd));
+    	BOOL isIconic(IsIconic(hwnd));
     	if (isIconic)
         {
         	ShowWindow(hwnd, SW_RESTORE);

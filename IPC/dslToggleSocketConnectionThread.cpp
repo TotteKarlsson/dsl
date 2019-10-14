@@ -19,7 +19,7 @@ void ToggleSocketConnectionThread::run()
 
 void ToggleSocketConnectionThread::worker()
 {
-    mIsRunning = true;
+    mIsWorking = true;
     Log(lDebug)<<"Entering ToggleSocket connection thread.";
     mIsStarted = true;
 
@@ -38,7 +38,7 @@ void ToggleSocketConnectionThread::worker()
 
     mIsFinished = true;
     Log(lDebug)<<"Exiting Toggle socket connection.";
-    mIsRunning = false;
+    mIsWorking = false;
 }
 
 }

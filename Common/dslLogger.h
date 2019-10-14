@@ -73,5 +73,10 @@ std::ostringstream& Logit<LogOutput>::get(const LogLevel& level)
 class DSL_COMMON Logger : public Logit<dsl::LogOutput>
 {};
 
+#define Log(level) \
+    if (level > dsl::getHighestLogLevel()) ;\
+                else if (level > dsl::gLogger.getLogLevel()) ; \
+                else dsl::Logger().get(level)
+
 }
 #endif

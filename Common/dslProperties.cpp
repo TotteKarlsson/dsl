@@ -150,7 +150,7 @@ bool Properties::write()
 
 unsigned int Properties::count() const
 {
-	return mProperties.size();
+	return (unsigned int) mProperties.size();
 }
 
 //BaseProperty* Properties::operator [](int index)

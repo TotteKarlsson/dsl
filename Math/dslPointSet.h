@@ -23,8 +23,8 @@ class DSL_MATH PointSet  : public DSLObject
         void                                        clear();
 
         void                                        setNumberOfPoints(int nroftriplets);
-        int                                         size() const ;
-        int                                         count() const ;
+        size_t                                      size() const ;
+        size_t                                      count() const ;
 
 
         void                                        setPoint(int index, const Point& Point);

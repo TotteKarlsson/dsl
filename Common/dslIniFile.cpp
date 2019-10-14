@@ -7,10 +7,14 @@
 #include "dslLogger.h"
 #include "dslFileUtils.h"
 #include "dslIniFile.h"
-//#include "dslOSSpecifics.h"
-//---------------------------------------------------------------------------
-//#undef CreateFile
 
+#ifdef _MSC_VER && _MSC_VER < 1900
+#include <stdio.h>
+#include <stdlib.h>
+
+#define snprintf(buf,len, format,...) _snprintf_s(buf, len,len, format, __VA_ARGS__)
+
+#endif
 namespace dsl
 {
 
@@ -22,11 +26,11 @@ mFlags(0),
 mIniFileName(szFileName),
 mIsDirty(false),
 mAutoSave(autoSave),
+mAutoCreateSections(true),
+mAutoCreateKeys(true),
 mCommentIndicators(";#"),
 mEqualIndicator("="),
-mWhiteSpace(" \t\n\r"),
-mAutoCreateKeys(true),
-mAutoCreateSections(true)
+mWhiteSpace(" \t\n\r")
 {
     if(mAutoCreateSections)
     {
@@ -170,7 +174,7 @@ bool IniFile::load(const string& newfName)
             lines++;
 
             string Line = buffer;
-            trim(Line);
+            trimChars(Line, mWhiteSpace);
 
             bDone = ( file.eof() || file.bad() || file.fail() );
 
@@ -197,17 +201,17 @@ bool IniFile::load(const string& newfName)
                 if(record.size() > 1)
                 {
                     string Comment = "";
-                    string Key = trim(record[0]);
-                    string Value = trim(record[1]);
+                    string Key = trimChars(record[0], mWhiteSpace);
+                    string Value = trimChars(record[1], mWhiteSpace);
                     if(record.size() > 2)
                     {
-                        Comment = record[2];
+                        Comment = trimChars(record[2], mWhiteSpace);
                     }
 
                     if(pSection)
                     {
                         writeValue(Key, Value, Comment, pSection->mName);
-                        //Log(lDebug5)<<Key << " = "  <<Value;
+                        Log(lDebug5)<<Key << " = "  <<Value;
                     }
                     else
                     {
@@ -269,7 +273,7 @@ bool IniFile::loadFromString(const string& iniData)
             lines++;
 
             string Line = buffer;
-            trim(Line);
+            trimChars(Line, mWhiteSpace);
 
             bDone = ( file.eof() || file.bad() || file.fail() );
 
@@ -296,8 +300,8 @@ bool IniFile::loadFromString(const string& iniData)
                 if(record.size() > 1)
                 {
                     string Comment = "";
-                    string Key = trim(record[0]);
-                    string Value = trim(record[1]);
+                    string Key = trimChars(record[0], mWhiteSpace);
+                    string Value = trimChars(record[1], mWhiteSpace);
                     if(record.size() > 2)
                     {
                         Comment = record[2];
@@ -389,7 +393,7 @@ IniSection* IniFile::loadSection(const string& theSection)
             file.getline(buffer, MAX_LINE_BUFFER_SIZE);
 
             string Line = buffer;
-            trim(Line);
+            trimChars(Line, mWhiteSpace);
 
             bDone = ( file.eof() || file.bad() || file.fail() );
 
@@ -423,11 +427,11 @@ IniSection* IniFile::loadSection(const string& theSection)
                     if(pSection)
                     {
                         writeValue(Key, Value, Comment, pSection->mName);
-                                        Log(lDebug5)<<"Read Key " + Key + " Value = " + Value;
+                                        Log(lDebug3)<<"Read Key " + Key + " Value = " + Value;
                     }
                     else
                     {
-                                        Log(lDebug5)<<"Read Key " + Key + " Value = " + Value;
+                                        Log(lDebug3)<<"Read Key " + Key + " Value = " + Value;
                                         Log(lWarning)<<"No section for key" + Key + ". Key was ignored..";
                     }
                     Comment = string("");
@@ -502,13 +506,12 @@ bool IniFile::save(ios_base::openmode openMode)
 
                 if ( Key->mKey.size() > 0 && Key->mValue.size() > 0 )
                 {
-                        writeLine(aFstream, "%s%s%s%s%c%s",
-                        Key->mComment.size() > 0 ? "\n" : "",
-                        commentStr(Key->mComment).c_str(),
-                        Key->mComment.size() > 0 ? "\n" : "",
-                        Key->mKey.c_str(),
-                        mEqualIndicator[0],
-                        Key->mValue.c_str());
+                    aFstream << Key->mKey <<'='<<Key->mValue;
+                    if(Key->mComment.size() > 0 )
+                    {
+                        aFstream << " ; " << Key->mComment;
+                    }
+                    aFstream << '\n';
                 }
             }
         }
@@ -655,11 +658,10 @@ bool IniFile::writeNonKey(const string& nonKey, const string& section)
 }
 
 // Passes the given float to WriteValue as a string
-bool IniFile::writeFloat(const string& mKey, double value, const string& mComment, const string& szSection)
+bool IniFile::writeFloat(const string& key, double value, const string& comment, const string& section)
 {
-    char szStr[64];
-    snprintf(szStr, 64, "%g", value);
-    return writeValue(mKey, szStr, mComment, szSection);
+    string v = toString(value);
+    return writeValue(key, v, comment, section);
 }
 
 // Passes the given int to writeValue as a string
@@ -848,7 +850,7 @@ IniSection* IniFile::createSection(const string& Section, const string& mComment
         Log(lDebug5)<<"[IniFile::CreateSection] Section "<<Section.c_str()<<" already exists. Aborting.";
         return nullptr;
     }
-    pSection = new IniSection;
+    pSection = new IniSection(*this);
     pSection->mName = Section;
     pSection->mComment = mComment;
     mSections.push_back(pSection);
@@ -890,13 +892,13 @@ IniSection* IniFile::createSection(const string& Section, const string& Comment,
 }
 
 // Simply returns the number of sections in the list.
-int IniFile::sectionCount()
+unsigned int IniFile::sectionCount()
 {
     return mSections.size();
 }
 
 // Returns the total number of keys contained within all the sections.
-int IniFile::keyCount()
+unsigned int IniFile::keyCount()
 {
     int nCounter = 0;
     SectionItor s_pos;
@@ -905,7 +907,7 @@ int IniFile::keyCount()
     return nCounter;
 }
 
-int IniFile::keyCount(const string& section)
+unsigned int IniFile::keyCount(const string& section)
 {
     //Get the section
     IniSection* iniSection = getSection(section);
@@ -974,7 +976,7 @@ IniSection* IniFile::getSection(unsigned int sectionNr)
 string IniFile::commentStr(string& mComment)
 {
     string szNewStr = string("");
-    trim(mComment);
+    trimChars(mComment, mWhiteSpace);
     if ( mComment.size() == 0 )
     {
         return mComment;
@@ -994,7 +996,7 @@ string IniFile::commentStr(string& mComment)
 // remainder.  Returns the key
 string IniFile::getNextWord(string& CommandLine)
 {
-    int nPos = CommandLine.find_first_of(mEqualIndicator);
+    size_t nPos = CommandLine.find_first_of(mEqualIndicator);
     string sWord = string("");
     if ( nPos > -1 )
     {
@@ -1006,29 +1008,8 @@ string IniFile::getNextWord(string& CommandLine)
         sWord = CommandLine;
         CommandLine = string("");
     }
-    trim(sWord);
+    trimChars(sWord, mWhiteSpace);
     return sWord;
-}
-
-string IniFile::trim(string& str)
-{
-    string szTrimChars(mWhiteSpace);
-    szTrimChars += mEqualIndicator;
-
-    // Trim Both leading and trailing spaces
-    size_t startpos = str.find_first_not_of(szTrimChars);     // Find the first character position after excluding leading blank spaces
-    size_t endpos     = str.find_last_not_of(szTrimChars);     // Find the first character position from reverse af
-
-    // if all spaces or empty return an empty string
-    if(( string::npos == startpos ) || ( string::npos == endpos))
-    {
-        str = "";
-    }
-    else
-    {
-        str = str.substr(startpos, endpos-startpos + 1);
-    }
-    return str;
 }
 
 // writes the formatted output to the file stream, returning the number of
@@ -1055,9 +1036,9 @@ int IniFile::writeLine(fstream& stream, const char* fmt, ...)
     return nLength;
 }
 
-int IniFile::getNumberOfSections()
+unsigned int IniFile::getNumberOfSections()
 {
-    return mSections.size();
+    return (int) mSections.size();
 }
 
 string IniFile::getFileName()

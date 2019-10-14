@@ -41,7 +41,7 @@
 
 namespace dsl
 {
-
+typedef unsigned int uint;
 using namespace std;
 using namespace Poco;
 
@@ -70,6 +70,25 @@ string getFileContent(const string& fName)
 //    buffer << t.rdbuf();
 //    return buffer.str();
 //}
+
+DSL_COMMON double getFileSize(const string& file, FileSizeType type)
+{
+    const int CONVERSION_VALUE = 1024;
+
+    Poco::File aFile(file);
+    unsigned int bytes = aFile.getSize();
+
+    //determine what conversion they want
+    switch (type)
+    {
+        case fstByte:             return bytes;
+        case fstKiloByte:         return (bytes / CONVERSION_VALUE);
+        case fstMegaByte:         return (bytes / (CONVERSION_VALUE * CONVERSION_VALUE ));
+        case fstGigaByte:         return (bytes / (CONVERSION_VALUE * CONVERSION_VALUE * CONVERSION_VALUE));
+        default:		          return bytes;    break;
+	}
+    return 0;
+}
 
 bool createFile(const string& fName, ios_base::openmode mode)
 {
@@ -173,7 +192,7 @@ bool fileExists(const string& fName)
     }
     catch(const Poco::PathSyntaxException& e)
     {
-        Log(lError) << "The path \"" << fName << "\" is not valid";
+        Log(lError) << "The path \"" << fName << "\" is not valid: " << e.what();
         return false;
     }
 }
@@ -181,6 +200,11 @@ bool fileExists(const string& fName)
 bool folderExists(const string& folder)
 {
     string f(trimBack(folder, gPathSeparator));
+
+    if(f.size() == 2 && f[1] == ':')
+    {
+        f += "\\";
+    }
     struct stat St;
     return stat(f.c_str(), &St) == 0;
 }
@@ -199,7 +223,7 @@ int countFiles(const string& folder, const string& searchPattern)
 
     std::set<std::string> files;
     Glob::glob(search, files); // Glob::glob("/usr/include/*/*.h", files);
-    return files.size();
+    return (int) files.size();
 }
 
 StringList getFilesInFolder(const string& folder, const string& ext, bool withPath)
@@ -267,6 +291,25 @@ string getLastFolderInPath(const string& p)
     return gEmptyString;
 }
 
+string getSecondToLastFolderInPath(const string& _p)
+{
+    StringList p(_p, gPathSeparator);
+    string path;
+
+    for(int i = 0; i < p.count() - 1; i++)
+    {
+        if(i == 0)
+        {
+	        path = p[i];
+        }
+        else
+        {
+            path = path + gPathSeparator + p[i];
+        }
+    }
+    return path;
+}
+
 StringList getSubFoldersInFolder(const string& folder, bool withFullPath)
 {
 
@@ -275,9 +318,16 @@ StringList getSubFoldersInFolder(const string& folder, bool withFullPath)
         Log(lWarning) << "The folder: " << folder<<" do not exist.";
         return StringList("");
     }
+
     StringList folders;
  	DirectoryIterator end;
-    for (DirectoryIterator it(folder); it != end; ++it)
+    string tempPath(folder);
+    if(tempPath.size() == 2 && tempPath[1] == ':')
+    {
+        tempPath += "\\";
+    }
+
+    for (DirectoryIterator it(tempPath); it != end; ++it)
     {
         if(it->isDirectory())
         {

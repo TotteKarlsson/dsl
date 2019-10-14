@@ -3,7 +3,6 @@
 #include "dslIniKey.h"
 #include <vector>
 #include <string>
-
 //---------------------------------------------------------------------------
 
 namespace dsl
@@ -11,7 +10,7 @@ namespace dsl
 
 using std::vector;
 class IniKey;
-
+class IniFile;
 typedef vector<IniKey*>                             KeyList;
 typedef KeyList::iterator                           KeyItor;
 typedef KeyList::const_iterator                     ConstKeyItor;
@@ -28,8 +27,8 @@ class DSL_COMMON IniSection : public DSLObject
         string            	                        mComment;
         KeyList            	                        mKeys;            //vector of pointers to keys
         NonKeyList			                        mNonKeys;         //vector of pointers to non_keys
-							                        IniSection();
-							                        IniSection(const std::string& nameValueString, const char& sep);
+							                        IniSection(const IniFile& iniFile);
+							                        IniSection(const std::string& nameValueString, const char& sep, const IniFile& iniFile);
 						                            ~IniSection();
         IniKey*				                        createKey(const string& _keyName, const string& Value = gEmptyString, const string& Comment = gEmptyString);
         IniKey*   			                        getKey(int i);
@@ -43,10 +42,12 @@ class DSL_COMMON IniSection : public DSLObject
         void            	                        clear();
         string    	                                getNonKeysAsString();
         string				                        asString(const char& delimiter) const;
+        const IniFile*                              getIniFile();
 
 	private:
         bool                                        mIsDirty;
         KeyItor            	                        mKeyIter;            //vector of pointers to keys
+        const IniFile&                              mIniFile;
 };
 
 }

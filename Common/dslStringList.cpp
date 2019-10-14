@@ -12,7 +12,7 @@ using namespace std;
 
 namespace dsl
 {
-
+    typedef unsigned int uint;
 StringList::StringList(const vector<int>& ints)
 :
 mStrings(),
@@ -77,32 +77,36 @@ bool is_not_digit(char c)
     return !std::isdigit(c);
 }
 
-bool numeric_string_compare(const std::string& s1, const std::string& s2)
+bool numeric_string_compare(const string& str1, const string& str2)
 {
     // handle empty strings...
+    string::const_iterator it1 = str1.begin(), it2 = str2.begin();
 
-    std::string::const_iterator it1 = s1.begin(), it2 = s2.begin();
-
-    if (std::isdigit(s1[0]) && std::isdigit(s2[0])) {
+    if (std::isdigit(str1[0]) && std::isdigit(str2[0]))
+    {
         int n1, n2;
-        std::stringstream ss(s1);
+        std::stringstream ss(str1);
         ss >> n1;
         ss.clear();
-        ss.str(s2);
+
+        ss.str(str2);
         ss >> n2;
 
-        if (n1 != n2) return n1 < n2;
+        if (n1 != n2)
+        {
+        	return n1 < n2;
+        }
 
-        it1 = std::find_if(s1.begin(), s1.end(), is_not_digit);
-        it2 = std::find_if(s2.begin(), s2.end(), is_not_digit);
+        it1 = std::find_if(str1.begin(), str1.end(), is_not_digit);
+        it2 = std::find_if(str2.begin(), str2.end(), is_not_digit);
     }
 
-    return std::lexicographical_compare(it1, s1.end(), it2, s2.end());
+    return std::lexicographical_compare(it1, str1.end(), it2, str2.end());
 }
 
 void StringList::sort()
 {
-	std::sort(mStrings.begin(), mStrings.end(), numeric_string_compare);
+	::sort(mStrings.begin(), mStrings.end(), numeric_string_compare);
 }
 
 bool StringList::reverse()

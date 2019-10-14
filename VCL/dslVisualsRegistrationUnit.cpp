@@ -21,17 +21,17 @@ namespace Dsltaboutframe
 }
 
 //---------------------------------------------------------------------------
-//static inline void ValidCtrCheck(TLogMemoFrame *)
-//{
-//    new TLogMemoFrame(nullptr);
-//}
-//
-//namespace Dsltlogmemoframe
-//{
-//    void __fastcall PACKAGE Register()
-//    {
-//         TComponentClass classes[1] = {__classid(TLogMemoFrame)};
-//         RegisterComponents(gDuneFrames, classes, 0);
-//    }
-//}
+static inline void ValidCtrCheck(TLogMemoFrame *)
+{
+    new TLogMemoFrame(nullptr);
+}
+
+namespace Dsltlogmemoframe
+{
+    void __fastcall PACKAGE Register()
+    {
+         TComponentClass classes[1] = {__classid(TLogMemoFrame)};
+         RegisterComponents(gDuneFrames, classes, 0);
+    }
+}
 

@@ -58,10 +58,10 @@ string MessageContainer::peek()
     return msg;
 }
 
-int MessageContainer::count()
+unsigned int MessageContainer::count()
 {
     mListMutex.lock();
-    int sz = mMessages.size();
+    unsigned int sz = (unsigned int) mMessages.size();
     mListMutex.unlock();
     return sz;
 }

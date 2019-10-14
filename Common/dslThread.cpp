@@ -15,7 +15,7 @@ mIsTimeToDie(false),
 mLabel(label),
 mIsStarted(false),
 mIsFinished(false),
-mIsRunning(false),
+mIsWorking(false),
 mIsPaused(false),
 mExitStatus(0)
 {}
@@ -28,7 +28,7 @@ void Thread::reset()
     mIsTimeToDie   = false;
     mIsFinished    = false;
     mIsStarted     = false;
-    mIsRunning     = false;
+    mIsWorking     = false;
     mIsPaused      = false;
     mExitStatus    = 0;
 }
@@ -69,14 +69,15 @@ bool Thread::start(bool inThread)
 void Thread::run()
 {
     //This starts and runs the thread
-    if(mIsRunning)
+    if(mIsWorking || this->isRunning())
     {
-        Log(lDebug3) << "Tried to start a running thread.";
+        Log(lDebug3) << "Tried to start a running thread ("<< mLabel <<")";
         return;
     }
 
-    Log(lDebug5) << "Entering Thread::Run function";
+    Log(lDebug5) << "Entering Thread::Run function for thread: " << mLabel;
     mIsTimeToDie = false;
+    mIsFinished  = false;
 
     //Start poco thread
     mThread.start(*this);
@@ -122,21 +123,14 @@ bool Thread::isStarted()
     return mIsStarted;
 }
 
+bool Thread::isWorking()
+{
+    return mIsWorking;
+}
+
 bool Thread::isRunning()
 {
-//    return mThread.isRunning();
-
-	if(mThread.isRunning() ||  mIsRunning)
-    {
-    	if(mIsPaused)
-        {
-        	return false;
-        }
-
-        return true;
-    }
-
-    return false;
+    return mThread.isRunning();
 }
 
 bool Thread::isFinished()

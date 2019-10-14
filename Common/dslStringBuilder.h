@@ -18,7 +18,7 @@ class DSL_COMMON StringBuilder : public DSLObject
         void                                reset();
         bool                                build(const char& ch);
         string                              getString();
-        unsigned int                        getStringSize(){return mTheString.size();}
+        size_t								getStringSize(){return mTheString.size();}
         void                                setDelimiter(const char& rDel = '\n');
 
     private:

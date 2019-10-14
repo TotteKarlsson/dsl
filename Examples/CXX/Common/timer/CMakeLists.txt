@@ -10,7 +10,7 @@ else()
 endif()
   
 target_link_libraries(${target} 
-dslFoundation
+dslFoundation${LIBRARY_POSTFIX}
 )
 
 if(CMAKE_SYSTEM MATCHES "Linux") 
