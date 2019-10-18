@@ -16,7 +16,9 @@ TServerSocketFrame *ServerSocketFrame;
 
 //---------------------------------------------------------------------------
 __fastcall TServerSocketFrame::TServerSocketFrame(TComponent* Owner)
-    : TFrame(Owner), mServer(nullptr)
+    :
+    TFrame(Owner),
+    mServer(shared_ptr<TMemoSocketServer>(new TMemoSocketServer("MemoSocket.ini", "GENERAL")))
 {
 //    mServer = new TMemoSocketServer("MemoSocket.ini", "GENERAL");
     mAppFolder = GetCurrentDir().c_str();
@@ -30,8 +32,8 @@ __fastcall TServerSocketFrame::~TServerSocketFrame()
 //---------------------------------------------------------------------------
 void __fastcall TServerSocketFrame::Memo1Change(TObject *Sender)
 {
-        string msg = stdstr(writeMemo->Lines->Strings[ writeMemo->Lines->Count -1 ]);
-        mServer->broadcast(msg);
+	string msg = stdstr(writeMemo->Lines->Strings[ writeMemo->Lines->Count -1 ]);
+    mServer->broadcast(msg);
 }
 
 //---------------------------------------------------------------------------
@@ -99,22 +101,5 @@ void __fastcall TServerSocketFrame::SocketFrameActionList1Update(TBasicAction *A
 void __fastcall TServerSocketFrame::ClearLogMemoAExecute(TObject *Sender)
 {
     logMemo->Clear();
-}
-
-//---------------------------------------------------------------------------
-// ValidCtrCheck is used to assure that the components created do not have
-// any pure virtual functions.
-static inline void ValidCtrCheck(TServerSocketFrame *)
-{
-    new TServerSocketFrame(nullptr);
-}
-
-namespace Dsltserversocketframe
-{
-    void __fastcall PACKAGE Register()
-    {
-        TComponentClass classes[1] = {__classid(TServerSocketFrame)};
-        RegisterComponents("Dune Components", classes, 0);
-    }
 }
 

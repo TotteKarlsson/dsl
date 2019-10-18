@@ -1,10 +1,10 @@
 #ifndef dslTMemoSocketServerH
 #define dslTMemoSocketServerH
-//---------------------------------------------------------------------------
 #include "dslIPCServer.h"
 #include "dslIPCMessage.h"
 #include "dslVCLCommonExporter.h"
 #include <vcl.h>
+//---------------------------------------------------------------------------
 class mtkHardwareAPI;
 
 class PACKAGE TMemoSocketServer : public dsl::IPCServer

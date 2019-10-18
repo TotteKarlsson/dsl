@@ -17,6 +17,7 @@
 #include <System.Actions.hpp>
 #include <string>
 #include "dslTIntegerEdit.h"
+#include "dslSharedPointer.h"
 
 using namespace std;
 class TMemoSocketServer;
@@ -51,14 +52,13 @@ __published:    // IDE-managed Components
 
     private:
         String                            mAppFolder;
-        TMemoSocketServer*                mServer;
+        shared_ptr<TMemoSocketServer>     mServer;
 
     public:
                                 __fastcall  TServerSocketFrame(TComponent* Owner);
                                 __fastcall ~TServerSocketFrame();
         bool                    __fastcall  SendIPCMessage(const string& msg);
 };
-//---------------------------------------------------------------------------
+
 extern PACKAGE TServerSocketFrame *ServerSocketFrame;
-//---------------------------------------------------------------------------
 #endif

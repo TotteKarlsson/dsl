@@ -156,18 +156,18 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\VCL\Frames\dslTLogMemoFrame.h</DependentOn>
             <BuildOrder>7</BuildOrder>
         </CppCompile>
-        <CppCompile Include="P:\libs\dsl\VCL\Frames\TServerSocketFrame.cpp">
+        <CppCompile Include="..\..\VCL\Frames\dslTServerSocketFrame.cpp">
             <Form>ServerSocketFrame</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
-            <DependentOn>P:\libs\dsl\VCL\Frames\TServerSocketFrame.h</DependentOn>
+            <DependentOn>..\..\VCL\Frames\dslTServerSocketFrame.h</DependentOn>
             <BuildOrder>9</BuildOrder>
         </CppCompile>
         <FormResources Include="..\..\VCL\Forms\dslTAboutForm.dfm"/>
         <FormResources Include="..\..\VCL\Forms\dslTRegistryForm.dfm"/>
         <FormResources Include="..\..\VCL\Frames\dslTAboutFrame.dfm"/>
         <FormResources Include="..\..\VCL\Frames\dslTLogMemoFrame.dfm"/>
-        <FormResources Include="P:\libs\dsl\VCL\Frames\TServerSocketFrame.dfm"/>
+        <FormResources Include="P:\libs\dsl\VCL\Frames\dslTServerSocketFrame.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -229,12 +229,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="p:\build\BPL\dslVCLVisualComponents.bpl" Configuration="Debug" Class="ProjectOutput">
-                    <Platform Name="Win32">
-                        <RemoteName>dslVCLVisualComponents.bpl</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
                 <DeployFile LocalName="$(BDS)\Redist\iossimulator\libcgunwind.1.0.dylib" Class="DependencyModule">
                     <Platform Name="iOSSimulator">
                         <Overwrite>true</Overwrite>
@@ -260,6 +254,12 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile LocalName="p:\build\BPL\dslVCLVisualComponents.bpl" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>dslVCLVisualComponents.bpl</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32250.dll" Class="DependencyModule">
                     <Platform Name="Win32">
                         <Overwrite>true</Overwrite>
@@ -270,14 +270,14 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64250.dll" Class="DependencyModule">
-                    <Platform Name="Win64">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
                 <DeployFile LocalName="p:\build\BPL\dslVCLVisualComponents.tds" Configuration="Debug" Class="DebugSymbols">
                     <Platform Name="Win32">
                         <RemoteName>dslVCLVisualComponents.tds</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64250.dll" Class="DependencyModule">
+                    <Platform Name="Win64">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
