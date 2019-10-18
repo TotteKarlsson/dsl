@@ -78,9 +78,9 @@ void Timer::worker() //The threads worker function
         }
     }
 
+    Log(lDebug) <<"Timer Worker Finished";
     mIsWorking  = false;
     mIsFinished = true;
-    Log(lDebug) <<"Timer Worker Finished";
 }
 
 bool Timer::setInterval(int interval)
