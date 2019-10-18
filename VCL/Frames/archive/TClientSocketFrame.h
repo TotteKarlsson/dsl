@@ -47,7 +47,7 @@ __published:    // IDE-managed Components
     TPopupMenu *ConsolePopup;
     TAction *ClearConsoleMemoA;
     TMenuItem *Clear1;
-	mtkIntEdit *PortNrE;
+	TIntegerEdit *PortNrE;
     void __fastcall ToggleConnectionExecute(TObject *Sender);
     void __fastcall DisconnectExecute(TObject *Sender);
     void __fastcall ConnectExecute(TObject *Sender);

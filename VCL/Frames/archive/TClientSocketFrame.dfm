@@ -73,7 +73,7 @@ object ClientSocketFrame: TClientSocketFrame
         ParentBiDiMode = False
         TabOrder = 1
       end
-      object PortNrE: mtkIntEdit
+      object PortNrE: TIntegerEdit
         Left = 344
         Top = 0
         Width = 121

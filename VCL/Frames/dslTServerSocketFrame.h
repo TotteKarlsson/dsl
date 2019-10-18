@@ -1,5 +1,5 @@
-#ifndef TServerSocketFrameH
-#define TServerSocketFrameH
+#ifndef dslTServerSocketFrameH
+#define dslTServerSocketFrameH
 //---------------------------------------------------------------------------
 #include <Classes.hpp>
 #include <Controls.hpp>
@@ -13,10 +13,10 @@
 #include <ComCtrls.hpp>
 #include <ToolWin.hpp>
 #include <Menus.hpp>
-#include "dslIntEdit.h"
+#include "dslTIntegerEdit.h"
 #include <System.Actions.hpp>
 #include <string>
-#include "dslIntEdit.h"
+#include "dslTIntegerEdit.h"
 
 using namespace std;
 class TMemoSocketServer;

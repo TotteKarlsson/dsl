@@ -431,8 +431,6 @@
                     <ProjectProperties Name="IndexFiles">False</ProjectProperties>
                 </ProjectProperties>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\BPL\atVCLVisualComponents.bpl">AT Frames and Forms</Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\bpl\atVCLComponents.bpl">AT VCL Components</Excluded_Packages>
                     <Excluded_Packages Name="p:\build\BPL\atVCLUC7VisualComponents.bpl">File p:\build\BPL\atVCLUC7VisualComponents.bpl not found</Excluded_Packages>
                     <Excluded_Packages Name="p:\build\BPL\atVCLAPTVisualComponents.bpl">File p:\build\BPL\atVCLAPTVisualComponents.bpl not found</Excluded_Packages>
                 </Excluded_Packages>
