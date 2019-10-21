@@ -70,6 +70,24 @@ void sendToClipBoard(const string& str)
     CloseClipboard();
 }
 
+string getTempPath()
+{
+    DWORD length = GetTempPathA( 0, NULL );
+    if( length == 0 )
+    {
+        return "";
+    }
+    std::vector<TCHAR> tempPath( length );
+
+    length = GetTempPathW( static_cast<DWORD>( tempPath.size() ), &tempPath[0] );
+    if( length == 0 || length > tempPath.size() )
+    {
+        return "";
+    }
+
+    return std::string( tempPath.begin(), tempPath.begin() + static_cast<std::size_t>(length) );
+}
+
 string getSpecialFolder(int folder)
 {
     TCHAR szPath[MAX_PATH];
@@ -92,7 +110,6 @@ string getSpecialFolder(int folder)
         throw(dsl::DSLException(msg.str()));
     }
 }
-
 
 string getKnownFolder(GUID folderID, DWORD flags)
 {

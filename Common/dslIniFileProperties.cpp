@@ -68,6 +68,12 @@ bool IniFileProperties::write()
     //This function writes the values to the iniFile.
     //iniFile has to be saved explicitly to save values to file!
 
+    if(mIniFile == nullptr)
+    {
+		Log(lDebug3) << "No inifile in IniFileProperties -> no saving";
+        return false;
+    }
+
     Log(lDebug3) << "Writing section: " << mSectionName;
 
     for(unsigned int i = 0; i < mProperties.size(); i++)

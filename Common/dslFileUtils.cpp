@@ -200,6 +200,11 @@ bool fileExists(const string& fName)
 bool folderExists(const string& folder)
 {
     string f(trimBack(folder, gPathSeparator));
+
+    if(f.size() == 2 && f[1] == ':')
+    {
+        f += "\\";
+    }
     struct stat St;
     return stat(f.c_str(), &St) == 0;
 }
@@ -307,14 +312,22 @@ string getSecondToLastFolderInPath(const string& _p)
 
 StringList getSubFoldersInFolder(const string& folder, bool withFullPath)
 {
+
     if(!folderExists(folder))
     {
         Log(lWarning) << "The folder: " << folder<<" do not exist.";
         return StringList("");
     }
+
     StringList folders;
  	DirectoryIterator end;
-    for (DirectoryIterator it(folder); it != end; ++it)
+    string tempPath(folder);
+    if(tempPath.size() == 2 && tempPath[1] == ':')
+    {
+        tempPath += "\\";
+    }
+
+    for (DirectoryIterator it(tempPath); it != end; ++it)
     {
         if(it->isDirectory())
         {

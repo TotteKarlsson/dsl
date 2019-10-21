@@ -77,6 +77,11 @@ int __fastcall compareStringListItems(TStringList* l, int index1, int index2)
 
 TRect getStretchedDimensions(int width, int height, int maxWidth, int maxHeight)
 {
+    if(!height || !width)
+    {
+        return TRect();
+    }
+
    	//calculate aspect ratio
 	double scaleHeight = maxHeight / (double)height;
 	double scaleWidth =  maxWidth / (double)width;

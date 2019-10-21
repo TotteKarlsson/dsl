@@ -3,9 +3,6 @@
         <ProjectGuid>{843E7F76-CC66-4D05-A72B-7A87A57EC634}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
-        <Projects Include="dummy\dummy.cbproj">
-            <Dependencies/>
-        </Projects>
         <Projects Include="dslFoundation\dslFoundation.cbproj">
             <Dependencies/>
         </Projects>
@@ -26,15 +23,6 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
-    <Target Name="dummy">
-        <MSBuild Projects="dummy\dummy.cbproj"/>
-    </Target>
-    <Target Name="dummy:Clean">
-        <MSBuild Projects="dummy\dummy.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="dummy:Make">
-        <MSBuild Projects="dummy\dummy.cbproj" Targets="Make"/>
-    </Target>
     <Target Name="dslFoundation">
         <MSBuild Projects="dslFoundation\dslFoundation.cbproj"/>
     </Target>
@@ -72,13 +60,13 @@
         <MSBuild Projects="dslVCLVisualComponents\dslVCLVisualComponents.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="dummy;dslFoundation;dslVCLCommon;dslVCLComponents;dslVCLVisualComponents"/>
+        <CallTarget Targets="dslFoundation;dslVCLCommon;dslVCLComponents;dslVCLVisualComponents"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="dummy:Clean;dslFoundation:Clean;dslVCLCommon:Clean;dslVCLComponents:Clean;dslVCLVisualComponents:Clean"/>
+        <CallTarget Targets="dslFoundation:Clean;dslVCLCommon:Clean;dslVCLComponents:Clean;dslVCLVisualComponents:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="dummy:Make;dslFoundation:Make;dslVCLCommon:Make;dslVCLComponents:Make;dslVCLVisualComponents:Make"/>
+        <CallTarget Targets="dslFoundation:Make;dslVCLCommon:Make;dslVCLComponents:Make;dslVCLVisualComponents:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
