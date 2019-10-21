@@ -79,7 +79,11 @@ string getTempPath()
     }
     std::vector<TCHAR> tempPath( length );
 
-    length = GetTempPathW( static_cast<DWORD>( tempPath.size() ), &tempPath[0] );
+    #if defined(_UNICODE)
+	    length = GetTempPathW( static_cast<DWORD>( tempPath.size() ), &tempPath[0] );
+    #else
+	    length = GetTempPathA( static_cast<DWORD>( tempPath.size() ), &tempPath[0] );
+    #endif
     if( length == 0 || length > tempPath.size() )
     {
         return "";
