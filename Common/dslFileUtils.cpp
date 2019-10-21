@@ -15,7 +15,7 @@
 #endif
 
 #if defined(_MSC_VER)
-    #include "dirent/dirent.h"
+//    #include "dirent/dirent.h"
     #include <direct.h>
 	#include  <io.h>
 #elif defined(__BORLANDC__)

@@ -110,10 +110,12 @@ if(${BUILD_SHARED_LIBS})
     ${src}
     )
     target_include_directories (${target} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+    
+    if(NOT ${LIBRARY_POSTFIX} STREQUAL "")
+        message(${LIBRARY_POSTFIX})
+        set_target_properties(${target}  PROPERTIES SUFFIX ${LIBRARY_POSTFIX})
+    endif()
 
-    set_target_properties(${target}  
-        PROPERTIES SUFFIX ${LIBRARY_POSTFIX}
-    )
     target_compile_definitions(${target} PRIVATE EXPORT_COMMON EXPORT_PLUGINS EXPORT_IPC EXPORT_MATH EXPORT_DATABASE)
     #link libraries
     if (CMAKE_SYSTEM MATCHES "Linux")
