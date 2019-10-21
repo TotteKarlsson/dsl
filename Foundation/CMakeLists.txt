@@ -109,9 +109,10 @@ if(${BUILD_SHARED_LIBS})
     add_library(${target} SHARED
     ${src}
     )
-    
-    set_target_properties(${target}  PROPERTIES 
-        OUTPUT_NAME ${target}${LIBRARY_POSTFIX}
+    target_include_directories (${target} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
+    set_target_properties(${target}  
+        PROPERTIES SUFFIX ${LIBRARY_POSTFIX}
     )
     target_compile_definitions(${target} PRIVATE EXPORT_COMMON EXPORT_PLUGINS EXPORT_IPC EXPORT_MATH EXPORT_DATABASE)
     #link libraries
@@ -140,35 +141,31 @@ if(${BUILD_SHARED_LIBS})
         RUNTIME DESTINATION bin COMPONENT core
         LIBRARY DESTINATION lib COMPONENT core
         ARCHIVE DESTINATION lib COMPONENT core
-        )            
-    endif()
+        )       
 
-    #set(pcHeader "${CMAKE_SOURCE_DIR}/pch/dsl_pch.h")
-endif() #Shared lib
+        #Headers
+        FILE (GLOB common_headers ./../Common/*.h)
+        FILE (GLOB math_headers ./../Math/*.h)
+        FILE (GLOB ipc_headers ./../IPC/*.h)
+        FILE (GLOB plugins_headers ./../Plugins/*.h)
+        FILE (GLOB db_headers ./../DataBase/*.h)
 
-#===== General Installs
-if(${INSTALL_CXX_LIBS})
-
-    FILE (GLOB common_headers ./../Common/*.h)
-    FILE (GLOB math_headers ./../Math/*.h)
-    FILE (GLOB ipc_headers ./../IPC/*.h)
-    FILE (GLOB plugins_headers ./../Plugins/*.h)
-    FILE (GLOB db_headers ./../DataBase/*.h)
-    install (   
-        FILES ${common_headers} ${math_headers} ${ipc_headers} ${db_headers}
-        ${plugins_headers}
-        DESTINATION include/dsl 
-        COMPONENT cxx_headers
-    )
-
-    if(${BORLAND})
-
-        install(FILES
-            ${PROJECT_BINARY_DIR}/bin/${target}.tds
-            DESTINATION bin
-            COMPONENT debug
+        install (   
+            FILES ${common_headers} ${math_headers} ${ipc_headers} ${db_headers}
+            ${plugins_headers}
+            DESTINATION include/dsl 
+            COMPONENT cxx_headers
         )
-    endif()        
 
+        if(${BORLAND})
+
+            install(FILES
+                ${PROJECT_BINARY_DIR}/bin/${target}.tds
+                DESTINATION bin
+                COMPONENT debug
+            )
+        endif()        
+
+    endif()
 endif()
 
