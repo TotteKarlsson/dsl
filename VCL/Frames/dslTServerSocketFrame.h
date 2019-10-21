@@ -1,5 +1,5 @@
-#ifndef TServerSocketFrameH
-#define TServerSocketFrameH
+#ifndef dslTServerSocketFrameH
+#define dslTServerSocketFrameH
 //---------------------------------------------------------------------------
 #include <Classes.hpp>
 #include <Controls.hpp>
@@ -13,10 +13,11 @@
 #include <ComCtrls.hpp>
 #include <ToolWin.hpp>
 #include <Menus.hpp>
-#include "dslIntEdit.h"
+#include "dslTIntegerEdit.h"
 #include <System.Actions.hpp>
 #include <string>
-#include "dslIntEdit.h"
+#include "dslTIntegerEdit.h"
+#include "dslSharedPointer.h"
 
 using namespace std;
 class TMemoSocketServer;
@@ -51,14 +52,13 @@ __published:    // IDE-managed Components
 
     private:
         String                            mAppFolder;
-        TMemoSocketServer*                mServer;
+        shared_ptr<TMemoSocketServer>     mServer;
 
     public:
                                 __fastcall  TServerSocketFrame(TComponent* Owner);
                                 __fastcall ~TServerSocketFrame();
         bool                    __fastcall  SendIPCMessage(const string& msg);
 };
-//---------------------------------------------------------------------------
+
 extern PACKAGE TServerSocketFrame *ServerSocketFrame;
-//---------------------------------------------------------------------------
 #endif

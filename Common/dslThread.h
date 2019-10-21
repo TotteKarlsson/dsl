@@ -34,6 +34,7 @@ class DSL_COMMON Thread : public DSLObject, public Poco::Runnable
         virtual void                                reset();
 
         virtual bool                                start(bool inThread = true);
+
         void                                        pause();
         void                                        resume();
         virtual void                                stop();

@@ -61,8 +61,10 @@ object ServerSocketFrame: TServerSocketFrame
         Width = 80
         Height = 21
         AutoSize = False
+        NumbersOnly = True
         TabOrder = 1
         Text = '50000'
+        Value = 50000
       end
     end
     object Panel1: TPanel

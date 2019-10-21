@@ -106,12 +106,7 @@ void IPCServer::setSocketProtocol(Socket::SocketProtocol proto)
 
 bool IPCServer::start(const int portNumber)
 {
-    bool res = initServer(portNumber);
-    if(!res)
-    {
-    	Log(lError) << "IPCServer Failed serving port: "<<portNumber;
-    }
-    return true;
+    return initServer(portNumber);
 }
 
 string IPCServer::getServerInfo()

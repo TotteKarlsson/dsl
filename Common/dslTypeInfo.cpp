@@ -9,47 +9,20 @@ string toString(ObjectType val)
 {
     switch(val)
     {
-        case otBool:
-            return "bool";
-        break;
-        case otUnsignedInt:
-            return "unsignedInt";
-        break;
-        case otInt:
-            return "int";
-        break;
-        case otDouble:
-            return "double";
-        break;
-        case otStdString:
-            return "string";
-        break;
-        case otChar:
-            return "char";
-        break;
-        case otStringList:
-            return "stringList";
-        break;
-        case otPoint:
-            return "point";
-        break;
-        case otColor:
-            return "color";
-        break;
-        case otAmazonQuery:
-            return "amazonQuery";
-        break;
-        case otAmazonCredentials:
-            return "amazonCredentials";
-        break;
-        case otLogLevel:
-            return "logLevel";
-        break;
-        case otUndefined:
-            return "undefined";
-        break;
-        default:
-            return "????";
+        case otBool:                return "bool";
+        case otUnsignedInt:         return "unsignedInt";
+        case otInt:                 return "int";
+        case otDouble:              return "double";
+        case otStdString:           return "string";
+        case otChar:                return "char";
+        case otStringList:          return "stringList";
+        case otPoint:               return "point";
+        case otColor:               return "color";
+        case otAmazonQuery:         return "amazonQuery";
+        case otAmazonCredentials:	return "amazonCredentials";
+        case otLogLevel:        	return "logLevel";
+        case otUndefined:           return "undefined";
+        default:               		return "????";
     }
 }
 }

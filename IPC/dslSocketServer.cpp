@@ -264,9 +264,10 @@ int SocketServer::TCPWorker()
             //This function creates a SocketWorker..
             SocketWorker *wkr = CreateWorkerFunction(mPortNumber, clntSock, mParent);
 
-            ScopedLock lock(mWorkerListMutex);
+            {
+	            ScopedLock lock(mWorkerListMutex);
                 mWorkerList.push_back(wkr);
-            lock.unlock();
+            }
 
             wkr->SetMessageDelimiters(mLeftMessageDelimiter, mRightMessageDelimiter);
             wkr->start();
