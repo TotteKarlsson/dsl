@@ -4,6 +4,7 @@
 
 namespace dsl
 {
+    typedef unsigned int uint;
 
 TogglerState::TogglerState(const string& desc)
 :

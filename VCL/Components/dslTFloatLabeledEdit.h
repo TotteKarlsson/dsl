@@ -7,18 +7,20 @@
 #include <StdCtrls.hpp>
 #include <ExtCtrls.hpp>
 #include "dslProperty.h"
+#include "dslTLabeledPropertyEdit.h"
 //---------------------------------------------------------------------------
 
 using dsl::Property;
 //---------------------------------------------------------------------------
-class PACKAGE TFloatLabeledEdit : public TLabeledEdit
+class PACKAGE TFloatLabeledEdit : public TLabeledPropertyEdit
 {
     public:
         double*                                     FValue;
                                     __fastcall      TFloatLabeledEdit(TComponent* Owner);
 
-        double&                     __fastcall      getReference();
-        void                        __fastcall      setReference(double& val);
+        double&                                     getReference();
+        void                                        setReference(double& val);
+        void                                        setValueFromString(const string&);
 
                                                     //When assigning an external property, the directAcess boolean
                                                     //controls how the internal value of the external property is accessed.
@@ -26,24 +28,21 @@ class PACKAGE TFloatLabeledEdit : public TLabeledEdit
                                                     //VCL component is manipulating the propertys internal TEMPORARY value
                                                     //If direct access is true, the VCL component will access the external
                                                     //propertys value directly
-        void                        __fastcall      assignExternalProperty(Property<double>* prop, bool directAccess = false);
-        virtual void                __fastcall      update(void);
-        Property<double>*           __fastcall      getProperty();
+        void                                        assignExternalProperty(Property<double>* prop, bool directAccess = false);
+        virtual void                                update(void);
+        Property<double>*                           getProperty();
 
                                                     //Access value trough the property.
         double                      __fastcall      getValue();
         void                        __fastcall      setValue(double val);
 
     protected:
-        Property<double>*                           mProperty;
 	 	int                                     	FNrOfDecimals;
-        bool                                        mDirectExternalPropertyAccess;
+
         double                                      mDummy;
         DYNAMIC void                __fastcall      DoExit(void);
-        DYNAMIC void                __fastcall      KeyDown(Word &Key, Classes::TShiftState Shift);
         void                        __fastcall      OnChange(TObject *Sender);
-
-        void                        __fastcall      SetNumberOfDecimals(int decimals);
+        void                        			    setNumberOfDecimals(int decimals);
         operator const double();
 
     __published:

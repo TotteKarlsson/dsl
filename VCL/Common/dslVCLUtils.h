@@ -14,12 +14,14 @@
 #include "dslStringList.h"
 namespace dsl
 {
+
+    //Todo: remove all __fastcall
 	using std::string;
 	using std::list;
 	using std::wstring;
 	using std::set;
     using std::ostringstream;
-
+    TRect 						   VCLCOMMON getStretchedDimensions(int width, int height, int maxWidth, int maxHeight);
     bool 				__fastcall VCLCOMMON sortTListBoxNumerically(TListBox* lb);
 	void 				__fastcall VCLCOMMON populateStyleMenu(TMenuItem* ThemesMenu, TNotifyEvent ThemesMenuClick);
 	void 				__fastcall VCLCOMMON populateStyleRG(TRadioGroup* ThemesCB);

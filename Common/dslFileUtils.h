@@ -26,6 +26,7 @@ DSL_COMMON StringList        	getFilesInFolder(const string& folder, const strin
 DSL_COMMON StringList        	getFilesInFolder(const string& folder, const string& startingWith, const string& fileExtension, bool withPath = true);
 DSL_COMMON StringList        	getSubFoldersInFolder(const string& folder, bool withFullPath = false);
 DSL_COMMON string				getLastFolderInPath(const string& p);
+DSL_COMMON string				getSecondToLastFolderInPath(const string& p);
 
 DSL_COMMON DATA_FORMAT          processDataHeader(const string& h);
 DSL_COMMON bool                 folderExists(const string& folder);
@@ -34,6 +35,9 @@ DSL_COMMON int                  countFiles(const string& folder, const string& e
 DSL_COMMON bool                 checkIfDBExistsInFolder(const string& dbName,const string& folder);
 DSL_COMMON string               getFileContent(const string& fName);
 DSL_COMMON string				getHumanReadableFileSize(double sizeInBytes);
+DSL_COMMON double 				getFileSize(const string& file, FileSizeType type);
+
+
 
 /*** Get The current directory including the driveletter ***/
 DSL_COMMON string               intToDriveLetter(int Number);

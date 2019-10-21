@@ -264,7 +264,7 @@ bool PluginManager::loadPlugin(const string& pluginName)
 }
 
 //Returns number of succesfully loaded & created plugins
-int PluginManager::loadPlugins()
+size_t PluginManager::loadPlugins()
 {
     set<string> files;
     string globPath =  joinPath(mPluginFolder, getPluginPrefix() + "*." + mPluginExtension);
@@ -292,12 +292,12 @@ int PluginManager::loadPlugins()
         }
         ++mPluginLibsIter;
     }
-    return mPlugins.size();
+    return (unsigned int) mPlugins.size();
 }
 
-int PluginManager::loadPluginLibs(set<string>& files)
+unsigned int PluginManager::loadPluginLibs(set<string>& files)
 {
-    int nrOfLoadedPlugins = 0;
+    unsigned int nrOfLoadedPlugins = 0;
     clearLoadErrors();
     stringstream errors;
 
@@ -555,7 +555,7 @@ StringList PluginManager::getPluginLibsNames() const
     return names;
 }
 
-int PluginManager::getNumberOfPlugins() const
+size_t PluginManager::getNumberOfPlugins() const
 {
     return mPluginLibs.size();
 }

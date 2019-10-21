@@ -1,14 +1,14 @@
 #pragma hdrstop
 #include "dslMathUtils.h"
 #include <cmath>
-
+#include <time.h>
 using namespace std;
 namespace dsl
 {
 
 int round(double r)
 {
-	return (r > 0.0) ? (r + 0.5) : (r - 0.5);
+	return (int) (r > 0.0) ? (r + 0.5) : (r - 0.5);
 }
 
 bool checkForZero(double val, double small)
@@ -295,7 +295,7 @@ int GetRandomNumber(int min, int max)
     static bool initialized;
     if(!initialized)
     {
-           srand((unsigned) time(&t));
+        srand((unsigned) time(&t));
         initialized = true;
     }
 

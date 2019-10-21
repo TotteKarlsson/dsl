@@ -4,6 +4,9 @@
 
 namespace dsl
 {
+
+typedef unsigned int uint;
+
 IPCData::IPCData(short id)
 :
 mIsPacked(true)

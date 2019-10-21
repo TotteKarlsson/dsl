@@ -13,11 +13,15 @@
 #include <sstream>
 #include <iomanip>
 #include <clocale>
+
+#ifdef _MSC_VER
+#include <ctype.h>
+#endif
 //---------------------------------------------------------------------------
 
 namespace dsl
 {
-
+    typedef unsigned int uint;
 using namespace std;
 using Poco::DateTimeParser;
 
@@ -129,13 +133,16 @@ string readFirstWord(const string& sline)
     return words.size() ? words[0] : string("");
 }
 
-bool startsWith(const string& prefix, const string& theStr)
+bool startsWith(const string& prefix, const string& theStr, bool caseLess)
 {
-	if (theStr.find(prefix) == 0)
-	{
-		return true;
-	}
-	return false;
+    string s(theStr), p(prefix);
+    if(caseLess == true)
+    {
+    	s = toLowerCase(theStr);
+    	p = toLowerCase(prefix);
+    }
+
+	return (s.find(p) == 0) ? true : false;
 }
 
 bool contains(const string& aWord, const string& aString, CASE_SENSITIVITY casing)
@@ -240,40 +247,52 @@ string stripNewLine(const string& msg)
     return aMsg;
 }
 
-string trimChars(const string& str, const string& chars)
+string trimChars(const string& str, const string& chars, int max_trim)
 {
     string res(str);
     for(uint i = 0; i < chars.size(); i++)
     {
-        res = trim(res, chars[i]);
+        res = trim(res, chars[i], max_trim);
     }
     return res;
 }
 
 // trim from both ends
-string trim(const string& _s, const char& ch)
+string trim(const string& _s, const char& ch, int max_trim)
 {
-    return trimFront(trimBack(_s, ch), ch);
+    return trimFront(trimBack(_s, ch, max_trim), ch, max_trim);
 }
 
 // trim from start
-string trimFront(const string& _s, const char& ch)
+string trimFront(const string& _s, const char& ch, int max_trim)
 {
     string s(_s);
+    int count(0);
     while(s.size() > 0 && s[0] == ch)
     {
         s.erase(0, 1);
+        count++;
+        if(count >= max_trim)
+        {
+            break;
+        }
     }
     return s;
 }
 
 // trim from end
-string trimBack(const string& _s, const char& ch)
+string trimBack(const string& _s, const char& ch, int max_trim)
 {
     string s(_s);
+    int count(0);
     while(s[s.size() - 1] == ch)
     {
         s.erase(s.size() - 1);
+        count++;
+        if(count >= max_trim)
+        {
+            break;
+        }
     }
     return s;
 }
@@ -282,7 +301,7 @@ string trimBack(const string& _s, const char& ch)
 string trimWSFront(const string& _s)
 {
     string s(_s);
-    s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1( std::ptr_fun<int, int>(std::isspace))));
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1( std::ptr_fun<int, int>(isspace))));
     return s;
 }
 
@@ -290,7 +309,7 @@ string trimWSFront(const string& _s)
 string trimWSBack(const string& _s)
 {
     string s(_s);
-    s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
+    s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(isspace))).base(), s.end());
     return s;
 }
 
@@ -575,7 +594,7 @@ string eatRecord(string &text, const string& sep)
     text = text.substr(stop,text.size());
     if(text.size())
     {
-        int ws = text.find_first_not_of(sep);
+        size_t ws = text.find_first_not_of(sep);
         if(ws == -1) //Means there is only whitespace!
         {
             text = "";
@@ -951,11 +970,11 @@ vector<string> splitString(const string &text, const char& oneSep)
 vector<string> splitString(const string &text, const string &separators)
 {
     vector<string> words;
-    int n = text.length();
-    int start = text.find_first_not_of(separators);
+    size_t n = text.length();
+    size_t start = text.find_first_not_of(separators);
     while( (start >= 0) && (start < n) )
     {
-        int stop = text.find_first_of(separators, start);
+        size_t stop = text.find_first_of(separators, start);
         if( (stop < 0) || (stop > n) )
         {
             stop = n;
@@ -969,11 +988,11 @@ vector<string> splitString(const string &text, const string &separators)
 vector<string> splitString(const string& text, const string &separators, bool cutDelimiter)
 {
     vector<string> words;
-    int n = text.length();
-    int start = text.find_first_not_of(separators);
+    size_t n = text.length();
+    size_t start = text.find_first_not_of(separators);
     while( (start >= 0) && (start < n) )
     {
-        int stop = text.find_first_of(separators, start);
+        size_t stop = text.find_first_of(separators, start);
         if( (stop < 0) || (stop > n) )
         {
             stop = n;
@@ -1004,13 +1023,13 @@ vector<string> splitString(const string& text, const string &separators, bool cu
     return words;
 }
 
-int splitString(vector<string>& words, const string &text, const string &separators)
+size_t splitString(vector<string>& words, const string &text, const string &separators)
 {
-    int n = text.length();
-    int start = text.find_first_not_of(separators);
+    size_t n = text.length();
+    size_t start = text.find_first_not_of(separators);
     while( (start >= 0) && (start < n) )
     {
-        int stop = text.find_first_of(separators, start);
+        size_t stop = text.find_first_of(separators, start);
         if( (stop < 0) || (stop > n) )
         {
             stop = n;
@@ -1070,8 +1089,6 @@ string getTimeString()
     return theTime;
 }
 
-
-
 string getFormattedDateTimeString(const string& format)
 {
     struct tm *time_now;
@@ -1083,7 +1100,6 @@ string getFormattedDateTimeString(const string& format)
     return string(str);
 }
 
-
 string getDateTimeString()
 {
     string theTime = getTimeString();
@@ -1092,8 +1108,6 @@ string getDateTimeString()
     string timeStr = tTimeTbl[4] + " " + tTimeTbl[1] + " " + tTimeTbl[2] + " " + tTimeTbl[3];
     return timeStr;
 }
-
-
 
 int toInt(const string& str, bool fromBeginning)
 {
@@ -1183,8 +1197,8 @@ string extractPathTo(const string& filePathOrJustPath, const char& pathSeparator
 {
     string file = filePathOrJustPath;
     //Check if the file comes with a path..
-    int start = file.find_first_of(pathSeparator);
-    int end   = file.find_last_of(pathSeparator);
+    size_t start = file.find_first_of(pathSeparator);
+    size_t end   = file.find_last_of(pathSeparator);
     if(start < 0)
     {
         return string("");
@@ -1408,11 +1422,11 @@ string toString(const unsigned char n)
 	return string(sBuffer);
 }
 
-string toString(double val, const string& format)
+string toString(double val, int precision)
 {
-	char sBuffer[256];
-	sprintf(sBuffer, format.c_str(), val);
-	return string(sBuffer);
+    stringstream s;
+    s << std::setprecision(precision) << val;
+	return s.str();
 }
 
 string toString(const DateTime& dt, const string& format)
@@ -1647,7 +1661,7 @@ bool compareStrings(const string& str1, const string& str2, CASE_SENSITIVITY sen
 
 bool compareNoCase(const string& a, const string& b)
 {
-    unsigned int sz = a.size();
+    size_t sz = a.size();
     if (b.size() != sz)
         return false;
     for (unsigned int i = 0; i < sz; ++i)

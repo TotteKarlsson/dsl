@@ -23,7 +23,7 @@ class StringList;
 template<typename T>
 class Range;
 
-enum STR2INT_ERROR { SUCCESS, OVERFLOW, UNDERFLOW, INCONVERTIBLE };
+enum STR2INT_ERROR { stiSUCCESS, stiOVERFLOW, stiUNDERFLOW, stiINCONVERTIBLE };
 DSL_COMMON STR2INT_ERROR 	str2int (int &i, char const *s, int base = 0);
 
 DSL_COMMON string			toHex(int byte);
@@ -38,7 +38,7 @@ DSL_COMMON string 			createZeroPaddedString(unsigned int z, unsigned int digits)
 DSL_COMMON string           stdstr(const char* str );
 DSL_COMMON string           stdstr(vector<char>& str );
 DSL_COMMON string           stdstr(const string& str );
-DSL_COMMON string 			stdstr( const std::wstring& str );
+DSL_COMMON string 			stdstr(const std::wstring& str );
 DSL_COMMON wstring 			wstdstr(const string& str);
 
 DSL_COMMON StringList       getLinesInFile(const string& fName);
@@ -48,7 +48,7 @@ DSL_COMMON string           getParentFolder(const string& folder);
 DSL_COMMON string           getStringFromSeconds(long seconds);
 DSL_COMMON int              indexOf(const std::vector<std::string>& vec, const std::string& elem);
 
-DSL_COMMON bool             startsWith( const string& prefix, const string& src);
+DSL_COMMON bool             startsWith( const string& prefix, const string& src, bool caseLess = false);
 DSL_COMMON bool             endsWith(const string& postFix, const string& src);
 DSL_COMMON DATA_FORMAT      intToDataFormat(int type);
 
@@ -63,10 +63,10 @@ DSL_COMMON string           stripNewLine(const string& str);
 DSL_COMMON string           stripCharacter(const char& ch, const string& source);
 DSL_COMMON string           stripCharacters(const string& chars, const string& source);
 
-DSL_COMMON string           trimChars(const string& str, const string& chars = gEmptyString);
-DSL_COMMON string           trim(const string& str, const char& aChar = ' ');
-DSL_COMMON string           trimBack(const string& str, const char& aChar = ' ');
-DSL_COMMON string           trimFront(const string& str, const char& aChar = ' ');
+DSL_COMMON string           trimChars(const string& str, const string& chars = gEmptyString, int max_trim = 100);
+DSL_COMMON string           trim(const string& str, const char& aChar = ' ', int max_trim = 1);
+DSL_COMMON string           trimBack(const string& str, const char& aChar = ' ', int max_trim = 1);
+DSL_COMMON string           trimFront(const string& str, const char& aChar = ' ', int max_trim = 1);
 
 DSL_COMMON string           trimWS(const string& str);
 DSL_COMMON string           trimWSBack(const string& str);
@@ -108,7 +108,7 @@ DSL_COMMON string           getFormattedDateTimeString(const string& format);   
 DSL_COMMON vector<string>   split(const string &s, char delim);
 DSL_COMMON vector<string>&  split(const string &s, char delim, vector<string> &elems);
 
-DSL_COMMON int              splitString(vector<string>& strs, const string &text, const string &separators);
+DSL_COMMON size_t           splitString(vector<string>& strs, const string &text, const string &separators);
 DSL_COMMON vector<string>   splitString(const string& input, const char& delimiter);
 DSL_COMMON vector<string>   splitString(const string& input, const string& delimiters, bool cutDel = true);
 DSL_COMMON vector<string>   splitStringAtWord(const string& input, const string& word);
@@ -138,7 +138,7 @@ DSL_COMMON string           toString(const int n,            const string& forma
 DSL_COMMON string           toString(const unsigned int n,   const string& format = gIntFormat, const int nBase=10);
 DSL_COMMON string           toString(const long n,           const int nBase=10);
 DSL_COMMON string           toString(const unsigned long n,  const int nBase=10);
-DSL_COMMON string           toString(double d, const string& format = gDoubleFormat);
+DSL_COMMON string           toString(double d, int precision = 10);
 DSL_COMMON string           toString(const string& s);
 DSL_COMMON string           toString(const vector<int>& 	vec, const string& sep = gCommaSpace);
 DSL_COMMON string           toString(const vector<double>& 	vec, const string& sep = gCommaSpace);

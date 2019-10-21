@@ -9,8 +9,8 @@ extern "C" int _libmain(unsigned long reason)
 }
 
 //Link
-#pragma comment(lib, "dslFoundation.lib")
-#pragma comment(lib, "dslVCLCommon.lib")
+#pragma comment(lib, "dslFoundation")
+#pragma comment(lib, "dslVCLCommon")
 #pragma comment(lib, "poco_foundation")
 
 #pragma link "rtl.bpi"

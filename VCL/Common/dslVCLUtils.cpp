@@ -7,6 +7,7 @@
 #include "dslLogger.h"
 #include "dslApplicationInfo.h"
 #include "dslVersion.h"
+//#include <atl/atlbase.h>
 #pragma package(smart_init)
 
 namespace dsl
@@ -72,6 +73,28 @@ int __fastcall compareStringListItems(TStringList* l, int index1, int index2)
         	return 0;
         }
     }
+}
+
+TRect getStretchedDimensions(int width, int height, int maxWidth, int maxHeight)
+{
+   	//calculate aspect ratio
+	double scaleHeight = maxHeight / (double)height;
+	double scaleWidth =  maxWidth / (double)width;
+    double scale = min(scaleHeight, scaleWidth);
+
+	TRect r(0,0, (width * scale), (height * scale));
+    if(maxWidth >= maxHeight)
+    {
+		double gap = maxWidth - r.GetWidth();
+        r.SetLocation(gap/2.0, 0);
+    }
+    else
+    {
+		double gap = maxHeight - r.GetHeight();
+        r.SetLocation(0, gap/2.0);
+    }
+
+    return r;
 }
 
 string __fastcall createWindowTitle(const string& appName, TApplication* app)
@@ -254,34 +277,34 @@ vector<string> __fastcall stdlines(TStrings* lines)
     return slines;
 }
 
-wstring __fastcall ToWStdString(const string& str)
-{
-    wstring temp(str.begin(), str.end());
-    return temp;
-}
-
-string __fastcall ToSTDString(const UnicodeString& str)
-{
-    wstring temp1 = str.c_str();
-    string temp2(temp1.begin(), temp1.end());
-    return temp2;
-}
-
-string __fastcall ToSTDString(const wstring& str)
-{
-    string temp(str.begin(), str.end());
-    return temp;
-}
-
-String __fastcall ToUIString (const std::string &in)
-{
-    return in.c_str();
-}
-
-String __fastcall ToUIString (const std::wstring &in)
-{
-    return in.c_str();
-}
+//wstring __fastcall ToWStdString(const string& str)
+//{
+//    wstring temp(str.begin(), str.end());
+//    return temp;
+//}
+//
+//string __fastcall ToSTDString(const UnicodeString& str)
+//{
+//    wstring temp1 = str.c_str();
+//    string temp2(temp1.begin(), temp1.end());
+//    return temp2;
+//}
+//
+//string __fastcall ToSTDString(const wstring& str)
+//{
+//    string temp(str.begin(), str.end());
+//    return temp;
+//}
+//
+//String __fastcall ToUIString (const std::string &in)
+//{
+//    return in.c_str();
+//}
+//
+//String __fastcall ToUIString (const std::wstring &in)
+//{
+//    return in.c_str();
+//}
 
 ostream&  __fastcall operator << (ostream& stream, const String& aString)
 {
@@ -763,6 +786,15 @@ string __fastcall browseForFolder(const string& startFolder)
             }
 
             // Show the Open dialog box.
+
+			IShellItem* psiFolder;
+
+        	hr = SHCreateItemFromParsingName ( wstdstr(startFolder).c_str(), NULL, IID_PPV_ARGS(&psiFolder) );
+
+            if ( SUCCEEDED(hr) )
+              pfd->SetFolder ( psiFolder );
+
+
             hr = pfd->Show(nullptr);
 
             // Get the file name from the dialog box.
@@ -1061,7 +1093,6 @@ StringList __fastcall getStrings(TCheckListBox *listBox)
     return items;
 }
 
-
 void __fastcall populateCheckListBox(const StringList& items, TCheckListBox *lb)
 {
 	lb->Clear();
@@ -1114,86 +1145,89 @@ int __fastcall populateDropDown(StringList& items, TComboBox *CB, const string& 
 
 void __fastcall findFilesInDirectory(const string &directory, const string& Extension, const bool& searchSubFolders, list<string>& excludeDirs, list<string>& fileList, bool& terminate)
 {
-    // This method searches the directory specified by the parameter and all
-    // of its subdirectories for the file matching the value in SearchCustomEdit.
-    // The directory name is assumed to end with a backslash.
 
-    WIN32_FIND_DATA filedata ;  // Structure for file data
-    HANDLE filehandle ;         // Handle for searching
+//Replace this with POCO
 
-    // Pass 1 - Search for the files within the directory.
-    #if defined(_UNICODE)
-        wstring tempFilter = wstdstr(directory + Extension);
-        wstring searchFilter(tempFilter.c_str());
-    #else
-        string searchFilter(directory + Extension);
-    #endif
-
-    filehandle = FindFirstFile (searchFilter.c_str(), &filedata);
-    if (filehandle != INVALID_HANDLE_VALUE)
-    {
-        do
-        {
-            if(terminate)
-            {
-              	FindClose (filehandle);
-                return;
-            }
-            //Don't append the file if the file is a directory
-            if((filedata.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
-            {
-            	string fldr = (directory) + (stdstr (filedata.cFileName));
-                fileList.push_back(fldr);
-            }
-        }
-        while (FindNextFile (filehandle, &filedata));
-        FindClose (filehandle) ;
-    }
-
-    // Pass 2 - Search for subdirectories within this directory
-    if(searchSubFolders)
-    {
-        string dir = directory + "*.*" ;
-        #if defined(_UNICODE)
-            filehandle = FindFirstFile (vclstr(directory + "*.*").c_str (), &filedata) ;
-        #else
-            filehandle = FindFirstFile ((directory + "*.*").c_str (), &filedata) ;
-        #endif
-        if (filehandle != INVALID_HANDLE_VALUE)
-        {
-          	do
-          	{
-                if(terminate)
-                {
-                   	FindClose (filehandle) ;
-                    return;
-                }
-
-            	if ((filedata.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0
-                 	&& String (filedata.cFileName) != "."
-                 	&& String (filedata.cFileName) != "..")
-            	{
-					// Recursive call here
-                    //Don't do it if the dir is in the don't search list box
-                	string theDir = stdstr(filedata.cFileName);
-                    if(find(excludeDirs.begin(), excludeDirs.end(), theDir) != excludeDirs.end())
-                    {
-                       //Skip this
-                    }
-                    else
-                    {
-              			string subFolder = directory + stdstr(String(filedata.cFileName) + "\\");
-
-                        //RECURSIVE call here
-                    	findFilesInDirectory(subFolder, Extension, searchSubFolders, excludeDirs, fileList, terminate);
-              		}
-            	}
-          	}
-            while (FindNextFile (filehandle, &filedata)) ;
-          	FindClose (filehandle) ;
-		}
-	}
-    return;
+//    // This method searches the directory specified by the parameter and all
+//    // of its subdirectories for the file matching the value in SearchCustomEdit.
+//    // The directory name is assumed to end with a backslash.
+//
+//    WIN32_FIND_DATA filedata ;  // Structure for file data
+//    HANDLE filehandle ;         // Handle for searching
+//
+//    // Pass 1 - Search for the files within the directory.
+//    #if defined(_UNICODE)
+//        wstring tempFilter = wstdstr(directory + Extension);
+//        wstring searchFilter(tempFilter.c_str());
+//    #else
+//        string searchFilter(directory + Extension);
+//    #endif
+//
+//    filehandle = FindFirstFile (searchFilter.c_str(), &filedata);
+//    if (filehandle != INVALID_HANDLE_VALUE)
+//    {
+//        do
+//        {
+//            if(terminate)
+//            {
+//              	FindClose (filehandle);
+//                return;
+//            }
+//            //Don't append the file if the file is a directory
+//            if((filedata.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
+//            {
+//            	string fldr = (directory) + (stdstr (filedata.cFileName));
+//                fileList.push_back(fldr);
+//            }
+//        }
+//        while (FindNextFile (filehandle, &filedata));
+//        FindClose (filehandle) ;
+//    }
+//
+//    // Pass 2 - Search for subdirectories within this directory
+//    if(searchSubFolders)
+//    {
+//        string dir = directory + "*.*" ;
+//        #if defined(_UNICODE)
+//            filehandle = FindFirstFile (vclstr(directory + "*.*").c_str (), &filedata) ;
+//        #else
+//            filehandle = FindFirstFile ((directory + "*.*").c_str (), &filedata) ;
+//        #endif
+//        if (filehandle != INVALID_HANDLE_VALUE)
+//        {
+//          	do
+//          	{
+//                if(terminate)
+//                {
+//                   	FindClose (filehandle) ;
+//                    return;
+//                }
+//
+//            	if ((filedata.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0
+//                 	&& String (filedata.cFileName) != "."
+//                 	&& String (filedata.cFileName) != "..")
+//            	{
+//					// Recursive call here
+//                    //Don't do it if the dir is in the don't search list box
+//                	string theDir = stdstr(filedata.cFileName);
+//                    if(find(excludeDirs.begin(), excludeDirs.end(), theDir) != excludeDirs.end())
+//                    {
+//                       //Skip this
+//                    }
+//                    else
+//                    {
+//              			string subFolder = directory + stdstr(String(filedata.cFileName) + "\\");
+//
+//                        //RECURSIVE call here
+//                    	findFilesInDirectory(subFolder, Extension, searchSubFolders, excludeDirs, fileList, terminate);
+//              		}
+//            	}
+//          	}
+//            while (FindNextFile (filehandle, &filedata)) ;
+//          	FindClose (filehandle) ;
+//		}
+//	}
+//    return;
 }
 
 //Rich Edit

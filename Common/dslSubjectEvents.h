@@ -21,7 +21,8 @@ enum SubjectEvent
     UpdateDimensionalProperties   = 6,
 //    const int RemovedFromExplorer           = 7;
     UpdateRepresentation          = 8,
-//    const int UpdateTopology                = 9;
+    UpdateTree			          = 9,
+
     UpdateCoreData                = 10,
     UpdateVisibility              = 11,
     UpdateSelectedProperties      = 12

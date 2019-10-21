@@ -53,7 +53,7 @@ class DSL_PLUGINS PluginManager
 
                                                     //!Loading a plugin involve to load its shared lib, and execute
                                                     //!the plugins create function.
-        virtual int                                 loadPlugins();
+        virtual size_t                              loadPlugins();
         virtual bool                                unload(Plugin* plugin = nullptr);
         virtual bool                                unloadAll();
         virtual string                              getInfo() const;
@@ -65,7 +65,7 @@ class DSL_PLUGINS PluginManager
 
         bool                                        setPluginDir(const string& dir);
         string                                      getPluginDir() const;
-        int                                         getNumberOfPlugins() const;
+        size_t                                      getNumberOfPlugins() const;
 
         bool                                        hasLoadErrors() const;
         string                                      getLoadErrors() const;
@@ -84,7 +84,7 @@ class DSL_PLUGINS PluginManager
         string                                      mPluginSuffix;
         stringstream                                mLoadPluginErrors;
 
-        virtual int                                 loadPluginLibs(set<string>& files);
+        virtual unsigned int                        loadPluginLibs(set<string>& files);
         virtual Plugin*                             createPlugin(const string& pluginLibName);
 
         StringList                                  getPluginLibsNames() const;

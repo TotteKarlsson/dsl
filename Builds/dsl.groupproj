@@ -9,9 +9,6 @@
         <Projects Include="dslFoundation\dslFoundation.cbproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="dslPythonPlugins\dslPythonPlugins.cbproj">
-            <Dependencies/>
-        </Projects>
         <Projects Include="dslVCLCommon\dslVCLCommon.cbproj">
             <Dependencies/>
         </Projects>
@@ -47,15 +44,6 @@
     <Target Name="dslFoundation:Make">
         <MSBuild Projects="dslFoundation\dslFoundation.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="dslPythonPlugins">
-        <MSBuild Projects="dslPythonPlugins\dslPythonPlugins.cbproj"/>
-    </Target>
-    <Target Name="dslPythonPlugins:Clean">
-        <MSBuild Projects="dslPythonPlugins\dslPythonPlugins.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="dslPythonPlugins:Make">
-        <MSBuild Projects="dslPythonPlugins\dslPythonPlugins.cbproj" Targets="Make"/>
-    </Target>
     <Target Name="dslVCLCommon">
         <MSBuild Projects="dslVCLCommon\dslVCLCommon.cbproj"/>
     </Target>
@@ -84,13 +72,13 @@
         <MSBuild Projects="dslVCLVisualComponents\dslVCLVisualComponents.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="dummy;dslFoundation;dslPythonPlugins;dslVCLCommon;dslVCLComponents;dslVCLVisualComponents"/>
+        <CallTarget Targets="dummy;dslFoundation;dslVCLCommon;dslVCLComponents;dslVCLVisualComponents"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="dummy:Clean;dslFoundation:Clean;dslPythonPlugins:Clean;dslVCLCommon:Clean;dslVCLComponents:Clean;dslVCLVisualComponents:Clean"/>
+        <CallTarget Targets="dummy:Clean;dslFoundation:Clean;dslVCLCommon:Clean;dslVCLComponents:Clean;dslVCLVisualComponents:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="dummy:Make;dslFoundation:Make;dslPythonPlugins:Make;dslVCLCommon:Make;dslVCLComponents:Make;dslVCLVisualComponents:Make"/>
+        <CallTarget Targets="dummy:Make;dslFoundation:Make;dslVCLCommon:Make;dslVCLComponents:Make;dslVCLVisualComponents:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

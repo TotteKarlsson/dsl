@@ -8,6 +8,7 @@
 
 namespace dsl
 {
+
 using std::stringstream;
 class DSL_COMMON DSLException : public std::exception, public DSLObject
 {

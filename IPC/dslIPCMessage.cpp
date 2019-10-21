@@ -3,8 +3,9 @@
 #include "dslIPCMessageEnums.h"
 #include "dslStringUtils.h"
 
-using namespace dsl;
-
+namespace dsl
+{
+typedef unsigned int uint;
 #undef GetMessage
 
 IPCMessage::IPCMessage(int msgID, const string& msgData, int from_socket)
@@ -158,4 +159,4 @@ bool IPCMessage::Pack()
     return true;
 }
 
-
+ }
