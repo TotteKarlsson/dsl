@@ -10,7 +10,7 @@ using std::string;
 class IPCServer;
 
 //Function to used to create a worker
-SocketWorker* DSL_IPC createIPCReceiver(int portNr, int socketHandle, void* parent);
+DSL_IPC SocketWorker* createIPCReceiver(int portNr, int socketHandle, void* parent);
 
 class DSL_IPC IPCReceiver : public SocketWorker
 {

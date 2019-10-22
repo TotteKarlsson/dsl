@@ -182,7 +182,7 @@ bool endsWith(const string& ending, const string& fullString)
     }
 }
 
-string getStringFromSeconds(long elapsed)
+string getStringFromSeconds(time_t elapsed)
 {
     if(elapsed < 0)
 	{

@@ -133,7 +133,7 @@ int Socket::send(const string& msg)
         return -1;
     }
 
-    int retval = ::send(mSocketHandle, msg.c_str(), msg.length(), 0);
+    size_t retval = ::send(mSocketHandle, msg.c_str(), msg.length(), 0);
     if(retval < 0)
     {
         if(errno == EPIPE)

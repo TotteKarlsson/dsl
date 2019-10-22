@@ -66,8 +66,7 @@ string IPCMessage::GetMessage()
 }
 
 string IPCMessage::GetMessageBody()
-{
-    bool unPack;
+{    
     string msgBody;
     if(mIsPacked)
     {

@@ -6,6 +6,7 @@
 #include "dslObject.h"
 #include "dslIPCExporter.h"
 #include "dslProperty.h"
+#include <boost/function.hpp>
 
 namespace dsl
 {
@@ -16,7 +17,8 @@ using std::deque;
 #define SERR_NOSOCKET    4
 #define SERR_UNKNOWNHOST 5
 
-typedef void (__closure *SocketCallBack)();
+//typedef void (__closure *SocketCallBack)();
+typedef boost::function<void ()> SocketCallBack;
 
 class DSL_IPC Socket : public DSLObject
 {
@@ -47,7 +49,7 @@ class DSL_IPC Socket : public DSLObject
 		SocketCallBack						onConnected;
 
     protected:
-        int                                 mSocketHandle;
+        SOCKET                              mSocketHandle;
         bool                                mIsBroken;
         deque<char>                         mMessageBuffer;
         WSADATA                             mWSAData;                     /* Structure for WinSock setup communication */

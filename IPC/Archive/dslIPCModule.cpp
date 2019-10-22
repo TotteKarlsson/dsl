@@ -41,7 +41,7 @@ bool dslIPCModule::ReadIniFile(const string& fName, const string& sec)
 //        return false;
 //    }
 //
-//       for(unsigned int i = 0; i < mPropertys.size(); i++)
+//       for(size_t i = 0; i < mPropertys.size(); i++)
 //    {
 //        mPropertys[i]->ReadFromIniFile(iniFile, mIniFileSection);
 //        if(!mPropertys[i]->WasRead())

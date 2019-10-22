@@ -20,7 +20,7 @@ class DSL_IPC IPCMessageBuilder : public DSLObject
         void                                reset();
         bool                                build(const char& ch);
         string                              getMessage();
-        unsigned int                        getMessageSize(){return mMessage.size();}
+        size_t                              getMessageSize(){return mMessage.size();}
         void                                setDelimiters(const char& lDel, const char& rDel = '\n');
 
     private:

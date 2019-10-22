@@ -44,7 +44,7 @@ class DSL_IPC SocketServer : public Thread, public Socket
         bool                                        SendToWorker(const string& msg, int socketId);
         bool                                        RemoveLostConnections();
 
-        int                                         GetNumberOfClients(){return mWorkerList.size();}
+        size_t                                      GetNumberOfClients(){return mWorkerList.size();}
 
         void                                        SetIncomingMessageDelimiters(const char& left, const char& right='\n');
 

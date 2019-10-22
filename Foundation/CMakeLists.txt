@@ -64,19 +64,19 @@ set(src
 ../Plugins/dslPluginMetaData
 ../Plugins/dslPluginWithEvents
 
-#../IPC/dslIPCData
-#../IPC/dslIPCMessage
-#../IPC/dslIPCMessageBuilder
-#../IPC/dslIPCMessageEnums
-#../IPC/dslIPCMessageProcessor
-#../IPC/dslIPCReceiver
-#../IPC/dslIPCServer
-#../IPC/dslSocket
-#../IPC/dslSocketClient
-#../IPC/dslSocketReceiver
-#../IPC/dslSocketServer
-#../IPC/dslSocketWorker
-#../IPC/dslToggleSocketConnectionThread
+../IPC/dslIPCData
+../IPC/dslIPCMessage
+../IPC/dslIPCMessageBuilder
+../IPC/dslIPCMessageEnums
+../IPC/dslIPCMessageProcessor
+../IPC/dslIPCReceiver
+../IPC/dslIPCServer
+../IPC/dslSocket
+../IPC/dslSocketClient
+../IPC/dslSocketReceiver
+../IPC/dslSocketServer
+../IPC/dslSocketWorker
+../IPC/dslToggleSocketConnectionThread
 
 ../Math/dslDihedralAngle
 ../Math/dslAxisSystem
@@ -134,6 +134,7 @@ if(${BUILD_SHARED_LIBS})
             ${CMAKE_INSTALL_PREFIX}/lib/tinyxml2${LIBRARY_POSTFIX}.lib
             ${CMAKE_INSTALL_PREFIX}/lib/poco_foundation${LIBRARY_POSTFIX}.lib
             Shell32.lib
+            ws2_32
         )
     endif()
 

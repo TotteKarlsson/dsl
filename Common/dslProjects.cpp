@@ -148,7 +148,7 @@ Project* Projects::getLast()
     return nullptr;
 }
 
-int Projects::count()
+size_t Projects::count()
 {
     return mProjects.size();
 }

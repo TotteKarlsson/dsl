@@ -75,18 +75,18 @@ DSL_COMMON double getFileSize(const string& file, FileSizeType type)
 {
     const int CONVERSION_VALUE = 1024;
     Poco::File aFile(file);
-    unsigned int bytes = aFile.getSize();
+    Poco::File::FileSize bytes = aFile.getSize();
 
     //determine what conversion they want
     switch (type)
     {
-        case fstByte:             return bytes;
-        case fstKiloByte:         return (bytes / (CONVERSION_VALUE));
-        case fstMegaByte:         return (bytes / (CONVERSION_VALUE * CONVERSION_VALUE ));
-        case fstGigaByte:         return (bytes / (CONVERSION_VALUE * CONVERSION_VALUE * CONVERSION_VALUE));
+        case fstByte:             return (double) bytes;
+        case fstKiloByte:         return (double) (bytes / (CONVERSION_VALUE));
+        case fstMegaByte:         return (double) (bytes / (CONVERSION_VALUE * CONVERSION_VALUE));
+        case fstGigaByte:         return (double) (bytes / (CONVERSION_VALUE * CONVERSION_VALUE * CONVERSION_VALUE));
         default:		          break;
 	}
-    return bytes;
+    return (double) bytes;
 }
 
 bool createFile(const string& fName, ios_base::openmode mode)

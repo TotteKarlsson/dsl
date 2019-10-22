@@ -301,7 +301,7 @@ bool IPCServer::removeLostConnections()
     return mSocketServer.RemoveLostConnections();
 }
 
-int IPCServer::getNumberOfClients()
+size_t IPCServer::getNumberOfClients()
 {
     return mSocketServer.GetNumberOfClients();
 }

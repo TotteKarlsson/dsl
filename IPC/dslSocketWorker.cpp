@@ -28,7 +28,7 @@ SocketWorker::~SocketWorker()
 string SocketWorker::GetInfo()
 {
     string info = "Socket Worker Information \n";
-    info += "mSocketHandle = " + toString(mSocketHandle);
+    info += "mSocketHandle = " + dsl::toString((int) mSocketHandle);
     info += "\n";
     return info;
 }

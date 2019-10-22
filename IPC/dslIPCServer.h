@@ -42,7 +42,7 @@ class DSL_IPC IPCServer : public DSLObject
         virtual bool                                    shutDown();
         virtual bool                                    init(int pNumber = -1, CreateWorker createWorkerPtr = NULL);
 
-        int                                             getNumberOfClients();
+        size_t                                          getNumberOfClients();
         string                                          getServerInfo();
         void                                            setSocketServer(SocketServer* aServer);
         string                                          getConnectionInfo();
@@ -51,7 +51,7 @@ class DSL_IPC IPCServer : public DSLObject
 
         bool                                            broadcast(const string& msg);
         bool                                            removeLostConnections();
-        int                                             nrOfMessages(){return mMessages.size();}
+        size_t                                          nrOfMessages(){return mMessages.size();}
 
         bool                                            request(const string& msg);            //Post a message to the message list
         bool                                            postRequest(IPCMessage& msg);       	//Post a message to the message list

@@ -25,7 +25,7 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "Embarcadero" AND CMAKE_BASE_NAME STREQUAL "bc
 
     set(SUPPRESS_WARNINGS   "-w-8128 -w-8057 -w-8012 -w-8004 -w-8070")
 
-    #Borland hack.. we alwasy need dynamic runtime (-tR) :(       
+    #Borland hack.. we always need dynamic runtime (-tR) :(       
     set(CMAKE_C_FLAGS               "${CMAKE_C_FLAGS} -tR")
     set(CMAKE_CXX_FLAGS             "${CMAKE_CXX_FLAGS} -tR")
     set(CMAKE_EXE_LINKER_FLAGS      "${CMAKE_EXE_LINKER_FLAGS} -tR")
@@ -109,4 +109,3 @@ install (FILES
     DESTINATION ${RootDest} 	
     COMPONENT info
    )
-
