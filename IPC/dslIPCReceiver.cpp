@@ -6,7 +6,7 @@
 #include "dslIPCServer.h"
 #include "dslIPCReceiver.h"
 
-using std::string;
+using namespace std;
 
 #undef GetMessage
 namespace dsl

@@ -8,11 +8,11 @@
 namespace dsl
 {
 
-Timer::Timer(const Timespan& interval, EventFunction class_func_ptr, const string& label)
+Timer::Timer(const Timespan& interval, EventFunction f, const string& label)
 :
 mInterval(interval),
 Thread(label),
-OnTimer(nullptr)
+onTimer(f)
 {}
 
 Timer::~Timer()
@@ -20,7 +20,7 @@ Timer::~Timer()
 
 bool Timer::assignTimerFunction(EventFunction ef)
 {
-    OnTimer = ef;
+    onTimer = ef;
     return true;
 }
 
@@ -69,9 +69,9 @@ void Timer::worker() //The threads worker function
 
         if(current  > mInterval)
         {
-            if(OnTimer != NULL && mIsPaused == false && !mIsTimeToDie)
+            if(onTimer != NULL && mIsPaused == false && !mIsTimeToDie)
             {
-                OnTimer();
+                onTimer();
             }
 
             mTheLastFire.update();
@@ -126,4 +126,5 @@ bool Timer::isPaused()
 {
     return mIsPaused;
 }
+
 }

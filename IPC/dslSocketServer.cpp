@@ -14,6 +14,7 @@
 
 using boost::mutex;
 typedef mutex::scoped_lock ScopedLock;
+using namespace std;
 
 namespace dsl
 {
@@ -241,7 +242,7 @@ void SocketServer::Worker() //Waiting for connections, or UDP data grams
 
 int SocketServer::TCPWorker()
 {
-    int clntSock;
+    SOCKET clntSock;
     int clntLen = sizeof(mClientAddress);
 
     //Blocking...
@@ -343,7 +344,7 @@ bool SocketServer::RemoveLostConnections()
 string SocketServer::GetServerInfo()
 {
     RemoveLostConnections();
-    int nrOfClients = GetNumberOfClients();
+    size_t nrOfClients = GetNumberOfClients();
 
     stringstream info;
     info<<"Is accepting connections: \n";

@@ -2,7 +2,21 @@
 #include "dslUtils.h"
 #include "dslStringUtils.h"
 #include "dslTimer.h"
+#include <boost/function.hpp>
+#include <boost/bind.hpp>
+
 using namespace dsl;
+using namespace std;
+
+
+class MyClass
+{
+public:
+    void timerCallback()
+    {
+        cout << "Timer calback" << endl;
+    }
+};
 
 int main(int argc, char* argv[])
 {
@@ -12,14 +26,17 @@ int main(int argc, char* argv[])
         seconds = toInt(argv[1]);
     }
 
-    Timer aTimer;
+    MyClass a;
+    Timer aTimer(Timespan(1000 * Timespan::MILLISECONDS), boost::bind(&MyClass::timerCallback, a), "MyTimer");
+
+    //aTimer.assignTimerFunction(boost::bind(&MyClass::timerCallback, a));
     cout << "Starting\n" << endl;
     aTimer.start();
 
     do
     {
         sleep(250);
-        cout<<"Lapsed time since start: "			<<aTimer.getElapsedTime().seconds()<<":"<<aTimer.getElapsedTime().milliseconds()<<endl;
+        cout<<"Lapsed time since start: " <<aTimer.getElapsedTime().seconds()<<":"<<aTimer.getElapsedTime().milliseconds()<<endl;
     }
     while(seconds > aTimer.getElapsedTime().seconds());
 

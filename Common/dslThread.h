@@ -10,9 +10,6 @@
 namespace dsl
 {
 
-//using namespace boost;
-using namespace std;
-
 class DSL_COMMON Thread : public DSLObject, public Poco::Runnable
 {
     public:
@@ -42,7 +39,7 @@ class DSL_COMMON Thread : public DSLObject, public Poco::Runnable
                                                     //The derived run function is doing the work
         virtual void               	                run();  //Poco calls run..
         bool                                        isPaused();
-
+        
     protected:
         int                                         mID;
         bool                                        mIsTimeToDie;

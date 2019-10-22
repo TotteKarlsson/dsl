@@ -18,7 +18,7 @@
 namespace dsl
 {
 
-typedef SocketWorker* (*CreateWorker)(int port_number, int connection, void* parent);
+typedef SocketWorker* (*CreateWorker)(int port_number, SOCKET connection, void* parent);
 
 class DSL_IPC SocketServer : public Thread, public Socket
 {

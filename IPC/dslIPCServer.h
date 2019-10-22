@@ -28,7 +28,7 @@ using std::pair;
 class IPCReceiver;
 class SocketWorker;
 
-typedef SocketWorker* (*CreateWorkerFPtr)(int port_number, int connection, void* parent);
+//typedef SocketWorker* (*CreateWorkerFPtr)(int port_number, int connection, void* parent);
 
 class DSL_IPC IPCServer : public DSLObject
 {
@@ -36,7 +36,7 @@ class DSL_IPC IPCServer : public DSLObject
         boost::mutex                                    mListMutex;
         boost::condition                                mListDataArrived;
 
-                                                        IPCServer(int port = 0, const string& iniSection = gEmptyString, CreateWorkerFPtr createWorkerFPtr = NULL);
+                                                        IPCServer(int port = 0, const string& iniSection = gEmptyString, CreateWorker createWorkerFPtr = NULL);
                                                         ~IPCServer();
 
         virtual bool                                    shutDown();

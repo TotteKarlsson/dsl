@@ -7,12 +7,14 @@
 #include "dslSocket.h"
 //---------------------------------------------------------------------------
 
+using namespace std;
 using boost::mutex;
 typedef mutex::scoped_lock ScopedLock;
 
 namespace dsl
 {
 
+//IPCServer(int port = 0, const string& iniSection = gEmptyString, CreateWorkerFPtr createWorkerFPtr = NULL);
 IPCServer::IPCServer(int serverPort, const string& iniSection, CreateWorker createWorkerPtr)
 :
 mMessageDelimiters('[', ']'),
@@ -384,8 +386,8 @@ bool IPCServer::setLogLevel(LogLevel lvl)
 string IPCServer::getUpTime()
 {
     //Return the up time for the server
-    time_t elapsed = difftime(time(nullptr), mStartTime);
-    return getStringFromSeconds(elapsed);
+    double elapsed = difftime(time(nullptr), mStartTime);
+    return getStringFromSeconds((time_t) elapsed);
 }
 
 }
