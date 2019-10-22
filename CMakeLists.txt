@@ -9,11 +9,6 @@ SET(DSL_VERSION "${DSL_MAJOR_VERSION}.${DSL_MINOR_VERSION}.${DSL_BUILD_VERSION}"
 set(DSL_ROOT 	${CMAKE_CURRENT_SOURCE_DIR})
 set(LIBRARY_POSTFIX  "" CACHE STRING "Appended to library name")
 
-#Options
-if( NOT CMAKE_BUILD_TYPE )
-  set( CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel." FORCE )
-endif()
-
 OPTION(BUILD_SHARED_LIBS 		    "Build Shared Libs"                         ON)
 OPTION(INSTALL_CXX_LIBS 		    "Install CXX libraries and headers"         ON)
 OPTION(INSTALL_CXX_EXAMPLES         "Install CXX Examples"	                    ON)
@@ -29,7 +24,6 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "Embarcadero" AND CMAKE_BASE_NAME STREQUAL "bc
     message("Using bcc32")
 
     set(SUPPRESS_WARNINGS   "-w-8128 -w-8057 -w-8012 -w-8004 -w-8070")
-    set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug;Release")
 
     #Borland hack.. we alwasy need dynamic runtime (-tR) :(       
     set(CMAKE_C_FLAGS               "${CMAKE_C_FLAGS} -tR")
