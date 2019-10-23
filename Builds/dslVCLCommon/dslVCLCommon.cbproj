@@ -55,10 +55,10 @@
         <PackageImports>CloudService;FireDAC;FireDACCommon;FireDACCommonDriver;FireDACIBDriver;FireDACSqliteDriver;inet;RESTBackendComponents;RESTComponents;soapmidas;soaprtl;soapserver;$(PackageImports)</PackageImports>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
         <Multithreaded>true</Multithreaded>
-        <IncludePath>..\..\VCL\Common\archive\;..\..\VCL\Common\;P:\libs\dsl\VCL\Common\;$(IncludePath)</IncludePath>
+        <IncludePath>C:\pDisk\libs\dsl\VCL\Common\;..\..\VCL\Common\archive\;..\..\VCL\Common\;P:\libs\dsl\VCL\Common\;$(IncludePath)</IncludePath>
         <ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
         <_TCHARMapping>char</_TCHARMapping>
-        <ILINK_LibraryPath>..\..\VCL\Common\archive\;..\..\VCL\Common\;P:\libs\dsl\VCL\Common\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>C:\pDisk\libs\dsl\VCL\Common\;..\..\VCL\Common\archive\;..\..\VCL\Common\;P:\libs\dsl\VCL\Common\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <SanitizedProjectName>dslVCLCommon</SanitizedProjectName>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_OSX32)'!=''">
@@ -149,6 +149,9 @@
             <DependentOn>..\..\VCL\Common\dslTMemoLogger.h</DependentOn>
             <BuildOrder>3</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\VCL\Common\dslTMemoSocketServer.cpp">
+            <BuildOrder>13</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\VCL\Common\dslTSaveFormToRegistry.cpp">
             <DependentOn>..\..\VCL\Common\dslTSaveFormToRegistry.h</DependentOn>
             <BuildOrder>2</BuildOrder>
@@ -162,10 +165,6 @@
         </CppCompile>
         <CppCompile Include="..\..\VCL\Common\dslVCLUtils.cpp">
             <DependentOn>..\..\VCL\Common\dslVCLUtils.h</DependentOn>
-            <BuildOrder>13</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="P:\libs\dsl\VCL\Common\dslTMemoSocketServer.cpp">
-            <DependentOn>P:\libs\dsl\VCL\Common\dslTMemoSocketServer.h</DependentOn>
             <BuildOrder>13</BuildOrder>
         </CppCompile>
         <BuildConfiguration Include="Release">
@@ -251,6 +250,12 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile LocalName="c:\cg_build\bin\dslVCLCommon.dll" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>dslVCLCommon.dll</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32250.dll" Class="DependencyModule">
                     <Platform Name="Win32">
                         <Overwrite>true</Overwrite>
@@ -261,20 +266,14 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64250.dll" Class="DependencyModule">
-                    <Platform Name="Win64">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="p:\build\bin\dslVCLCommon.dll" Configuration="Debug" Class="ProjectOutput">
-                    <Platform Name="Win32">
-                        <RemoteName>dslVCLCommon.dll</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="p:\build\bin\dslVCLCommon.tds" Configuration="Debug" Class="DebugSymbols">
+                <DeployFile LocalName="c:\cg_build\bin\dslVCLCommon.tds" Configuration="Debug" Class="DebugSymbols">
                     <Platform Name="Win32">
                         <RemoteName>dslVCLCommon.tds</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64250.dll" Class="DependencyModule">
+                    <Platform Name="Win64">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

@@ -6,7 +6,8 @@ include_directories(
     ./../Common
     ./../Math
     ./../Plugins
-    ${BUILD}/include
+    ./../ThirdParties/
+    ./../ThirdParties/Poco/Foundation/include/
 )
 
 message("Build folder is : " ${BUILD})
@@ -119,9 +120,8 @@ if(${BUILD_SHARED_LIBS})
     if (CMAKE_SYSTEM MATCHES "Windows")
         target_link_libraries(
             ${target} 
-                #${CMAKE_INSTALL_PREFIX}/lib/sqlite.lib
-                ${CMAKE_INSTALL_PREFIX}/lib/tinyxml2${LIBRARY_POSTFIX}.lib
-                ${CMAKE_INSTALL_PREFIX}/lib/poco_foundation${LIBRARY_POSTFIX}.lib
+                tinyxml2
+                poco_foundation
                 Shell32.lib
                 ws2_32
         )

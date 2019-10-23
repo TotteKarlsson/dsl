@@ -10,8 +10,6 @@ namespace dsl
 
 using std::string;
 using std::vector;
-
-//Old code.. clean this up..
 class DSL_IPC IPCData : public DSLObject
 {
     public:
@@ -21,20 +19,20 @@ class DSL_IPC IPCData : public DSLObject
         virtual                                     ~IPCData();
 
         bool                                        init();
-        vector<string>::iterator                    iterator();
-        void                                        resetIterator();
-        vector<string>::iterator                    begin();
-        vector<string>::iterator                    end();
-        void                                        inrementIterator();
+        vector<string>::iterator                    iterator()                         {return (mRecordIterator);}
+        void                                        resetIterator()                    {(mRecordIterator) = mRecords.begin();}
+        vector<string>::iterator                    begin()                            {return mRecords.begin();}
+        vector<string>::iterator                    end()                              {return mRecords.end();}
+        void                                        inrementIterator()                 {mRecordIterator++;}
         string                                      getNextRecord();
-        string                                      getData() const;
-        size_t                                      getNumberOfRecords();
+        string                                      getData() const                    {return mData;}
+        size_t                                      getNumberOfRecords()               {return mRecords.size();}
         virtual bool                                hasData() const;
         virtual bool                                unPack();
         virtual bool                                pack();
         bool                                        isPacked() const;
-        void                                        addData(const string& data);
-        void                                        addRecord(const string& dataRecord);
+        void                                        addData(const string& data)        {mData += data;}
+        void                                        addRecord(const string& dataRecord){mRecords.push_back(dataRecord);}
 
     protected:
         bool                                        mIsPacked;

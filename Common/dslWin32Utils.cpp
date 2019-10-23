@@ -72,23 +72,18 @@ void sendToClipBoard(const string& str)
 
 string getTempPath()
 {
-#if defined(_UNICODE)
-    DWORD length = GetTempPathW( 0, NULL );
-#else
-	DWORD length = GetTempPathA( 0, NULL );
-#endif
-
+    DWORD length = GetTempPathA( 0, NULL );
     if( length == 0 )
     {
         return "";
     }
     std::vector<TCHAR> tempPath( length );
 
-#if defined(_UNICODE)
+    #if defined(_UNICODE)
 	    length = GetTempPathW( static_cast<DWORD>( tempPath.size() ), &tempPath[0] );
-#else
+    #else
 	    length = GetTempPathA( static_cast<DWORD>( tempPath.size() ), &tempPath[0] );
-#endif
+    #endif
     if( length == 0 || length > tempPath.size() )
     {
         return "";

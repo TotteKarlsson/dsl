@@ -7,14 +7,13 @@
 #include "dslIniFile.h"
 #include "dslProperties.h"
 #include "dslLogLevel.h"
-#include "aiCameraManager.h"
 
 //We are not using boost threads, only conditions and mutexes
 //See http://stackoverflow.com/questions/16443989/warnings-when-compiling-boost-libraries-in-c-builder
 //for explanation of the #define
-//#define BOOST_THREAD_USE_LIB
+#define BOOST_THREAD_USE_LIB
 
-//TODO:: use poco thread and mutexes and sockets..
+//TODO:: use poco thread and mutexes!
 
 #include <boost/thread/condition.hpp>
 #include "dslSocket.h"
@@ -29,6 +28,7 @@ using std::pair;
 class IPCReceiver;
 class SocketWorker;
 
+//typedef SocketWorker* (*CreateWorkerFPtr)(int port_number, int connection, void* parent);
 typedef SocketWorker* (*CreateWorker)(int port_number, SOCKET connection, void* parent);
 
 class DSL_IPC IPCServer : public DSLObject
@@ -64,6 +64,7 @@ class DSL_IPC IPCServer : public DSLObject
 
         bool                                            isRunning();
         bool                                            isProcessorRunning();
+
         void                                            readProperties(IniFile& iniFile);
 
         bool                                            start(const int portNumber = -1);
