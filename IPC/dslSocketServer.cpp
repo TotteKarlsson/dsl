@@ -264,6 +264,11 @@ int SocketServer::TCPWorker()
         {
             //This function creates a SocketWorker..
             SocketWorker *wkr = CreateWorkerFunction(mPortNumber, clntSock, mParent);
+            if(!wkr)
+            {
+	            Log(lError)<< "Failed to create a socket worker for a client. Client will not be served..";
+                return -1;
+            }
 
             {
 	            ScopedLock lock(mWorkerListMutex);
