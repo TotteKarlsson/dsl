@@ -21,7 +21,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY 	${PROJECT_BINARY_DIR}/bin)
 
 #=== COMPILER SPECIFICS 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "Embarcadero" AND CMAKE_BASE_NAME STREQUAL "bcc32")
-
     message("Using bcc32")
 
     set(SUPPRESS_WARNINGS   "-w-8128 -w-8057 -w-8012 -w-8004 -w-8070")
@@ -36,11 +35,9 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "Embarcadero" AND CMAKE_BASE_NAME STREQUAL "bc
     set(CMAKE_CXX_USE_RESPONSE_FILE_FOR_INCLUDES 0)
     set(CMAKE_CXX_USE_RESPONSE_FILE_FOR_OBJECTS 0)
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Embarcadero" AND CMAKE_BASE_NAME STREQUAL "bcc32c") 
-
     message("Using bcc32c")
-#    set(SUPPRESS_WARNINGS "-Wunused-value")
+
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
- 
     message("Using MSVC")
     set(SUPPRESS_WARNINGS   "/wd4221 /wd4018 /wd4996 /wd4251" )
     add_definitions(
@@ -49,9 +46,7 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     )
 
     #gotta check which VS studio compiler we are using
-    link_directories( 
-        ${BOOST_ROOT}/lib64-msvc-12.0
-    )
+    link_directories( ${BOOST_ROOT}/lib64-msvc-12.0)
 
 else()
     message("No compiler!!" ${CMAKE_CXX_COMPILER_ID} ${CMAKE_BASE_NAME})
@@ -71,9 +66,6 @@ include_directories(
 
 # Warning string looks different depending on the compiler..
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${SUPPRESS_WARNINGS}")
-
-set(BUILD            ${CMAKE_INSTALL_PREFIX})
-#set(TP_INCLUDE       ${CMAKE_INSTALL_PREFIX}/include)
 
 if(${INSTALL_PYTHON})
     OPTION(INSTALL_PYTHON_EXAMPLES  "Install Python Examples" ON)
