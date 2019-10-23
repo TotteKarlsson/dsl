@@ -95,6 +95,7 @@ add_subdirectory(Math/mtrand)
 #Data Folders
 add_subdirectory(Wrappers)
 add_subdirectory(Examples)
+add_subdirectory(ThirdParties)
 
 #======================= INSTALL ========================================================
 set(RootDest .)
