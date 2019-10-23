@@ -29,6 +29,7 @@ class IPCReceiver;
 class SocketWorker;
 
 //typedef SocketWorker* (*CreateWorkerFPtr)(int port_number, int connection, void* parent);
+typedef SocketWorker* (*CreateWorker)(int port_number, SOCKET connection, void* parent);
 
 class DSL_IPC IPCServer : public DSLObject
 {

@@ -7,6 +7,7 @@
 #pragma package(smart_init)
 
 using namespace dsl;
+using namespace std;
 
 LogFileReader::LogFileReader(const string& file, Callback AMethod, bool atEnd)
 :

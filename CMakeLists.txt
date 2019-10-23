@@ -69,8 +69,6 @@ include_directories(
     #${BOOST_ROOT}/boost/tr1/tr1
 )
 
-link_directories( ${CMAKE_INSTALL_PREFIX}/lib)
-
 # Warning string looks different depending on the compiler..
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${SUPPRESS_WARNINGS}")
 
