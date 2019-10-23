@@ -1,4 +1,3 @@
-#cmake_policy(SET CMP0054 NEW)
 cmake_minimum_required(VERSION 3.13)
 project(dsl)
 
@@ -6,7 +5,9 @@ SET(DSL_MAJOR_VERSION 0)
 SET(DSL_MINOR_VERSION 8)
 SET(DSL_BUILD_VERSION 5)
 SET(DSL_VERSION "${DSL_MAJOR_VERSION}.${DSL_MINOR_VERSION}.${DSL_BUILD_VERSION}")
+
 set(DSL_ROOT 	${CMAKE_CURRENT_SOURCE_DIR})
+
 set(LIBRARY_POSTFIX  "" CACHE STRING "Appended to library name")
 
 OPTION(BUILD_SHARED_LIBS 		    "Build Shared Libs"                         ON)
@@ -32,8 +33,8 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "Embarcadero" AND CMAKE_BASE_NAME STREQUAL "bc
     set(CMAKE_MODULE_LINKER_FLAGS   "${CMAKE_MODULE_LINKER_FLAGS} -tR")
     set(CMAKE_SHARED_LINKER_FLAGS   "${CMAKE_SHARED_LINKER_FLAGS} -tR")
 
-#set(CMAKE_CXX_USE_RESPONSE_FILE_FOR_INCLUDES 0)
-#set(CMAKE_CXX_USE_RESPONSE_FILE_FOR_OBJECTS 0)
+    set(CMAKE_CXX_USE_RESPONSE_FILE_FOR_INCLUDES 0)
+    set(CMAKE_CXX_USE_RESPONSE_FILE_FOR_OBJECTS 0)
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Embarcadero" AND CMAKE_BASE_NAME STREQUAL "bcc32c") 
 
     message("Using bcc32c")
@@ -68,14 +69,13 @@ include_directories(
     #${BOOST_ROOT}/boost/tr1/tr1
 )
 
-link_directories( 
-    ${CMAKE_INSTALL_PREFIX}/lib
-)
+link_directories( ${CMAKE_INSTALL_PREFIX}/lib)
 
 # Warning string looks different depending on the compiler..
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${SUPPRESS_WARNINGS}")
 
-set(TP_INCLUDE       ${CMAKE_INSTALL_PREFIX}/include)
+set(BUILD            ${CMAKE_INSTALL_PREFIX})
+#set(TP_INCLUDE       ${CMAKE_INSTALL_PREFIX}/include)
 
 if(${INSTALL_PYTHON})
     OPTION(INSTALL_PYTHON_EXAMPLES  "Install Python Examples" ON)

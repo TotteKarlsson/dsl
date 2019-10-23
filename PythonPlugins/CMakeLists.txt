@@ -6,9 +6,9 @@ find_package(PythonLibs)
 include_directories(
     ./../Common
     ./../Plugins
-    ${CMAKE_SOURCE_DIR}/ThirdParties/Poco/Foundation/include
+    #${CMAKE_SOURCE_DIR}/ThirdParties/Poco/Foundation/include
     #//${CMAKE_SOURCE_DIR}/ThirdParties/tinyxml2
-    ${TP_INCLUDE}
+    #${TP_INCLUDE}
     ${PYTHON_INCLUDE_DIRS}
 )
 

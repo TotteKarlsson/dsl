@@ -10,7 +10,7 @@ include_directories(
     ${DSL_ROOT}/Common
     ${DSL_ROOT}/Math
     ${DSL_ROOT}/Database
-    ${CMAKE_SOURCE_DIR}/ThirdParties/Poco/Foundation/include
+    #${CMAKE_SOURCE_DIR}/ThirdParties/Poco/Foundation/include
     ${CMAKE_INSTALL_PREFIX}/include
 )
 
