@@ -28,7 +28,6 @@ extern "C" int _libmain(unsigned long reason)
 #pragma comment(lib, "dslFoundation.lib")
 #pragma comment(lib, "poco_foundation.lib")
 #pragma comment(lib, "tinyxml2.lib")
-//#pragma comment(lib, "libcurl.lib")
 
 #pragma link "vcl.bpi"
 #pragma link "vclactnband.bpi"

@@ -5,6 +5,7 @@
 #include "dslIPCServer.h"
 #include "dslLogger.h"
 #include "dslSocket.h"
+#include "dslIPCMessageEnums.h"
 //---------------------------------------------------------------------------
 
 using namespace std;
@@ -183,7 +184,7 @@ bool IPCServer::isRunning()
 
 int IPCServer::getMessageID(const string& msg)
 {
-    return getIPCMessageID(msg);
+    return dsl::getMessageID(msg);
 }
 
 bool IPCServer::readProperties()
@@ -275,6 +276,29 @@ bool IPCServer::processRequest(IPCMessage& msg)
         break;
     }
     return msg.isProcessed();
+}
+
+bool IPCServer::clientRequestResponse(const string& msg, int socketID)
+{
+    if(mSocketServer.isRunning())
+    {
+        string theMessage;
+   	    theMessage = mMessageDelimiters.first + string(msg) + mMessageDelimiters.second;
+    	if(mSocketServer.getNumberOfClients() > 0)
+        {
+        	mSocketServer.sendToWorker(theMessage, socketID);
+	        Log(lDebug5)<<"Client request response:" << theMessage;
+        }
+        else
+        {
+	        Log(lDebug4)<<"No Server Clients. Was to respond to client with message:" << theMessage;
+        }
+    }
+    else
+    {
+        Log(lWarning)<<"Socket server is not running (in client request response)";
+    }
+    return true;
 }
 
 bool IPCServer::broadcast(const string& msg)

@@ -14,10 +14,12 @@ class DSL_IPC IPCMessage : public IPCData
     public:
                                                     IPCMessage(int msgID = -1, const string& msgData = gEmptyString, int from_socket = -1);
                                                     IPCMessage(const IPCMessage& rhs);
+
+        void                                        setMessageID(int id);
         int                                         getCommand();
-        int                                         getID();
-        int                                         getMessageID();
-        int                                         getSocketID();
+        int                                         getID() const;
+        int                                         getMessageID() const;
+        int                                         getSocketID()const;
         void                                        setSocketID(int id);
         void                                        empty();
 

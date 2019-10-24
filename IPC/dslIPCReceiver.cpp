@@ -66,7 +66,7 @@ void IPCReceiver::Worker()
 
                 if(aMessage.isComplete() )
                 {
-                    int msgID          = getIPCMessageID(aMessage.getMessage()); //A virtual function
+                    int msgID          = getMessageID(aMessage.getMessage()); //A virtual function
                     IPCMessage msg     = IPCMessage(msgID, aMessage.getMessage(), this->getSocketHandle());
                     if(mServer)
                     {

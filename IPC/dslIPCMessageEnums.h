@@ -8,8 +8,8 @@ using std::string;
 namespace dsl
 {
 
-DSL_IPC int    getIPCMessageID(const string& cs);
-DSL_IPC string getIPCMessageName(int cs);
+DSL_IPC int    getMessageID(const string& cs);
+DSL_IPC string getMessageName(int cs);
 
 enum IPC_ID
 {

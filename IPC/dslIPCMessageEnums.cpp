@@ -6,7 +6,7 @@
 namespace dsl
 {
 
-int getIPCMessageID(const string& cs)
+int getMessageID(const string& cs)
 {
     if(compareStrings(cs, "Usage",       csCaseInsensitive)) return cUsage;
     if(compareStrings(cs, "Flush",       csCaseInsensitive)) return cFlush;
@@ -16,7 +16,7 @@ int getIPCMessageID(const string& cs)
     return cUnknown;
 }
 
-string getIPCMessageName(int cs)
+string getMessageName(int cs)
 {
     switch(cs)
     {

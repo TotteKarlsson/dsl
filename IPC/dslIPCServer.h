@@ -49,11 +49,12 @@ class DSL_IPC IPCServer : public DSLObject
         int                                             servingPort();
         SocketServer&                                   getSocketServer(){return mSocketServer;}
 
+        bool                                            clientRequestResponse(const string& msg, int socketID);
         bool                                            broadcast(const string& msg);
         bool                                            removeLostConnections();
         size_t                                          nrOfMessages(){return mMessages.size();}
 
-        bool                                            request(const string& msg);            //Post a message to the message list
+        bool                                            request(const string& msg);            	//Post a message to the message list
         bool                                            postRequest(IPCMessage& msg);       	//Post a message to the message list
         virtual void                                    processRequests();
         virtual void                                    processNextRequest();

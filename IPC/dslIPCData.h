@@ -28,7 +28,7 @@ class DSL_IPC IPCData : public DSLObject
         void                                        inrementIterator();
         string                                      getNextRecord();
         string                                      getData() const;
-        size_t                                      getNumberOfRecords();
+        size_t                                      getNumberOfRecords() const;
         virtual bool                                hasData() const;
         virtual bool                                unPack();
         virtual bool                                pack();

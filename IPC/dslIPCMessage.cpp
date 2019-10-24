@@ -14,7 +14,7 @@ mIsProcessed(false)
 {
     if(mRecords.size())
     {
-        mMessageID = (msgID == -1) ? getIPCMessageID(mRecords[0]) : msgID;
+        mMessageID = (msgID == -1) ? dsl::getMessageID(mRecords[0]) : msgID;
     }
 }
 
@@ -25,6 +25,11 @@ IPCData(rhs)
     mSocketID    = rhs.mSocketID;
     mMessageID   = rhs.mMessageID;
     mIsProcessed = rhs.mIsProcessed;
+}
+
+void IPCMessage::setMessageID(int id)
+{
+    mMessageID = id;
 }
 
 IPCMessage::operator const string() const
@@ -61,17 +66,17 @@ int IPCMessage::getCommand()
 	return mMessageID;
 }
 
-int IPCMessage::getID()
+int IPCMessage::getID() const
 {
 	return mMessageID;
 }
 
-int IPCMessage::getMessageID()
+int IPCMessage::getMessageID() const
 {
 	return mMessageID;
 }
 
-int IPCMessage::getSocketID()
+int IPCMessage::getSocketID() const
 {
 	return mSocketID;
 }
@@ -115,13 +120,13 @@ void IPCMessage::empty()
 
 string IPCMessage::getMessageName() const
 {
-    return getIPCMessageName(mMessageID);
+    return getRecord(0);
 }
 
 string IPCMessage::getRecord(int rec) const
 {
     //record 0 is the 'command'
-    return (rec <= mRecords.size()) ? mRecords[rec] : string("");
+    return (rec <= mRecords.size()) ? trim(mRecords[rec]) : string("");
 }
 
 string IPCMessage::getMessage()

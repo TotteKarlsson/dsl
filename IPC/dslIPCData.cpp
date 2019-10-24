@@ -68,7 +68,7 @@ string IPCData::getData() const
 	return mData;
 }
 
-size_t IPCData::getNumberOfRecords()
+size_t IPCData::getNumberOfRecords() const
 {
 	return mRecords.size();
 }
