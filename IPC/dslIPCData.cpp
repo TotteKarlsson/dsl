@@ -38,6 +38,51 @@ IPCData::IPCData(const IPCData& rhs)
 
 IPCData::~IPCData(){}
 
+vector<string>::iterator IPCData::iterator()
+{
+	return (mRecordIterator);
+}
+
+void IPCData::resetIterator()
+{
+	(mRecordIterator) = mRecords.begin();
+}
+
+vector<string>::iterator IPCData::begin()
+{
+	return mRecords.begin();
+}
+
+vector<string>::iterator IPCData::end()
+{
+	return mRecords.end();
+}
+
+void IPCData::inrementIterator()
+{
+	mRecordIterator++;
+}
+
+string IPCData::getData() const
+{
+	return mData;
+}
+
+size_t IPCData::getNumberOfRecords()
+{
+	return mRecords.size();
+}
+
+void IPCData::addData(const string& data)
+{
+	mData += data;
+}
+
+void IPCData::addRecord(const string& dataRecord)
+{
+	mRecords.push_back(dataRecord);
+}
+
 bool IPCData::isPacked() const
 {
 	return mIsPacked;
