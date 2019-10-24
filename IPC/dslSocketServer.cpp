@@ -31,7 +31,7 @@ mRightMessageDelimiter('\n'),
 mSocketProtocol(spTCP),
 mParent(nullptr)
 {
-    SetPortNumber(port_nr);
+    setPortNumber(port_nr);
     serverCount++;
     mLabel            = "SocketServer[" + toString(serverCount) + "]";
 }
@@ -40,11 +40,16 @@ mParent(nullptr)
 SocketServer::~SocketServer()
 {
     close();
-    ShutDown();
+    shutDown();
     serverCount--;
 }
 
-void SocketServer::ShutDown()
+void  SocketServer::assignCreateWorkerFunctionPtr(CreateWorker ptr)
+{
+	CreateWorkerFunction = ptr;
+}
+
+void SocketServer::shutDown()
 {
     //Call close on the socket
     Thread::stop();    //Sets time to die to true
@@ -71,33 +76,31 @@ void SocketServer::ShutDown()
     lock.unlock();
 }
 
-bool SocketServer::Stop()
+void SocketServer::stop()
 {
     //Stopping the server implies to shutdown all connections
     //and also shutdown the listening for connections thread
-    ShutDown();
-    return true;
+    shutDown();
 }
 
 void SocketServer::run()
 {
-    Worker();
+    worker();
 }
 
-//Return value of 1 is success
-int SocketServer::Start()
+bool SocketServer::start(bool inThread )
 {
     if(mPortNumber < 1)
     {
        Log(lError)<<"The socket server could not start becuase the portnumber is not set!\n";
-       return -1;
+       return false;
     }
 
     if (WSAStartup(MAKEWORD(2, 0), &mWSAData) != 0)     /* Load Winsock 2.0 DLL */
     {
         int error = WSAGetLastError();
         Log(lError)<<"WSAStartup() failed. Error was: "<<error;
-        return error;
+        return false;
     }
 
     /* Create socket for incoming connections */
@@ -113,7 +116,7 @@ int SocketServer::Start()
     {
         int error = WSAGetLastError();
         Log(lError)<<"Socket creation failed. Error was: "<<error;
-        return error;
+        return false;
     }
 
     /* Construct local address structure */
@@ -127,7 +130,7 @@ int SocketServer::Start()
     {
         int error = WSAGetLastError();
         Log(lError)<<"Socket Bind Error on socket port nr: "<<mPortNumber<<". Error was: "<<error;
-        return error;
+        return false;
     }
 
     /* Mark the socket so it will listen for incoming connections */
@@ -135,20 +138,20 @@ int SocketServer::Start()
     {
         int error = WSAGetLastError();
         Log(lError)<<"Socket Listen Call Failed. Error was: "<<error;
-        return error;
+        return false;
     }
 
     return Thread::start();
 }
 
-void SocketServer::SetIncomingMessageDelimiters(const char& left, const char& right)
+void SocketServer::setIncomingMessageDelimiters(const char& left, const char& right)
 {
     mLeftMessageDelimiter   = left;
     mRightMessageDelimiter  = right;
 }
 
 //----------------------------------------------------------------
-bool SocketServer::Broadcast(const string& msg)
+bool SocketServer::broadcast(const string& msg)
 {
     boost::mutex::scoped_lock lock(mWorkerListMutex);
     for (list<SocketWorker *>::iterator wkr = mWorkerList.begin(); wkr != mWorkerList.end(); wkr++)
@@ -175,21 +178,21 @@ bool SocketServer::Broadcast(const string& msg)
     return true;
 }
 
-void SocketServer::RetireWorker(SocketWorker* aWorker)
+void SocketServer::retireWorker(SocketWorker* aWorker)
 {
     ScopedLock lock(mWorkerListMutex);
     mWorkerList.remove( aWorker );
     delete aWorker;
 }
 
-SocketWorker* SocketServer::GetFirstWorker()
+SocketWorker* SocketServer::getFirstWorker()
 {
     boost::mutex::scoped_lock lock(mWorkerListMutex);
     return mWorkerList.size() ?    *(mWorkerList.begin()) : nullptr;
 }
 
 //----------------------------------------------------------------
-bool SocketServer::SendToWorker(const string& msg, int socketID)
+bool SocketServer::sendToWorker(const string& msg, int socketID)
 {
     bool success = false;
     ScopedLock lock(mWorkerListMutex);
@@ -205,7 +208,7 @@ bool SocketServer::SendToWorker(const string& msg, int socketID)
 }
 
 //----------------------------------------------------------------
-void SocketServer::Worker() //Waiting for connections, or UDP data grams
+void SocketServer::worker() //Waiting for connections, or UDP data grams
 {
     mIsWorking = true;
     mIsStarted = true;
@@ -275,7 +278,7 @@ int SocketServer::TCPWorker()
                 mWorkerList.push_back(wkr);
             }
 
-            wkr->SetMessageDelimiters(mLeftMessageDelimiter, mRightMessageDelimiter);
+            wkr->setMessageDelimiters(mLeftMessageDelimiter, mRightMessageDelimiter);
             wkr->start();
             Log(lDebug)<< "A socket worker was created.";
          }
@@ -324,7 +327,7 @@ int SocketServer::UDPWorker()
     return 0;
 }
 
-bool SocketServer::RemoveLostConnections()
+bool SocketServer::removeLostConnections()
 {
     ScopedLock lock(mWorkerListMutex);
     bool bMore = true;
@@ -346,26 +349,26 @@ bool SocketServer::RemoveLostConnections()
     return true;
 }
 
-string SocketServer::GetServerInfo()
+string SocketServer::getServerInfo()
 {
-    RemoveLostConnections();
-    size_t nrOfClients = GetNumberOfClients();
+    removeLostConnections();
+    size_t nrOfClients = getNumberOfClients();
 
     stringstream info;
     info<<"Is accepting connections: \n";
-    info<<"Listening Port = "<<GetPortNumber()<<endl;
+    info<<"Listening Port = "<<getPortNumber()<<endl;
     info<<"Nr of Clients = "<<nrOfClients<<endl;
     boost::mutex::scoped_lock lock(mWorkerListMutex);
     for ( list<SocketWorker *>::iterator wkr = mWorkerList.begin(); wkr != mWorkerList.end(); wkr++ )
     {
-        info<<(*wkr)->GetInfo()<<endl;
+        info<<(*wkr)->getInfo()<<endl;
     }
 
     return info.str();
 }
 
 //----------------------------------------------------------------------------
-string SocketServer::GetProcessInfo( string indent )
+string SocketServer::getProcessInfo( string indent )
 {
     string msg = "Process info....";
 //    msg += Thread::GetProcessInfoAsString();

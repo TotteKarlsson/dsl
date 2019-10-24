@@ -25,7 +25,7 @@ SocketWorker::~SocketWorker()
     close();
 }
 
-string SocketWorker::GetInfo()
+string SocketWorker::getInfo()
 {
     string info = "Socket Worker Information \n";
     info += "mSocketHandle = " + dsl::toString((int) mSocketHandle);
@@ -33,17 +33,17 @@ string SocketWorker::GetInfo()
     return info;
 }
 
-int SocketWorker::GetPortNumber()
+int SocketWorker::getPortNumber()
 {
     return mPortNumber;
 }
 
-void SocketWorker::IgnoreIncomingMessages(bool doIt)
+void SocketWorker::ignoreIncomingMessages(bool doIt)
 {
     mIgnoreIncomingMessages = doIt;
 }
 
-void SocketWorker::SetMessageDelimiters(const char& left, const char& right)
+void SocketWorker::setMessageDelimiters(const char& left, const char& right)
 {
     mLeftMessageDelimiter = left;
     mRightMessageDelimiter = right;

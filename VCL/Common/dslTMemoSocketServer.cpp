@@ -57,9 +57,9 @@ bool TMemoSocketServer::processMessage(IPCMessage& msg)
     mutex::scoped_lock lock(mMemoMutex);
     //Choose what to show in the log window
 
-    if(msg.GetID() != -1)
+    if(msg.getID() != -1)
     {
-        string aMsg = msg.GetMessageBody();
+        string aMsg = msg.getMessageBody();
         vector<string> lines = splitString(aMsg, "\n");
         for(u_int i = 0; i < lines.size(); i++)
         {
@@ -68,14 +68,14 @@ bool TMemoSocketServer::processMessage(IPCMessage& msg)
     }
     else
     {
-        string aMsg = msg.GetMessage();
+        string aMsg = msg.getMessage();
         vector<string> lines = splitString(aMsg,"\n");
         for(int i = 0; i < lines.size(); i++)
         {
             mLogMemo->Lines->Add(lines[i].c_str());
         }
     }
-    msg.IsProcessed(true);
+    msg.isProcessed(true);
     return true;
 }
 

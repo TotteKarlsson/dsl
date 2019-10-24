@@ -9,6 +9,8 @@ using std::string;
 namespace dsl
 {
 
+typedef unsigned int dsluint;
+
 class DSL_COMMON DSLObject
 {
     public:

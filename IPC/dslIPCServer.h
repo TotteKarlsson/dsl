@@ -7,7 +7,6 @@
 #include "dslIniFile.h"
 #include "dslProperties.h"
 #include "dslLogLevel.h"
-#include "aiCameraManager.h"
 
 //We are not using boost threads, only conditions and mutexes
 //See http://stackoverflow.com/questions/16443989/warnings-when-compiling-boost-libraries-in-c-builder
@@ -67,7 +66,7 @@ class DSL_IPC IPCServer : public DSLObject
         void                                            readProperties(IniFile& iniFile);
 
         bool                                            start(const int portNumber = -1);
-        bool                                            stop();
+        void                                            stop();
 
                                                         //Ini Parameter stuff
         virtual bool                                    readIniFile(const string& fileName){return false;}

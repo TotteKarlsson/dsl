@@ -111,6 +111,8 @@
         <ILINK_LibraryPath>C:\Python37\libs;$(DEBUG_BCC32)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <BCC_PCHName>..\..\pch\dsl_pch.pch</BCC_PCHName>
         <_TCHARMapping>wchar_t</_TCHARMapping>
+        <PostBuildEvent><![CDATA[copy C:\CodeGear\Tokyo\Redist\boost\win32\boost_thread-bcb-mt-d-1_39.dll $(BUILD)\bin
+$(PostBuildEvent)]]></PostBuildEvent>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
@@ -431,8 +433,8 @@
                     <ProjectProperties Name="IndexFiles">False</ProjectProperties>
                 </ProjectProperties>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\BPL\atVCLUC7VisualComponents.bpl">File p:\build\BPL\atVCLUC7VisualComponents.bpl not found</Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\BPL\atVCLAPTVisualComponents.bpl">File p:\build\BPL\atVCLAPTVisualComponents.bpl not found</Excluded_Packages>
+                    <Excluded_Packages Name="c:\cg_build\BPL\dslVCLVisualComponents.bpl">Dune Visual Components</Excluded_Packages>
+                    <Excluded_Packages Name="c:\cg_build\BPL\dslVCLComponents.bpl">Dune Components</Excluded_Packages>
                 </Excluded_Packages>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="3">
@@ -887,4 +889,12 @@
     <Import Project="$(BDS)\Bin\CodeGear.Cpp.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Cpp.Targets')"/>
     <Import Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj" Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')"/>
     <Import Project="$(MSBuildProjectName).deployproj" Condition="Exists('$(MSBuildProjectName).deployproj')"/>
+    <PropertyGroup Condition="'$(Config)'=='Debug' And '$(Platform)'=='Win32'">
+        <PreBuildEvent/>
+        <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
+        <PreLinkEvent/>
+        <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
+        <PostBuildEvent>copy C:\CodeGear\Tokyo\Redist\boost\win32\boost_thread-bcb-mt-d-1_39.dll $(BUILD)\bin</PostBuildEvent>
+        <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
+    </PropertyGroup>
 </Project>

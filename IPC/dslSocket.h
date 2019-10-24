@@ -28,9 +28,9 @@ class DSL_IPC Socket : public DSLObject
         enum                                SocketProtocol      { spTCP   =6,     spUDP   = 17,    spRM      = 113};
 
     public:
-
                                             Socket(int socket_handle = -1);
         virtual                             ~Socket();
+
         void                                setSocketProtocol(SocketProtocol proto);
         bool                                setupSocket();
         int                                 close();
