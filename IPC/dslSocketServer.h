@@ -28,6 +28,7 @@ class DSL_IPC SocketServer : public Thread, public Socket
         string                                      getServerInfo();
         void                                        setPortNumber(int pNum){mPortNumber = pNum;}    //!<Sets the portNr
         int                                         getPortNumber(){return mPortNumber;}            //!<Returns the portNr
+        virtual string                              getRemoteHostName();
 
         virtual bool                                start(bool inThread = true);
         void                                        stop();
@@ -45,7 +46,6 @@ class DSL_IPC SocketServer : public Thread, public Socket
         bool                                        removeLostConnections();
 
         size_t                                      getNumberOfClients(){return mWorkerList.size();}
-
         void                                        setIncomingMessageDelimiters(const char& left, const char& right='\n');
 
                                                     //Pointer to CreateWorker function..

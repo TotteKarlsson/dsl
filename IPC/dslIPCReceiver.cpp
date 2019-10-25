@@ -39,6 +39,12 @@ IPCReceiver::~IPCReceiver()
     }
 }
 
+string IPCReceiver::getRemoteHostName()
+{
+    return "<none>";
+}
+
+
 void IPCReceiver::run()
 {
     Worker();

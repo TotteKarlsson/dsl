@@ -19,6 +19,7 @@ class DSL_IPC IPCReceiver : public SocketWorker
 		                                ~IPCReceiver();
 		virtual void                    Worker();
 		void                            run();
+		string 							getRemoteHostName();
 
 	protected:
 		IPCServer*                      mServer;

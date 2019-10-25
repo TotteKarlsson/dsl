@@ -38,14 +38,7 @@ bool Socket::isConnected()
         return false;
     }
 
-    bool sendVal = (send("") >= 0) ? true : false;
-
-    if(sendVal == false)
-    {
-        return false;
-    }
-
-    return true;
+    return (send("") >= 0) ? true : false;
 }
 
 bool Socket::setupSocket()
@@ -58,7 +51,7 @@ bool Socket::setupSocket()
     if (WSAStartup(MAKEWORD(2, 0), &mWSAData) != 0) /* Load Winsock 2.0 DLL */
     {
         int error = WSAGetLastError();
-        Log(lInfo)<<"WSAStartup failed. Error was: "<<error<<endl;
+        Log(lInfo) << "WSAStartup failed. Error was: " << error << endl;
         return false;
     }
 
@@ -66,7 +59,7 @@ bool Socket::setupSocket()
     if( (mSocketHandle = socket(mSocketAddressFamily, mSocketType, mSocketProtocol)) < 0)
     {
         int error = WSAGetLastError();
-        Log(lInfo)<<"Socket creation failed. Error "<<error<<" occured.";
+        Log(lInfo) << "Socket handle creation failed. Error " << error << " occured.";
         return false;
     }
 
@@ -149,6 +142,15 @@ int Socket::send(const string& msg)
     return retval;
 }
 
+string Socket::getReceivedBufferContent()
+{
+    string content;
+	for(int i = 0; i < mMessageBuffer.size(); i++)
+    {
+        content += mMessageBuffer[i];
+    }
+    return content;
+}
 
 deque<char>& Socket::getIncomingDataBuffer()
 {
@@ -157,7 +159,7 @@ deque<char>& Socket::getIncomingDataBuffer()
 
 bool Socket::hasHandle()
 {
-    return (mSocketHandle != -1 );
+    return (mSocketHandle != -1);
 }
 
 int Socket::getSocketID()

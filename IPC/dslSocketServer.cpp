@@ -44,6 +44,11 @@ SocketServer::~SocketServer()
     serverCount--;
 }
 
+string SocketServer::getRemoteHostName()
+{
+    return "<none>"; //As we are the server
+}
+
 void  SocketServer::assignCreateWorkerFunctionPtr(CreateWorker ptr)
 {
 	CreateWorkerFunction = ptr;

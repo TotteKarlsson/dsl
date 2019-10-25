@@ -55,10 +55,10 @@
         <PackageImports>CloudService;FireDAC;FireDACCommon;FireDACCommonDriver;FireDACIBDriver;FireDACSqliteDriver;inet;RESTBackendComponents;RESTComponents;soapmidas;soaprtl;soapserver;$(PackageImports)</PackageImports>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
         <Multithreaded>true</Multithreaded>
-        <IncludePath>C:\pDisk\libs\dsl\Common\;..\..\DataBase\;..\..\Math\mtrand\;..\..\VCL\Common\;..\..\Plugins\;..\..\Common\;..\..\IPC\;..\..\Math\;..\..\;$(AT_ROOT)\thirdparty;$(IncludePath)</IncludePath>
+        <IncludePath>..\..\DataBase\;..\..\Math\mtrand\;..\..\VCL\Common\;..\..\Plugins\;..\..\Common\;..\..\IPC\;..\..\Math\;..\..\;$(AT_ROOT)\thirdparty;$(IncludePath)</IncludePath>
         <ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
         <_TCHARMapping>char</_TCHARMapping>
-        <ILINK_LibraryPath>C:\pDisk\libs\dsl\Common\;..\..\DataBase\;..\..\Math\mtrand\;..\..\VCL\Common\;..\..\Plugins\;..\..\Common\;..\..\IPC\;..\..\Math\;..\..\;P:\libs\dslib\Math\;P:\libs\dslib\IPC\;P:\libs\dslib\;P:\libs\dslib\Common\;P:\builds\dsl\dslFoundation\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>..\..\DataBase\;..\..\Math\mtrand\;..\..\VCL\Common\;..\..\Plugins\;..\..\Common\;..\..\IPC\;..\..\Math\;..\..\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <SanitizedProjectName>dslFoundation</SanitizedProjectName>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_OSX32)'!=''">
@@ -111,7 +111,7 @@
         <ILINK_LibraryPath>C:\Python37\libs;$(DEBUG_BCC32)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <BCC_PCHName>..\..\pch\dsl_pch.pch</BCC_PCHName>
         <_TCHARMapping>wchar_t</_TCHARMapping>
-        <PostBuildEvent><![CDATA[copy C:\CodeGear\Tokyo\Redist\boost\win32\boost_thread-bcb-mt-d-1_39.dll $(BUILD)\bin
+        <PostBuildEvent><![CDATA[copy /Y C:\CodeGear\Tokyo\Redist\boost\win32\boost_thread-bcb-mt-d-1_39.dll $(BUILD)\bin
 $(PostBuildEvent)]]></PostBuildEvent>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
@@ -432,10 +432,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
                     <ProjectProperties Name="VerifyPackages">True</ProjectProperties>
                     <ProjectProperties Name="IndexFiles">False</ProjectProperties>
                 </ProjectProperties>
-                <Excluded_Packages>
-                    <Excluded_Packages Name="c:\cg_build\BPL\dslVCLVisualComponents.bpl">Dune Visual Components</Excluded_Packages>
-                    <Excluded_Packages Name="c:\cg_build\BPL\dslVCLComponents.bpl">Dune Components</Excluded_Packages>
-                </Excluded_Packages>
+                <Excluded_Packages/>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="3">
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32c250mt.dll" Class="DependencyModule">
@@ -894,7 +891,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>copy C:\CodeGear\Tokyo\Redist\boost\win32\boost_thread-bcb-mt-d-1_39.dll $(BUILD)\bin</PostBuildEvent>
+        <PostBuildEvent>copy /Y C:\CodeGear\Tokyo\Redist\boost\win32\boost_thread-bcb-mt-d-1_39.dll $(BUILD)\bin</PostBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
 </Project>

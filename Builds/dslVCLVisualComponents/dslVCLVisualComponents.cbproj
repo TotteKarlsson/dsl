@@ -59,8 +59,8 @@
         <ILINK_GenerateLibFile>true</ILINK_GenerateLibFile>
         <_TCHARMapping>char</_TCHARMapping>
         <Multithreaded>true</Multithreaded>
-        <IncludePath>..\dslVisuals\;..\dslVCLVisualComponents\;..\..\VCL\;..\..\VCL\Frames\;..\..\VCL\Forms\;P:\libs\dsl\VCL\;P:\libs\dsl\VCL\Forms\;P:\libs\dsl\VCL\Frames\;$(IncludePath)</IncludePath>
-        <ILINK_LibraryPath>..\dslVisuals\;..\dslVCLVisualComponents\;..\..\VCL\;..\..\VCL\Frames\;..\..\VCL\Forms\;P:\libs\dsl\VCL\;P:\libs\dsl\VCL\Forms\;P:\libs\dsl\VCL\Frames\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>..\dslVCLVisualComponents\;..\..\VCL\;..\..\VCL\Frames\;..\..\VCL\Forms\;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>..\dslVCLVisualComponents\;..\..\VCL\;..\..\VCL\Frames\;..\..\VCL\Forms\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <SanitizedProjectName>dslVCLVisualComponents</SanitizedProjectName>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_OSX32)'!=''">
@@ -170,12 +170,12 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\VCL\Frames\dslTServerSocketFrame.h</DependentOn>
             <BuildOrder>9</BuildOrder>
         </CppCompile>
-        <FormResources Include="..\..\VCL\Forms\dslTAboutForm.dfm"/>
         <FormResources Include="..\..\VCL\Forms\dslTRegistryForm.dfm"/>
         <FormResources Include="..\..\VCL\Frames\dslTAboutFrame.dfm"/>
+        <FormResources Include="..\..\VCL\Frames\dslTClientSocketFrame.dfm"/>
         <FormResources Include="..\..\VCL\Frames\dslTLogMemoFrame.dfm"/>
         <FormResources Include="..\..\VCL\Frames\dslTServerSocketFrame.dfm"/>
-        <FormResources Include="..\..\VCL\Frames\dslTClientSocketFrame.dfm"/>
+        <FormResources Include="..\..\VCL\Forms\dslTAboutForm.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -202,9 +202,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
                     <ProjectProperties Name="VerifyPackages">True</ProjectProperties>
                     <ProjectProperties Name="IndexFiles">False</ProjectProperties>
                 </ProjectProperties>
-                <Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\BPL\DcefBrowser.bpl">File p:\build\BPL\DcefBrowser.bpl not found</Excluded_Packages>
-                </Excluded_Packages>
+                <Excluded_Packages/>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="3">
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32c250mt.dll" Class="DependencyModule">
@@ -257,14 +255,20 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile LocalName="c:\cg_build\BPL\dslVCLVisualComponents.bpl" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>dslVCLVisualComponents.bpl</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib" Class="DependencyModule">
                     <Platform Name="OSX32">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="c:\cg_build\BPL\dslVCLVisualComponents.bpl" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="c:\cg_build\BPL\dslVCLVisualComponents.tds" Configuration="Debug" Class="DebugSymbols">
                     <Platform Name="Win32">
-                        <RemoteName>dslVCLVisualComponents.bpl</RemoteName>
+                        <RemoteName>dslVCLVisualComponents.tds</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -275,12 +279,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
                 </DeployFile>
                 <DeployFile LocalName="$(BDS)\Redist\iossimulator\libPCRE.dylib" Class="DependencyModule">
                     <Platform Name="iOSSimulator">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="c:\cg_build\BPL\dslVCLVisualComponents.tds" Configuration="Debug" Class="DebugSymbols">
-                    <Platform Name="Win32">
-                        <RemoteName>dslVCLVisualComponents.tds</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

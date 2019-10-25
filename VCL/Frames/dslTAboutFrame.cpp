@@ -29,7 +29,7 @@ __fastcall TAboutFrame::TAboutFrame(TComponent* Owner)
     strs <<"Build Time:\t"<<__TIME__<<endl;
     vector<string> strings = splitString(strs.str(), "\n");
 
-    for(int i = 0; i < strings.size(); i++)
+    for(dsluint i = 0; i < strings.size(); i++)
     {
         verMemo->Lines->Add(strings[i].c_str());
     }

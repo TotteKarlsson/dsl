@@ -55,10 +55,10 @@
         <PackageImports>CloudService;FireDAC;FireDACCommon;FireDACCommonDriver;FireDACIBDriver;FireDACSqliteDriver;inet;RESTBackendComponents;RESTComponents;soapmidas;soaprtl;soapserver;$(PackageImports)</PackageImports>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
         <Multithreaded>true</Multithreaded>
-        <IncludePath>C:\pDisk\libs\dsl\VCL\Common\;..\..\VCL\Common\archive\;..\..\VCL\Common\;P:\libs\dsl\VCL\Common\;$(IncludePath)</IncludePath>
+        <IncludePath>..\..\VCL\Common\archive\;..\..\VCL\Common\;$(IncludePath)</IncludePath>
         <ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
         <_TCHARMapping>char</_TCHARMapping>
-        <ILINK_LibraryPath>C:\pDisk\libs\dsl\VCL\Common\;..\..\VCL\Common\archive\;..\..\VCL\Common\;P:\libs\dsl\VCL\Common\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>..\..\VCL\Common\archive\;..\..\VCL\Common\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <SanitizedProjectName>dslVCLCommon</SanitizedProjectName>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_OSX32)'!=''">
@@ -190,9 +190,7 @@
                     <ProjectProperties Name="VerifyPackages">True</ProjectProperties>
                     <ProjectProperties Name="IndexFiles">False</ProjectProperties>
                 </ProjectProperties>
-                <Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\BPL\DcefBrowser.bpl">File p:\build\BPL\DcefBrowser.bpl not found</Excluded_Packages>
-                </Excluded_Packages>
+                <Excluded_Packages/>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="3">
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32c250mt.dll" Class="DependencyModule">

@@ -1,8 +1,8 @@
 object ClientSocketFrame: TClientSocketFrame
   Left = 0
   Top = 0
-  Width = 654
-  Height = 543
+  Width = 1050
+  Height = 679
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -14,16 +14,26 @@ object ClientSocketFrame: TClientSocketFrame
   object Panel2: TPanel
     Left = 0
     Top = 0
-    Width = 654
-    Height = 543
+    Width = 1050
+    Height = 679
     Align = alClient
     Caption = 'Panel2'
     PopupMenu = SocketFramePopupMenu1
     TabOrder = 0
+    object Splitter1: TSplitter
+      Left = 1
+      Top = 480
+      Width = 1048
+      Height = 7
+      Cursor = crVSplit
+      Align = alBottom
+      ExplicitLeft = 73
+      ExplicitTop = 363
+    end
     object StatusBar1: TStatusBar
       Left = 1
-      Top = 523
-      Width = 652
+      Top = 659
+      Width = 1048
       Height = 19
       Panels = <
         item
@@ -34,7 +44,7 @@ object ClientSocketFrame: TClientSocketFrame
     object ToolBar1: TToolBar
       Left = 1
       Top = 1
-      Width = 652
+      Width = 1048
       Height = 35
       BorderWidth = 1
       ButtonHeight = 21
@@ -76,36 +86,27 @@ object ClientSocketFrame: TClientSocketFrame
       object PortNrE: TIntegerEdit
         Left = 344
         Top = 0
-        Width = 121
+        Width = 65
         Height = 21
         NumbersOnly = True
         TabOrder = 3
-        Text = '0'
+        Text = '50000'
+        Value = 50000
       end
     end
-    object Panel1: TPanel
+    object GroupBox1: TGroupBox
       Left = 1
       Top = 36
-      Width = 652
-      Height = 487
+      Width = 1048
+      Height = 444
       Align = alClient
-      Caption = 'Panel1'
+      Caption = 'Received data'
       TabOrder = 2
-      object Splitter1: TSplitter
-        Left = 1
-        Top = 372
-        Width = 650
-        Height = 7
-        Cursor = crVSplit
-        Align = alBottom
-        ExplicitTop = 85
-        ExplicitWidth = 383
-      end
-      object RecMsgMemo: TMemo
-        Left = 1
-        Top = 1
-        Width = 650
-        Height = 371
+      object ReceivedDataMemo: TMemo
+        Left = 2
+        Top = 15
+        Width = 1044
+        Height = 427
         Align = alClient
         Color = clBtnFace
         Lines.Strings = (
@@ -115,30 +116,70 @@ object ClientSocketFrame: TClientSocketFrame
         TabOrder = 0
         WordWrap = False
       end
+    end
+    object GroupBox2: TGroupBox
+      Left = 1
+      Top = 487
+      Width = 1048
+      Height = 123
+      Align = alBottom
+      Caption = 'Sent data'
+      TabOrder = 3
       object ConsoleMemo: TMemo
-        Left = 1
-        Top = 379
-        Width = 650
-        Height = 107
-        Align = alBottom
+        Left = 2
+        Top = 15
+        Width = 1044
+        Height = 106
+        Align = alClient
         PopupMenu = ConsolePopup
         ScrollBars = ssVertical
-        TabOrder = 1
+        TabOrder = 0
         WordWrap = False
         OnKeyDown = ConsoleMemoKeyDown
       end
     end
+    object GroupBox3: TGroupBox
+      Left = 1
+      Top = 610
+      Width = 1048
+      Height = 49
+      Align = alBottom
+      Caption = 'Send'
+      TabOrder = 4
+      DesignSize = (
+        1048
+        49)
+      object STDStringEdit1: TSTDStringEdit
+        Left = 10
+        Top = 22
+        Width = 987
+        Height = 21
+        Anchors = [akLeft, akTop, akRight]
+        TabOrder = 0
+        Text = 'STDStringEdit1'
+        Value = 'STDStringEdit1'
+      end
+      object Button1: TButton
+        Left = 1003
+        Top = 17
+        Width = 42
+        Height = 25
+        Anchors = [akTop, akRight]
+        Caption = 'Send'
+        TabOrder = 1
+      end
+    end
   end
   object SocketFramePopupMenu1: TPopupMenu
-    Left = 80
-    Top = 56
+    Left = 376
+    Top = 72
     object Connect1: TMenuItem
       Action = ClearReceivedMemoA
     end
   end
   object SocketFrameActionList1: TActionList
-    Left = 160
-    Top = 144
+    Left = 96
+    Top = 72
     object ToggleConnection: TAction
       Category = 'socketStuff'
       Caption = 'ToggleConnection'

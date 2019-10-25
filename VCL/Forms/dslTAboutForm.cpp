@@ -145,7 +145,7 @@ void __fastcall TAboutForm::FormShow(TObject *Sender)
         <<" days trial";
 
         StringList lines(ss.str(), '\n');
-        for(int i = 0; i < lines.count(); i++)
+        for(dsluint i = 0; i < lines.count(); i++)
         {
             licenseMemo->Lines->Add(lines[i].c_str());
         }

@@ -4,11 +4,12 @@
 #include "dslTClientSocketFrame.h"
 #include "dslUtils.h"
 #include "dslVCLUtils.h"
+#include "dslLogger.h"
+#include <boost/bind.hpp>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-#pragma link "dslIntEdit"
-#pragma link "TIntegerLabeledEdit"
 #pragma link "dslTIntegerEdit"
+#pragma link "dslTSTDStringEdit"
 #pragma resource "*.dfm"
 
 using namespace std;
@@ -25,47 +26,60 @@ __fastcall TClientSocketFrame::TClientSocketFrame(TComponent* Owner)
 {
     nrOfMessages = 0;
     BitBtn1->Caption = "Connect";
-    StatusBar1->Visible = false;
-
-    if(SB)
-    {
-        SB->Panels->Items[0]->Text = "Disconnected...";
-    }
+    mSocketClient.onConnected 		= boost::bind(&TClientSocketFrame::onConnected, this, _1);
+    mSocketClient.onDisconnected 	= boost::bind(&TClientSocketFrame::onDisconnected, this, _1);
+    mSocketClient.onReceiveData 	= boost::bind(&TClientSocketFrame::onReceiveData, this, _1);
 }
 
 //---------------------------------------------------------------------------
-void __fastcall TClientSocketFrame::SetStatusBar(TStatusBar* sb)
+void TClientSocketFrame::setStatusBar(TStatusBar* sb)
 {
     StatusBar1->Visible = false;
     SB = sb;
 }
 
-////ClientSocket stuff
-//void __fastcall TClientSocketFrame::ClientSocketConnect(TObject *Sender,
-//      TCustomWinSocket *Socket)
-//{
-//    ConsoleMemo->Clear();
-//    RecMsgMemo->Clear();
-//    BitBtn1->Caption = "Disconnect";
-//    StatusBar1->Panels->Items[0]->Text = "Connected to: " + Socket->RemoteHost;
-//    nrOfMessages = 0;
-//}
+void TClientSocketFrame::onConnected(Socket* s)
+{
+    Log(lInfo) << "Socket with ID: " << s->getSocketID() <<" was connected";
+    ConsoleMemo->Clear();
+    ReceivedDataMemo->Clear();
+    BitBtn1->Caption = "Disconnect";
+    StatusBar1->Panels->Items[0]->Text = vclstr("Connected to: " + s->getRemoteHostName());
+    nrOfMessages = 0;
+//	mSocketClient.
 
-////---------------------------------------------------------------------------
-//void __fastcall TClientSocketFrame::ClientSocketDisconnect(TObject *Sender,
-//      TCustomWinSocket *Socket)
-//{
-//    BitBtn1->Caption = "Connect";
-//    if(SB)
-//        SB->Panels->Items[0]->Text = "Disconnected...";
-//}
-//
+}
+
+void TClientSocketFrame::onDisconnected(Socket* s)
+{
+    BitBtn1->Caption = "Connect";
+    if(SB)
+        SB->Panels->Items[0]->Text = "Disconnected...";
+
+}
+
+void TClientSocketFrame::onReceiveData(dsl::Socket* s)
+{
+    if(!s)
+    {
+        return;
+    }
+    //Get received data
+	string receivedData = s->getReceivedBufferContent();
+    ReceivedDataMemo->Lines->Append(vclstr(receivedData));
+}
+
+string TClientSocketFrame::getLastMessage()
+{
+	return lastMessage;
+}
+
 ////---------------------------------------------------------------------------
 //void __fastcall TClientSocketFrame::ClientSocketError(TObject *Sender,
 //      TCustomWinSocket *Socket, TErrorEvent ErrorEvent, int &ErrorCode)
 //{
-//  RecMsgMemo->Lines->Add("Error connecting to:" + Server + " on port number " + Sysutils::IntToStr(PortNrE->getValue()) );
-//  RecMsgMemo->Lines->Add("The error code was: " + Sysutils::IntToStr(ErrorCode) );
+//  ReceivedDataMemo->Lines->Add("Error connecting to:" + Server + " on port number " + Sysutils::IntToStr(PortNrE->getValue()) );
+//  ReceivedDataMemo->Lines->Add("The error code was: " + Sysutils::IntToStr(ErrorCode) );
 //  //switch(ErrorCode)
 ////  {
 ////    case eeGeneral:         break;
@@ -93,7 +107,7 @@ void __fastcall TClientSocketFrame::SetStatusBar(TStatusBar* sb)
 //    for(unsigned int i=0; i < strs.size(); i++)
 //    {
 //        if(strs[i].size())
-//            RecMsgMemo->Lines->Add(strs[i].c_str());
+//            ReceivedDataMemo->Lines->Add(strs[i].c_str());
 //    }
 //}
 //
@@ -109,7 +123,9 @@ void __fastcall TClientSocketFrame::DisconnectExecute(TObject *Sender)
   mSocketClient.disConnect();
   BitBtn1->Caption = "Connect";
   if(SB)
+  {
       SB->Panels->Items[0]->Text = "Disconnected...";
+  }
 }
 
 //---------------------------------------------------------------------------
@@ -121,14 +137,14 @@ void __fastcall TClientSocketFrame::ConnectExecute(TObject *Sender)
     }
 
     Server = ServerCB->Text;
-    PortNr = PortNrE->GetNumber();
+    PortNr = PortNrE->getValue();
     if (Server.Length() < 1)
     {
         MessageDlg("Assign a valid server!", mtWarning, TMsgDlgButtons() << mbOK, 0);
         return;
     }
 
-    mSocketClient.connect(PortNrE->GetNumber(), stdstr(Server));
+    mSocketClient.connect(PortNrE->getValue(), stdstr(Server));
 }
 
 //---------------------------------------------------------------------------
@@ -137,21 +153,21 @@ void __fastcall TClientSocketFrame::ConsoleMemoKeyDown(TObject *Sender, WORD &Ke
     if (Key == VK_RETURN && !Shift.Contains(ssShift))
     {
         string msg;
-           for(int i = 0; i < ConsoleMemo->Lines->Count; i++)
+        for(int i = 0; i < ConsoleMemo->Lines->Count; i++)
         {
-            msg += stdstr(ConsoleMemo->Lines->Strings[i]);
+            msg = msg + stdstr(ConsoleMemo->Lines->Strings[i]);
         }
         //Add newline
         msg += '\n';
-        Send(msg.c_str());
+        send(msg.c_str());
         ClearConsoleMemoAExecute(Sender);
       }
 }
 
-int __fastcall TClientSocketFrame::Send(const string& msg)
+int TClientSocketFrame::send(const string& msg)
 {
-    string res = mSocketClient.request(msg, true);
-    RecMsgMemo->Lines->Add(vclstr("Response: " + res));
+    bool res = mSocketClient.request(msg);
+    ReceivedDataMemo->Lines->Add(vclstr("Response: " + dsl::toString(res)));
     return 0;
 }
 
@@ -199,7 +215,7 @@ void __fastcall TClientSocketFrame::ToggleConnectionUpdate(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TClientSocketFrame::ClearReceivedMemoAExecute(TObject *Sender)
 {
-    RecMsgMemo->Clear();
+    ReceivedDataMemo->Clear();
 }
 
 //---------------------------------------------------------------------------
@@ -211,7 +227,7 @@ void __fastcall TClientSocketFrame::ClearConsoleMemoAExecute(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TClientSocketFrame::FrameExit(TObject *Sender)
 {
-    SetStatusBar(nullptr);
+    setStatusBar(nullptr);
 }
 
 

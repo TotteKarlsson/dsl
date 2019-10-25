@@ -5,7 +5,6 @@
 #include <Controls.hpp>
 #include <StdCtrls.hpp>
 #include <Forms.hpp>
-
 #include <ExtCtrls.hpp>
 #include <ActnList.hpp>
 #include <System.Win.ScktComp.hpp>
@@ -14,15 +13,15 @@
 #include <ComCtrls.hpp>
 #include <ToolWin.hpp>
 #include <Menus.hpp>
-#include "dslIntEdit.h"
 #include <System.Actions.hpp>
-#include "TIntegerLabeledEdit.h"
 #include "dslTIntegerEdit.h"
+#include "dslTSTDStringEdit.h"
 #include <string>
 #include "dslSocketClient.h"
 
 using std::string;
 using dsl::SocketClient;
+
 //---------------------------------------------------------------------------
 class PACKAGE TClientSocketFrame : public TFrame
 {
@@ -39,8 +38,7 @@ __published:    // IDE-managed Components
     TToolBar *ToolBar1;
     TComboBox *ServerCB;
     TBitBtn *BitBtn1;
-    TPanel *Panel1;
-    TMemo *RecMsgMemo;
+	TMemo *ReceivedDataMemo;
     TMemo *ConsoleMemo;
     TSplitter *Splitter1;
     TTimer *ReconnectTimer;
@@ -48,6 +46,11 @@ __published:    // IDE-managed Components
     TPopupMenu *ConsolePopup;
     TAction *ClearConsoleMemoA;
     TMenuItem *Clear1;
+	TGroupBox *GroupBox1;
+	TGroupBox *GroupBox2;
+	TGroupBox *GroupBox3;
+	TSTDStringEdit *STDStringEdit1;
+	TButton *Button1;
 	TIntegerEdit *PortNrE;
     void __fastcall ToggleConnectionExecute(TObject *Sender);
     void __fastcall DisconnectExecute(TObject *Sender);
@@ -59,21 +62,23 @@ __published:    // IDE-managed Components
     void __fastcall ClearConsoleMemoAExecute(TObject *Sender);
     void __fastcall FrameExit(TObject *Sender);
 
-
 private:
         int                         nrOfMessages;
         string                      lastMessage;
         SocketClient                mSocketClient;
+        void                        onConnected(dsl::Socket* s);
+        void                        onDisconnected(dsl::Socket* s);
+        void                        onReceiveData(dsl::Socket* s);
+
 public:
         String                      Server;
         TStatusBar*                 SB;
         long                        PortNr;
                         __fastcall  TClientSocketFrame(TComponent* Owner);
-        string          __fastcall  GetLastMessage(){return lastMessage;}
-        int             __fastcall  Send(const string& msg);
-        void            __fastcall  SetStatusBar(TStatusBar* sb);
+        string                      getLastMessage();
+        int                         send(const string& msg);
+        void                        setStatusBar(TStatusBar* sb);
 };
-//---------------------------------------------------------------------------
+
 extern PACKAGE TClientSocketFrame *ClientSocketFrame;
-//---------------------------------------------------------------------------
 #endif
