@@ -6,7 +6,8 @@ USEFORM("..\..\VCL\Forms\dslTAboutForm.cpp", AboutForm);
 USEFORM("..\..\VCL\Forms\dslTRegistryForm.cpp", RegistryForm);
 USEFORM("..\..\VCL\Frames\dslTAboutFrame.cpp", AboutFrame); /* TFrame: File Type */
 USEFORM("..\..\VCL\Frames\dslTLogMemoFrame.cpp", LogMemoFrame); /* TFrame: File Type */
-USEFORM("P:\libs\dsl\VCL\Frames\dslTServerSocketFrame.cpp", ServerSocketFrame); /* TFrame: File Type */
+USEFORM("..\..\VCL\Frames\dslTServerSocketFrame.cpp", ServerSocketFrame); /* TFrame: File Type */
+USEFORM("..\..\VCL\Frames\dslTClientSocketFrame.cpp", ClientSocketFrame); /* TFrame: File Type */
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 

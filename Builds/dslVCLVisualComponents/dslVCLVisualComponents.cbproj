@@ -149,6 +149,13 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <DependentOn>..\..\VCL\Frames\dslTAboutFrame.h</DependentOn>
             <BuildOrder>3</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\VCL\Frames\dslTClientSocketFrame.cpp">
+            <Form>ClientSocketFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+            <DependentOn>..\..\VCL\Frames\dslTClientSocketFrame.h</DependentOn>
+            <BuildOrder>10</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\VCL\Frames\dslTLogMemoFrame.cpp">
             <Form>LogMemoFrame</Form>
             <FormType>dfm</FormType>
@@ -168,6 +175,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <FormResources Include="..\..\VCL\Frames\dslTAboutFrame.dfm"/>
         <FormResources Include="..\..\VCL\Frames\dslTLogMemoFrame.dfm"/>
         <FormResources Include="..\..\VCL\Frames\dslTServerSocketFrame.dfm"/>
+        <FormResources Include="..\..\VCL\Frames\dslTClientSocketFrame.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -254,7 +262,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="p:\build\BPL\dslVCLVisualComponents.bpl" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="c:\cg_build\BPL\dslVCLVisualComponents.bpl" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>dslVCLVisualComponents.bpl</RemoteName>
                         <Overwrite>true</Overwrite>
@@ -270,7 +278,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="p:\build\BPL\dslVCLVisualComponents.tds" Configuration="Debug" Class="DebugSymbols">
+                <DeployFile LocalName="c:\cg_build\BPL\dslVCLVisualComponents.tds" Configuration="Debug" Class="DebugSymbols">
                     <Platform Name="Win32">
                         <RemoteName>dslVCLVisualComponents.tds</RemoteName>
                         <Overwrite>true</Overwrite>
