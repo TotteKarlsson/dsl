@@ -13,7 +13,7 @@ StreamCenteredOutput::StreamCenteredOutput(const std::string& str)
 : strVal(str)
 {}
 
-int StreamCenteredOutput::width() const
+dsluint StreamCenteredOutput::width() const
 {
     return strVal.size();
 }

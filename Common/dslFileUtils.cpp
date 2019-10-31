@@ -285,7 +285,7 @@ string getLastFolderInPath(const string& p)
     StringList folders(p, gPathSeparator);
     if(folders.size() > 0)
     {
-        return folders[folders.size() -1 ];
+       return folders[folders.size() - 1];
     }
     return gEmptyString;
 }

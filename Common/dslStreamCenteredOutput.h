@@ -22,7 +22,7 @@ class DSL_COMMON StreamCenteredOutput
 
     public:
         StreamCenteredOutput(const std::string& str);
-        int width() const;
+        dsluint width() const;
 
     private:
         string strVal;

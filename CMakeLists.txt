@@ -34,6 +34,14 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "Embarcadero" AND CMAKE_BASE_NAME STREQUAL "bc
 
     set(CMAKE_CXX_USE_RESPONSE_FILE_FOR_INCLUDES 0)
     set(CMAKE_CXX_USE_RESPONSE_FILE_FOR_OBJECTS 0)
+
+    include_directories(
+    #${PYTHON_INCLUDE_DIRS}
+    ${BOOST_ROOT}
+    #${BOOST_ROOT}/boost/tr1/tr1
+    )
+
+
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Embarcadero" AND CMAKE_BASE_NAME STREQUAL "bcc32c") 
     message("Using bcc32c")
 
@@ -45,24 +53,30 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
         -D_CRT_SECURE_NO_WARNINGS
     )
 
-    #gotta check which VS studio compiler we are using
-    link_directories( ${BOOST_ROOT}/lib64-msvc-12.0)
-
 else()
     message("No compiler!!" ${CMAKE_CXX_COMPILER_ID} ${CMAKE_BASE_NAME})
 endif()
 
 #Boost root
-set(BOOST_ROOT  CACHE PATH "Directory containing Boost.")
+set(BOOST_ROOT CACHE PATH "Directory containing Boost.")
 if("${BOOST_ROOT}" STREQUAL "")
-  set(BOOST_ROOT "C:/boost" CACHE PATH "Directory containing Boost headers" FORCE)
+  set(BOOST_ROOT "C:/libs/boost" CACHE PATH "Directory containing Boost headers" FORCE)
 endif()
 
-include_directories(
-    #${PYTHON_INCLUDE_DIRS}
-    ${BOOST_ROOT}
-    #${BOOST_ROOT}/boost/tr1/tr1
-)
+
+if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+SET (BOOST_MIN_VERSION "1.39.0")
+set (Boost_NO_BOOST_CMAKE ON)
+set( Boost_NO_SYSTEM_PATHS on CACHE BOOL "Do not search system for Boost" )
+FIND_PACKAGE(Boost ${BOOST_MIN_VERSION} REQUIRED COMPONENTS thread)
+
+message(STATUS "Setting up BOOST")
+  message(STATUS " Includes - ${Boost_INCLUDE_DIRS}")
+  message(STATUS " Library  - ${Boost_LIBRARY_DIRS}")
+  include_directories(${Boost_INCLUDE_DIRS})
+  link_directories(${Boost_LIBRARY_DIRS})
+
+endif()  
 
 # Warning string looks different depending on the compiler..
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${SUPPRESS_WARNINGS}")
@@ -82,7 +96,6 @@ endif()
 add_subdirectory(Foundation)
 add_subdirectory(Math/mtrand)
 
-#Data Folders
 add_subdirectory(Wrappers)
 add_subdirectory(Examples)
 add_subdirectory(ThirdParties)

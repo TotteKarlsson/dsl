@@ -249,12 +249,12 @@ const string& StringList::operator[](int index) const
     return mStrings[index];
 }
 
-unsigned int StringList::size() const
+size_t StringList::size() const
 {
     return mStrings.size();
 }
 
-unsigned int StringList::count() const
+size_t StringList::count() const
 {
     return mStrings.size();
 }

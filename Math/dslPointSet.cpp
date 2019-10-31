@@ -85,7 +85,7 @@ void PointSet::insertNextPoint(const Point& point)
     mPointSet.push_back(point);
 }
 
-void PointSet::setNumberOfPoints(int nroftriplets)
+void PointSet::setNumberOfPoints(unsigned int nroftriplets)
 {
     mPointSet.resize(nroftriplets);
 }

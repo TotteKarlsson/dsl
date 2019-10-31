@@ -188,7 +188,7 @@ string getStringFromSeconds(time_t elapsed)
 	{
         return "00:00:00";
     }
-    int hours = elapsed / 3600;
+    int hours = (int) elapsed / 3600;
     int minutes = (elapsed / 60) % 60 ;
     int seconds = elapsed % 60;
     string h,m,s;
@@ -211,7 +211,7 @@ string getStringFromSeconds(time_t elapsed)
     return timeStr;
 }
 
-int indexOf(const vector<string>& vec, const string& elem)
+dsluint indexOf(const vector<string>& vec, const string& elem)
 {
     if(!vec.size())
     {

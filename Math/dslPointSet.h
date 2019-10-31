@@ -22,7 +22,7 @@ class DSL_MATH PointSet  : public DSLObject
         PointSet&                                   operator=(const PointSet& rhs);
         void                                        clear();
 
-        void                                        setNumberOfPoints(int nroftriplets);
+        void                                        setNumberOfPoints(unsigned int nroftriplets);
         size_t                                      size() const ;
         size_t                                      count() const ;
 
