@@ -24,11 +24,11 @@ __fastcall TClientSocketFrame::TClientSocketFrame(TComponent* Owner)
     SB(nullptr),
     mSocketClient()
 {
-    nrOfMessages = 0;
     BitBtn1->Caption = "Connect";
     mSocketClient.onConnected 		= boost::bind(&TClientSocketFrame::onConnected, this, _1);
     mSocketClient.onDisconnected 	= boost::bind(&TClientSocketFrame::onDisconnected, this, _1);
     mSocketClient.onReceiveData 	= boost::bind(&TClientSocketFrame::onReceiveData, this, _1);
+    mSocketClient.onSendData 		= boost::bind(&TClientSocketFrame::onSentData, this, _1);
 }
 
 //---------------------------------------------------------------------------
@@ -41,21 +41,19 @@ void TClientSocketFrame::setStatusBar(TStatusBar* sb)
 void TClientSocketFrame::onConnected(Socket* s)
 {
     Log(lInfo) << "Socket with ID: " << s->getSocketID() <<" was connected";
-    ConsoleMemo->Clear();
+    SentDataMemo->Clear();
     ReceivedDataMemo->Clear();
     BitBtn1->Caption = "Disconnect";
     StatusBar1->Panels->Items[0]->Text = vclstr("Connected to: " + s->getRemoteHostName());
-    nrOfMessages = 0;
-//	mSocketClient.
-
 }
 
 void TClientSocketFrame::onDisconnected(Socket* s)
 {
     BitBtn1->Caption = "Connect";
     if(SB)
-        SB->Panels->Items[0]->Text = "Disconnected...";
-
+    {
+    	SB->Panels->Items[0]->Text = "Disconnected...";
+    }
 }
 
 void TClientSocketFrame::onReceiveData(dsl::Socket* s)
@@ -64,53 +62,24 @@ void TClientSocketFrame::onReceiveData(dsl::Socket* s)
     {
         return;
     }
+
     //Get received data
 	string receivedData = s->getReceivedBufferContent();
     ReceivedDataMemo->Lines->Append(vclstr(receivedData));
 }
 
-string TClientSocketFrame::getLastMessage()
+void TClientSocketFrame::onSentData(dsl::Socket* s)
 {
-	return lastMessage;
+    if(!s)
+    {
+        return;
+    }
+
+    //Get sent data
+	string data = s->getLastSentData();
+    SentDataMemo->Lines->Append(vclstr(data));
 }
 
-////---------------------------------------------------------------------------
-//void __fastcall TClientSocketFrame::ClientSocketError(TObject *Sender,
-//      TCustomWinSocket *Socket, TErrorEvent ErrorEvent, int &ErrorCode)
-//{
-//  ReceivedDataMemo->Lines->Add("Error connecting to:" + Server + " on port number " + Sysutils::IntToStr(PortNrE->getValue()) );
-//  ReceivedDataMemo->Lines->Add("The error code was: " + Sysutils::IntToStr(ErrorCode) );
-//  //switch(ErrorCode)
-////  {
-////    case eeGeneral:         break;
-////    case eeSend:            break;
-////    case eeReceive:         break;
-////    case eeConnect:         break;
-////    case eeDisconnect:      break;
-////    case eeAccept:          break;
-////
-////    default:    break;
-////  }
-//    mSocketClient.close();
-//    ErrorCode = 0;        //Don't raise an exception
-//    BitBtn1->Caption = "Connect";
-//    if(SB)
-//        SB->Panels->Items[0]->Text = "Disconnected...";
-//}
-
-////---------------------------------------------------------------------------
-//void __fastcall TClientSocketFrame::mSocketClientRead(TObject *Sender, TCustomWinSocket *Socket)
-//{
-//    lastMessage = Socket->ReceiveText().c_str();
-//    vector<string> strs;
-//    strs = splitString(lastMessage, "\n");
-//    for(unsigned int i=0; i < strs.size(); i++)
-//    {
-//        if(strs[i].size())
-//            ReceivedDataMemo->Lines->Add(strs[i].c_str());
-//    }
-//}
-//
 //---------------------------------------------------------------------------
 void __fastcall TClientSocketFrame::ToggleConnectionExecute(TObject *Sender)
 {
@@ -137,10 +106,10 @@ void __fastcall TClientSocketFrame::ConnectExecute(TObject *Sender)
     }
 
     Server = ServerCB->Text;
-    PortNr = PortNrE->getValue();
-    if (Server.Length() < 1)
+
+    if(Server.Length() < 1)
     {
-        MessageDlg("Assign a valid server!", mtWarning, TMsgDlgButtons() << mbOK, 0);
+        Log(lError) << "Please assign a valid server..";
         return;
     }
 
@@ -148,47 +117,11 @@ void __fastcall TClientSocketFrame::ConnectExecute(TObject *Sender)
 }
 
 //---------------------------------------------------------------------------
-void __fastcall TClientSocketFrame::ConsoleMemoKeyDown(TObject *Sender, WORD &Key, TShiftState Shift)
-{
-    if (Key == VK_RETURN && !Shift.Contains(ssShift))
-    {
-        string msg;
-        for(int i = 0; i < ConsoleMemo->Lines->Count; i++)
-        {
-            msg = msg + stdstr(ConsoleMemo->Lines->Strings[i]);
-        }
-        //Add newline
-        msg += '\n';
-        send(msg.c_str());
-        ClearConsoleMemoAExecute(Sender);
-      }
-}
-
 int TClientSocketFrame::send(const string& msg)
 {
     bool res = mSocketClient.request(msg);
-    ReceivedDataMemo->Lines->Add(vclstr("Response: " + dsl::toString(res)));
     return 0;
 }
-
-//void __fastcall TClientSocketFrame::mSocketClientConnecting(TObject *Sender, TCustomWinSocket *Socket)
-//{
-//    BitBtn1->Caption = "Connecting..";
-//    if(SB)
-//    {
-//        SB->Panels->Items[0]->Text = "Connecting...";
-//    }
-//}
-
-//---------------------------------------------------------------------------
-//void __fastcall TClientSocketFrame::mSocketClientLookup(TObject *Sender, TCustomWinSocket *Socket)
-//{
-//    BitBtn1->Caption = "Connecting..";
-//    if(SB)
-//    {
-//        SB->Panels->Items[0]->Text = "Connecting...";
-//    }
-//}
 
 //---------------------------------------------------------------------------
 void __fastcall TClientSocketFrame::ReconnectTimerTimer(TObject *Sender)
@@ -213,21 +146,36 @@ void __fastcall TClientSocketFrame::ToggleConnectionUpdate(TObject *Sender)
 }
 
 //---------------------------------------------------------------------------
-void __fastcall TClientSocketFrame::ClearReceivedMemoAExecute(TObject *Sender)
+void __fastcall TClientSocketFrame::ClearMemo(TObject *Sender)
 {
-    ReceivedDataMemo->Clear();
-}
 
-//---------------------------------------------------------------------------
-void __fastcall TClientSocketFrame::ClearConsoleMemoAExecute(TObject *Sender)
-{
-    ConsoleMemo->Clear();
+    TMemo* memo = dynamic_cast<TMemo*>(MemosPopup->PopupComponent);
+	if(memo)
+    {
+        memo->Clear();
+    }
 }
 
 //---------------------------------------------------------------------------
 void __fastcall TClientSocketFrame::FrameExit(TObject *Sender)
 {
     setStatusBar(nullptr);
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TClientSocketFrame::SendDataBtnClick(TObject *Sender)
+{
+	send(SendDataE->getValue());
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TClientSocketFrame::SendData(TObject *Sender, WORD &Key,
+          TShiftState Shift)
+{
+    if (Key == VK_RETURN)
+    {
+        send(SendDataE->getValue());
+    }
 }
 
 

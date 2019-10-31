@@ -43,6 +43,7 @@ class DSL_IPC Socket : public DSLObject
         int                                         getSocketID();
         int                                         getSocketHandle();
         virtual string                              getRemoteHostName() = 0;
+		virtual string                              getLastSentData();
 
         									        //!Make it simple to consume incoming data
         deque<char>&                                getIncomingDataBuffer();
@@ -62,6 +63,8 @@ class DSL_IPC Socket : public DSLObject
         SocketAddressFamily                         mSocketAddressFamily;
         SocketType                                  mSocketType;
         SocketProtocol                              mSocketProtocol;
+
+        string                                      mLastSentData;
 };
 
 template<> inline

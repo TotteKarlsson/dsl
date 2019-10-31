@@ -21,6 +21,11 @@ mSocketProtocol(spTCP)
 Socket::~Socket()
 {}
 
+string Socket::getLastSentData()
+{
+    return mLastSentData;
+}
+
 void Socket::setSocketProtocol(SocketProtocol proto)
 {
     mSocketProtocol = proto;

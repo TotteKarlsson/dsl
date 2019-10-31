@@ -18,7 +18,6 @@ object ClientSocketFrame: TClientSocketFrame
     Height = 679
     Align = alClient
     Caption = 'Panel2'
-    PopupMenu = SocketFramePopupMenu1
     TabOrder = 0
     object Splitter1: TSplitter
       Left = 1
@@ -111,6 +110,7 @@ object ClientSocketFrame: TClientSocketFrame
         Color = clBtnFace
         Lines.Strings = (
           '')
+        PopupMenu = MemosPopup
         ReadOnly = True
         ScrollBars = ssBoth
         TabOrder = 0
@@ -125,17 +125,16 @@ object ClientSocketFrame: TClientSocketFrame
       Align = alBottom
       Caption = 'Sent data'
       TabOrder = 3
-      object ConsoleMemo: TMemo
+      object SentDataMemo: TMemo
         Left = 2
         Top = 15
         Width = 1044
         Height = 106
         Align = alClient
-        PopupMenu = ConsolePopup
+        PopupMenu = MemosPopup
         ScrollBars = ssVertical
         TabOrder = 0
         WordWrap = False
-        OnKeyDown = ConsoleMemoKeyDown
       end
     end
     object GroupBox3: TGroupBox
@@ -149,17 +148,18 @@ object ClientSocketFrame: TClientSocketFrame
       DesignSize = (
         1048
         49)
-      object STDStringEdit1: TSTDStringEdit
+      object SendDataE: TSTDStringEdit
         Left = 10
         Top = 22
         Width = 987
         Height = 21
         Anchors = [akLeft, akTop, akRight]
         TabOrder = 0
-        Text = 'STDStringEdit1'
-        Value = 'STDStringEdit1'
+        Text = 'Test'
+        OnKeyDown = SendData
+        Value = 'Test'
       end
-      object Button1: TButton
+      object SendDataBtn: TButton
         Left = 1003
         Top = 17
         Width = 42
@@ -167,14 +167,8 @@ object ClientSocketFrame: TClientSocketFrame
         Anchors = [akTop, akRight]
         Caption = 'Send'
         TabOrder = 1
+        OnClick = SendDataBtnClick
       end
-    end
-  end
-  object SocketFramePopupMenu1: TPopupMenu
-    Left = 376
-    Top = 72
-    object Connect1: TMenuItem
-      Action = ClearReceivedMemoA
     end
   end
   object SocketFrameActionList1: TActionList
@@ -186,11 +180,6 @@ object ClientSocketFrame: TClientSocketFrame
       OnExecute = ToggleConnectionExecute
       OnUpdate = ToggleConnectionUpdate
     end
-    object ClearReceivedMemoA: TAction
-      Category = 'MemosA'
-      Caption = 'Clear'
-      OnExecute = ClearReceivedMemoAExecute
-    end
     object Disconnect: TAction
       Category = 'socketStuff'
       Caption = 'Disconnect'
@@ -201,10 +190,10 @@ object ClientSocketFrame: TClientSocketFrame
       Caption = 'Connect'
       OnExecute = ConnectExecute
     end
-    object ClearConsoleMemoA: TAction
+    object ClearSentDataMemoA: TAction
       Category = 'MemosA'
       Caption = 'Clear'
-      OnExecute = ClearConsoleMemoAExecute
+      OnExecute = ClearMemo
     end
   end
   object ReconnectTimer: TTimer
@@ -213,11 +202,11 @@ object ClientSocketFrame: TClientSocketFrame
     Left = 264
     Top = 72
   end
-  object ConsolePopup: TPopupMenu
-    Left = 208
-    Top = 424
+  object MemosPopup: TPopupMenu
+    Left = 152
+    Top = 200
     object Clear1: TMenuItem
-      Action = ClearConsoleMemoA
+      Action = ClearSentDataMemoA
     end
   end
 end

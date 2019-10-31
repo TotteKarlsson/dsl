@@ -5,12 +5,9 @@
     #include <boost/tr1/memory.hpp>
 	#include <boost/make_shared.hpp>
     using std::tr1::shared_ptr;
-#elif defined(_MSC_VER)
+#elif defined(_MSC_VER) || defined (__clang__)
 	#include <memory>
 	using std::shared_ptr;
-#elif defined(__clang__)
-    #include <memory>
-    using std::shared_ptr;
 #endif
 
 

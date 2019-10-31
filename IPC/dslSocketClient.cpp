@@ -106,26 +106,31 @@ bool SocketClient::requestByID(IPC_ID request_id)
     stringstream request;
     request << "[" << dsl::toString(request_id) << "]";
 
-    if(send(request.str()) == -1)
-    {
-        Log(lInfo) << "Sending request failed";
-        return false;
-    }
+    return sendRequest(request.str());
 
-    return true;
 }
 
 bool SocketClient::request(const string& request)
 {
     //Make sure the request has a good format
     string req = "[" + request +  "]";
+    return sendRequest(req);
 
-    if(send(req) == -1)
+}
+
+bool SocketClient::sendRequest(const string& request)
+{
+    if(send(request) == -1)
     {
-        Log(lInfo) << "Failed sending request: " << req;
+        Log(lInfo) << "Failed sending request: " << request;
         return false;
     }
 
+	mLastSentData = request;
+    if(onSendData)
+    {
+        onSendData(this);
+    }
 	return true;
 }
 

@@ -28,56 +28,54 @@ class PACKAGE TClientSocketFrame : public TFrame
 __published:    // IDE-managed Components
     TPanel *Panel2;
     TStatusBar *StatusBar1;
-    TPopupMenu *SocketFramePopupMenu1;
-    TMenuItem *Connect1;
     TActionList *SocketFrameActionList1;
     TAction *ToggleConnection;
-    TAction *ClearReceivedMemoA;
     TAction *Disconnect;
     TAction *Connect;
     TToolBar *ToolBar1;
     TComboBox *ServerCB;
     TBitBtn *BitBtn1;
 	TMemo *ReceivedDataMemo;
-    TMemo *ConsoleMemo;
+	TMemo *SentDataMemo;
     TSplitter *Splitter1;
     TTimer *ReconnectTimer;
     TCheckBox *AutoReconnectCB;
-    TPopupMenu *ConsolePopup;
-    TAction *ClearConsoleMemoA;
+	TPopupMenu *MemosPopup;
+	TAction *ClearSentDataMemoA;
     TMenuItem *Clear1;
 	TGroupBox *GroupBox1;
 	TGroupBox *GroupBox2;
 	TGroupBox *GroupBox3;
-	TSTDStringEdit *STDStringEdit1;
-	TButton *Button1;
+	TSTDStringEdit *SendDataE;
+	TButton *SendDataBtn;
 	TIntegerEdit *PortNrE;
     void __fastcall ToggleConnectionExecute(TObject *Sender);
     void __fastcall DisconnectExecute(TObject *Sender);
     void __fastcall ConnectExecute(TObject *Sender);
-    void __fastcall ConsoleMemoKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
     void __fastcall ReconnectTimerTimer(TObject *Sender);
     void __fastcall ToggleConnectionUpdate(TObject *Sender);
-    void __fastcall ClearReceivedMemoAExecute(TObject *Sender);
-    void __fastcall ClearConsoleMemoAExecute(TObject *Sender);
+    void __fastcall ClearMemo(TObject *Sender);
     void __fastcall FrameExit(TObject *Sender);
+	void __fastcall SendDataBtnClick(TObject *Sender);
+	void __fastcall SendData(TObject *Sender, WORD &Key, TShiftState Shift);
+
 
 private:
-        int                         nrOfMessages;
-        string                      lastMessage;
         SocketClient                mSocketClient;
         void                        onConnected(dsl::Socket* s);
         void                        onDisconnected(dsl::Socket* s);
         void                        onReceiveData(dsl::Socket* s);
+        void                        onSentData(dsl::Socket* s);
 
 public:
         String                      Server;
         TStatusBar*                 SB;
-        long                        PortNr;
+
                         __fastcall  TClientSocketFrame(TComponent* Owner);
-        string                      getLastMessage();
+
         int                         send(const string& msg);
         void                        setStatusBar(TStatusBar* sb);
+
 };
 
 extern PACKAGE TClientSocketFrame *ClientSocketFrame;
