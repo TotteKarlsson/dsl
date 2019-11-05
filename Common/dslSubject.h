@@ -5,6 +5,7 @@
 #include "dslSharedPointer.h"
 #include "dslSubjectEvents.h"
 #include <list>
+#include "dslSharedPointer.h"
 //---------------------------------------------------------------------------
 
 namespace dsl
@@ -13,8 +14,8 @@ namespace dsl
 using std::list;
 class Observer;
 
-typedef  list< shared_ptr<Observer> >   ObserverList;
-typedef shared_ptr<Observer>            spObserver;
+typedef  list< dsl_shared_ptr<Observer> >   ObserverList;
+typedef dsl_shared_ptr<Observer>            spObserver;
 
 //Might rename this class to Observable
 class DSL_COMMON Subject : public DSLObject

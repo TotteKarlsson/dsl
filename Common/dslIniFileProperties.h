@@ -37,11 +37,6 @@ class DSL_COMMON IniFileProperties : public Properties
 
 };
 
-#if defined(__BORLANDC__) && !defined(__clang__)
-	typedef std::tr1::shared_ptr<IniFileProperties> IniFilePropertiesSP;
-#elif defined(_MSC_VER) || defined (__clang__)
-	typedef std::shared_ptr<IniFileProperties> IniFilePropertiesSP;
-#endif
-
+typedef dsl_shared_ptr<IniFileProperties> IniFilePropertiesSP;
 }
 #endif

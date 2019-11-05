@@ -18,7 +18,7 @@ TServerSocketFrame *ServerSocketFrame;
 __fastcall TServerSocketFrame::TServerSocketFrame(TComponent* Owner)
     :
     TFrame(Owner),
-    mServer(shared_ptr<TMemoSocketServer>(new TMemoSocketServer("MemoSocket.ini", "GENERAL")))
+    mServer(dsl_shared_ptr<TMemoSocketServer>(new TMemoSocketServer("MemoSocket.ini", "GENERAL")))
 {
 //    mServer = new TMemoSocketServer("MemoSocket.ini", "GENERAL");
     mAppFolder = GetCurrentDir().c_str();

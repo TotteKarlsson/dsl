@@ -72,12 +72,7 @@ class DSL_COMMON Properties : public DSLObject
         virtual void                                        setupProperties();
 };
 
-#if defined(__BORLANDC__) && !defined(__clang__)
-	typedef std::tr1::shared_ptr<Properties> PropertiesSP;
-#elif defined(_MSC_VER) || defined (__clang__)
-	typedef std::shared_ptr<Properties> PropertiesSP;
-#endif
-
+typedef dsl_shared_ptr<Properties> PropertiesSP;
 
 DSL_COMMON string toString(const Properties& props);
 

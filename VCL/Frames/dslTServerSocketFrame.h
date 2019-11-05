@@ -52,7 +52,7 @@ __published:    // IDE-managed Components
 
     private:
         String                            mAppFolder;
-        shared_ptr<TMemoSocketServer>     mServer;
+        dsl_shared_ptr<TMemoSocketServer> mServer;
 
     public:
                                 __fastcall  TServerSocketFrame(TComponent* Owner);

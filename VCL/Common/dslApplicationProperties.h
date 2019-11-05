@@ -15,7 +15,17 @@ namespace dsl
 {
 
 using std::list;
-typedef shared_ptr<Properties> PropertiesSP;
+#if defined(__BORLANDC__) && !defined(__clang__)
+	typedef std::tr1::shared_ptr<Properties> PropertiesSP;
+    typedef std::tr1::shared_ptr<IniFileProperties> IniFilePropertiesSP;
+    typedef std::tr1::shared_ptr<TRegistryProperties> TRegistryPropertiesSP;
+#elif defined(_MSC_VER) || defined (__clang__)
+	typedef std::shared_ptr<Properties> PropertiesSP;
+    typedef std::shared_ptr<IniFileProperties> IniFilePropertiesSP;
+    typedef std::shared_ptr<TRegistryProperties> TRegistryPropertiesSP;
+#endif
+
+
 
 //Todo rename to ApplicationUtilities
 //Or possibly split up
@@ -29,8 +39,8 @@ class VCLCOMMON ApplicationProperties : public DSLObject
         PropertiesSP                                  			getSection(const string& sec);
         void                                                    append(PropertiesSP props);
 
-        shared_ptr<IniFileProperties>                           appendNewINISection(const string& secName);
-        shared_ptr<TRegistryProperties>                         appendNewRegistrySection(const string& secName);
+        IniFilePropertiesSP			                            appendNewINISection(const string& secName);
+        TRegistryPropertiesSP			                        appendNewRegistrySection(const string& secName);
 
         PropertiesSP                                            getFirstSection() const;
         PropertiesSP                                            getNextSection();

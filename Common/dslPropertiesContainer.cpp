@@ -11,7 +11,7 @@ PropertiesContainer::PropertiesContainer()
 PropertiesContainer::~PropertiesContainer()
 {}
 
-void PropertiesContainer::append(shared_ptr<Properties> ps)
+void PropertiesContainer::append(dsl_shared_ptr<Properties> ps)
 {
     mSections.push_back(ps);
 }
@@ -65,7 +65,7 @@ int PropertiesContainer::applyEdits()
     return -1;
 }
 
-shared_ptr<Properties> PropertiesContainer::getSection(const string& s)
+dsl_shared_ptr<Properties> PropertiesContainer::getSection(const string& s)
 {
     for (mSectionIterator = mSections.begin(); mSectionIterator != mSections.end(); ++mSectionIterator)
     {
@@ -74,7 +74,7 @@ shared_ptr<Properties> PropertiesContainer::getSection(const string& s)
             return (*mSectionIterator);
         }
     }
-    return shared_ptr<Properties>();
+    return dsl_shared_ptr<Properties>();
 }
 
 }
