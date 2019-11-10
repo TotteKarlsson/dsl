@@ -12,6 +12,7 @@ DSL_COMMON void 	sendToClipBoard(const string& str);
 DSL_COMMON string   getTempPath();
 DSL_COMMON string 	getSpecialFolder(int fldr);
 DSL_COMMON string 	getKnownFolder(GUID folder, DWORD flags = 0);
+DSL_COMMON string   getDLLVersion(TCHAR* dllname);
 
 DSL_COMMON string 	getLastWin32Error();
 

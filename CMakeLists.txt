@@ -34,16 +34,14 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "Embarcadero" AND CMAKE_BASE_NAME STREQUAL "bc
 
     set(CMAKE_CXX_USE_RESPONSE_FILE_FOR_INCLUDES 0)
     set(CMAKE_CXX_USE_RESPONSE_FILE_FOR_OBJECTS 0)
-
-    include_directories(
-    #${PYTHON_INCLUDE_DIRS}
-    ${BOOST_ROOT}
-    #${BOOST_ROOT}/boost/tr1/tr1
-    )
+    include_directories( ${BOOST_ROOT})
 
 
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Embarcadero" AND CMAKE_BASE_NAME STREQUAL "bcc32c") 
     message("Using bcc32c")
+    set(CG_32_BOOST_ROOT ${BOOST_ROOT})
+    include_directories( ${BOOST_ROOT}) 
+    link_directories( "C:\\CG\\10.2.3_temp\\lib\\win32c\\release") 
 
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     message("Using MSVC")
@@ -63,20 +61,32 @@ if("${BOOST_ROOT}" STREQUAL "")
   set(BOOST_ROOT "C:/libs/boost" CACHE PATH "Directory containing Boost headers" FORCE)
 endif()
 
-
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-SET (BOOST_MIN_VERSION "1.39.0")
-set (Boost_NO_BOOST_CMAKE ON)
-set( Boost_NO_SYSTEM_PATHS on CACHE BOOL "Do not search system for Boost" )
-FIND_PACKAGE(Boost ${BOOST_MIN_VERSION} REQUIRED COMPONENTS thread)
+    set (BOOST_MIN_VERSION "1.39.0")
+    set (Boost_NO_BOOST_CMAKE ON)
+    set( Boost_NO_SYSTEM_PATHS on CACHE BOOL "Do not search system for Boost" )
+    FIND_PACKAGE(Boost ${BOOST_MIN_VERSION} REQUIRED COMPONENTS thread)
 
-message(STATUS "Setting up BOOST")
-  message(STATUS " Includes - ${Boost_INCLUDE_DIRS}")
-  message(STATUS " Library  - ${Boost_LIBRARY_DIRS}")
-  include_directories(${Boost_INCLUDE_DIRS})
-  link_directories(${Boost_LIBRARY_DIRS})
-
+    message(STATUS "Setting up BOOST")
+    message(STATUS " Includes - ${Boost_INCLUDE_DIRS}")
+    message(STATUS " Library  - ${Boost_LIBRARY_DIRS}")
+    include_directories(${Boost_INCLUDE_DIRS})
+    link_directories(${Boost_LIBRARY_DIRS})
 endif()  
+
+#if (CMAKE_CXX_COMPILER_ID STREQUAL "bcc32c")
+#    set (BOOST_MIN_VERSION "1.39.0")
+#    set (Boost_NO_BOOST_CMAKE ON)
+#    set( Boost_NO_SYSTEM_PATHS on CACHE BOOL "Do not search system for Boost" )
+#    FIND_PACKAGE(Boost ${BOOST_MIN_VERSION} REQUIRED COMPONENTS )
+#
+#    message(STATUS "Setting up BOOST")
+#    message(STATUS " Includes - ${Boost_INCLUDE_DIRS}")
+#    message(STATUS " Library  - ${Boost_LIBRARY_DIRS}")
+#    include_directories(${Boost_INCLUDE_DIRS})
+#    link_directories(${Boost_LIBRARY_DIRS})
+#endif()  
+
 
 # Warning string looks different depending on the compiler..
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${SUPPRESS_WARNINGS}")
@@ -113,3 +123,10 @@ install (FILES
     DESTINATION ${RootDest} 	
     COMPONENT info
    )
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL "Embarcadero" AND CMAKE_BASE_NAME STREQUAL "bcc32")
+    #copy the boost thread lib to bin folder
+    set(REDIST redist/bcc32)
+    install(FILES ${REDIST}/boost_thread-bcb-mt-1_39.dll_temp RENAME boost_thread-bcb-mt-1_39.dll DESTINATION bin )
+    install(FILES ${REDIST}/boost_thread-bcb-mt-d-1_39.dll_temp RENAME boost_thread-bcb-mt-d-1_39.dll DESTINATION bin )
+endif()

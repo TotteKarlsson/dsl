@@ -105,9 +105,7 @@ endif()
 if(${BUILD_SHARED_LIBS})
 #    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -Hi${CMAKE_SOURCE_DIR}/pch/dsl_pch.h -Hh=${CMAKE_SOURCE_DIR}/pch/dsl_pch.h -H=${CMAKE_SOURCE_DIR}/pch/dsl_pch.cmake -H")
 
-    add_library(${target} SHARED
-        ${src}
-    )
+    add_library(${target} SHARED ${src})
     target_include_directories (${target} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
     
     if(NOT ${LIBRARY_POSTFIX} STREQUAL "")
@@ -155,7 +153,8 @@ if(${BUILD_SHARED_LIBS})
                 DESTINATION bin
                 COMPONENT debug
             )
-        endif()        
+        endif()
+
 
     endif()
 endif()
