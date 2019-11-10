@@ -1,20 +1,3 @@
-/*
-  This precompiled header include file was generated on 6/28/2018 10:40:34 AM 
-  by the RAD Studio Precompiled Header Wizard with the following settings:
-
-  Project: P:\libs\dsl\builds\dslCommon\dslCommon.cbproj
-  AllowUnguarded = 0
-  ExcludeProjectFiles = -1
-  IncludePathsOn = -1
-  IncludePaths = 
-  ExcludePaths = 
-  IncludeCount = 14
-  ManageHeader = -1
-*/
-
-#ifndef pch1_H
-#define pch1_H
-
 //#include "dslLogger.h"
 #include "dslObject.h"
 //#include "dslCommonExporter.h"
@@ -22,7 +5,7 @@
 //#include "dslStringUtils.h"
 
 
-#include "Poco/Condition.h"
+//#include "Poco/Condition.h"
 //#include "Poco/Mutex.h"
 //#include "Poco/Path.h"
 //#include "Poco/File.h"
@@ -44,8 +27,3 @@
 #include <vector>
 #include <cerrno>
 #include <set>
-
-
-
-
-#endif

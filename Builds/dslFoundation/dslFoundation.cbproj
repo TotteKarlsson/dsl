@@ -99,22 +99,21 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <BPILibOutputDir>$(DEBUG_BCC32)\lib</BPILibOutputDir>
-        <FinalOutputDir>$(DEBUG_BCC32)\bin</FinalOutputDir>
+        <BPILibOutputDir>$(BUILD_BCC32)\lib</BPILibOutputDir>
+        <FinalOutputDir>$(BUILD_BCC32)\bin</FinalOutputDir>
         <Defines>EXPORT_COMMON;EXPORT_MATH;EXPORT_IPC;EXPORT_PLUGINS;EXPORT_DATABASE;$(Defines)</Defines>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>(None)</Manifest_File>
         <DynamicRTL>true</DynamicRTL>
         <BCC_PCHInject>..\..\pch\dsl_pch.h</BCC_PCHInject>
-        <IncludePath>C:\Python37\include;$(IncludePath)</IncludePath>
-        <ILINK_LibraryPath>C:\Python37\libs;$(DEBUG_BCC32)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>..\..\ThirdParties\Poco\Foundation\include;..\..\ThirdParties\;$(BUILD_BCC32)\include;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>$(BUILD_BCC32)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <BCC_PCHName>..\..\pch\dsl_pch.pch</BCC_PCHName>
         <_TCHARMapping>wchar_t</_TCHARMapping>
-        <PostBuildEvent><![CDATA[copy /Y C:\CodeGear\Tokyo\Redist\boost\win32\boost_thread-bcb-mt-d-1_39.dll $(BUILD)\bin
+        <PostBuildEvent><![CDATA[copy /Y $(BCB)\Redist\boost\win32\boost_thread-bcb-mt-d-1_39.dll $(BUILD)\bin
 $(PostBuildEvent)]]></PostBuildEvent>
         <BCC_IncludePath>C:\multivideorecorder\ThirdParties\aidsl\ThirdParties\Poco\Foundation\include;$(BCC_IncludePath)</BCC_IncludePath>
-        <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
         <BCC_Defines>BOOST_USE_WINDOWS_H;$(BCC_Defines)</BCC_Defines>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
@@ -436,6 +435,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
                     <ProjectProperties Name="IndexFiles">False</ProjectProperties>
                 </ProjectProperties>
                 <Excluded_Packages>
+                    <Excluded_Packages Name="p:\build\BPL\dslVCLComponents.bpl">File p:\build\BPL\dslVCLComponents.bpl not found</Excluded_Packages>
+                    <Excluded_Packages Name="p:\build\bin\dslVCLVisualComponents.bpl">File p:\build\bin\dslVCLVisualComponents.bpl not found</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcboffice2k260.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcbofficexp260.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
                 </Excluded_Packages>
@@ -1250,7 +1251,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>copy /Y C:\CodeGear\Tokyo\Redist\boost\win32\boost_thread-bcb-mt-d-1_39.dll $(BUILD)\bin</PostBuildEvent>
+        <PostBuildEvent>copy /Y $(BCB)\Redist\boost\win32\boost_thread-bcb-mt-d-1_39.dll $(BUILD)\bin</PostBuildEvent>
         <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
 </Project>

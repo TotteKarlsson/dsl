@@ -99,8 +99,8 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <Defines>EXPORT_VCLCOMMON;$(Defines)</Defines>
-        <FinalOutputDir>$(DEBUG_BCC32)\bin</FinalOutputDir>
-        <BPILibOutputDir>$(DEBUG_BCC32)\lib</BPILibOutputDir>
+        <FinalOutputDir>$(BUILD_BCC32)\bin</FinalOutputDir>
+        <BPILibOutputDir>$(BUILD_BCC32)\lib</BPILibOutputDir>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>(None)</Manifest_File>
@@ -190,7 +190,12 @@
                     <ProjectProperties Name="VerifyPackages">True</ProjectProperties>
                     <ProjectProperties Name="IndexFiles">False</ProjectProperties>
                 </ProjectProperties>
-                <Excluded_Packages/>
+                <Excluded_Packages>
+                    <Excluded_Packages Name="p:\build\BPL\dslVCLComponents.bpl">File p:\build\BPL\dslVCLComponents.bpl not found</Excluded_Packages>
+                    <Excluded_Packages Name="p:\build\bin\dslVCLVisualComponents.bpl">File p:\build\bin\dslVCLVisualComponents.bpl not found</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k260.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp260.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
+                </Excluded_Packages>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="3">
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32c260.dll" Class="DependencyModule">
