@@ -111,10 +111,11 @@
         <ILINK_LibraryPath>$(BUILD_BCC32)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <BCC_PCHName>..\..\pch\dsl_pch.pch</BCC_PCHName>
         <_TCHARMapping>wchar_t</_TCHARMapping>
-        <PostBuildEvent><![CDATA[copy /Y $(BCB)\Redist\boost\win32\boost_thread-bcb-mt-d-1_39.dll $(BUILD)\bin
+        <PostBuildEvent><![CDATA[xcopy $(BCB)\Redist\boost\win32\boost_thread-bcb-mt-d-1_39.dll $(BUILD_BCC32)\bin /Y /D
 $(PostBuildEvent)]]></PostBuildEvent>
         <BCC_IncludePath>C:\multivideorecorder\ThirdParties\aidsl\ThirdParties\Poco\Foundation\include;$(BCC_IncludePath)</BCC_IncludePath>
         <BCC_Defines>BOOST_USE_WINDOWS_H;$(BCC_Defines)</BCC_Defines>
+        <PostBuildEventCancelOnError>false</PostBuildEventCancelOnError>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
@@ -435,8 +436,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
                     <ProjectProperties Name="IndexFiles">False</ProjectProperties>
                 </ProjectProperties>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\BPL\dslVCLComponents.bpl">File p:\build\BPL\dslVCLComponents.bpl not found</Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\bin\dslVCLVisualComponents.bpl">File p:\build\bin\dslVCLVisualComponents.bpl not found</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcboffice2k260.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcbofficexp260.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
                 </Excluded_Packages>
@@ -1251,7 +1250,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
         <PreLinkEvent/>
         <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
-        <PostBuildEvent>copy /Y $(BCB)\Redist\boost\win32\boost_thread-bcb-mt-d-1_39.dll $(BUILD)\bin</PostBuildEvent>
-        <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
+        <PostBuildEvent>xcopy $(BCB)\Redist\boost\win32\boost_thread-bcb-mt-d-1_39.dll $(BUILD_BCC32)\bin /Y /D</PostBuildEvent>
+        <PostBuildEventIgnoreExitCode>True</PostBuildEventIgnoreExitCode>
     </PropertyGroup>
 </Project>
