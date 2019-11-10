@@ -18,7 +18,7 @@ class DSL_COMMON Timer : public Thread
 {
 	typedef boost::function<void()> 	EventFunction;
     public:
-                                        Timer(const Timespan& interval = Timespan(1000*Timespan::MILLISECONDS), EventFunction ef = nullptr, const string& lbl = gNoneString);
+                                        Timer(const Timespan& interval = Timespan(1000*Timespan::MILLISECONDS), EventFunction ef = 0, const string& lbl = gNoneString);
                                         ~Timer();
         bool                            setInterval(int interval);
         Timespan                        getInterval();

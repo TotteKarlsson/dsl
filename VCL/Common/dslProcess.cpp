@@ -18,9 +18,9 @@ mExeFile(exeFName),
 mReadPipeHandle(nullptr),
 mWritePipeHandle(nullptr),
 mWorkingDirectory(wd),
-onEnter(nullptr),
-onProgress(nullptr),
-onExit(nullptr),
+onEnter(0),
+onProgress(0),
+onExit(0),
 mOpaqueData1(nullptr),
 mOpaqueData2(nullptr)
 {

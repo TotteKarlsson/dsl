@@ -18,7 +18,7 @@ __fastcall TLogFileReader::TLogFileReader(TComponent* Owner)
 
 __fastcall 	TLogFileReader::~TLogFileReader()
 {
-    Log(lInfo) << "LogFile Reader destructor";
+    //Log(lInfo) << "LogFile Reader destructor";
 }
 
 bool TLogFileReader::start()
