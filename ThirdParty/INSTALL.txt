@@ -1,0 +1,6 @@
+Moleculix ThirdParties is a collection of various ThirdParty libraries necessary for 
+the Moleculix API.
+
+CMake is used to build the system.
+
+

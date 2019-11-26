@@ -1,0 +1,13 @@
+The Moleculix Third Party libraries was primarily combined by
+
+    Totte Karlsson (totte@dunescientific.com)
+
+The following people have contributed in various ways:
+
+Young K. Lee (s43lee@ucsd.edu)
+    Feedback on Ubuntu, Python installation.
+
+Michelle Isidro (michelle.isidro@gmail.com)
+    Refactoring, code beautification.
+
+See NOTICE.txt for information about Thirdparty source licenses

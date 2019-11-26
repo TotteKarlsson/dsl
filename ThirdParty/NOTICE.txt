@@ -1,0 +1,37 @@
+Moleculix 
+   Copyright 1995-2014 Dune Scientific, LLC
+
+The Moleculix software package make use of the following ThirdParty software libraries:
+
+POCO 
+    Distributed under the Boost License
+    http://pocoproject.org/license.html
+--------------------------------------------------------------------------------------------
+
+VTK
+Copyright (c) 1993-2005 Ken Martin, Will Schroeder, Bill Lorensen
+All rights reserved.
+--------------------------------------------------------------------------------------------
+
+SQLite
+The source code for SQLite is in the public domain. See http://www.sqlite.org
+--------------------------------------------------------------------------------------------
+
+cURL
+libcURL- the multiprotocol file transfer library 
+libcurl is most probably the most portable, most powerful and most often used 
+C-based multi-platform file transfer library on this planet – be it open source 
+or commercial. 
+
+libcurl are true Open Source/Free Software and meet all definitions as such. 
+It means that you are free to modify and redistribute all contents of the curl 
+distributed archives. You may also freely use curl and libcurl in your commercial projects. 
+libcurl are licensed under a MIT/X derivate license.
+--------------------------------------------------------------------------------------------
+
+dirent.h
+dirent.h - dirent API for Microsoft Visual Studio
+Copyright (C) 2006 Toni Ronkko
+See specific license in dirent/dirent.h
+--------------------------------------------------------------------------------------------
+
