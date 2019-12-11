@@ -108,10 +108,9 @@ if(${BUILD_SHARED_LIBS})
     add_library(${target} SHARED ${src})
     target_include_directories (${target} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
     
-    if(NOT ${LIBRARY_POSTFIX} STREQUAL "")
-        message(${LIBRARY_POSTFIX})
-        set_target_properties(${target}  PROPERTIES SUFFIX ${LIBRARY_POSTFIX})
-    endif()
+    set_target_properties(${target} PROPERTIES 
+        OUTPUT_NAME ${target}${LIBRARY_POSTFIX}
+    )
 
     target_compile_definitions(${target} PRIVATE EXPORT_COMMON EXPORT_PLUGINS EXPORT_IPC EXPORT_MATH EXPORT_DATABASE)
 
@@ -124,6 +123,7 @@ if(${BUILD_SHARED_LIBS})
                 ws2_32
         )
     endif()
+
 
     if(${INSTALL_CXX_LIBS})
         install(    
