@@ -1,0 +1,3 @@
+[submodule "ThirdParties/Poco"]
+	path = ThirdParties/Poco
+	url = https://github.com/AllenInstitute/poco.git
