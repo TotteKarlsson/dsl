@@ -13,7 +13,7 @@ namespace dsl
 {
 
 using std::string;
-//typedef unsigned int uint;
+typedef unsigned int dsluint;
 
 //using namespace std;
 DSL_COMMON extern const string gEmptyString;

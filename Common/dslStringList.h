@@ -37,8 +37,8 @@ class DSL_COMMON StringList : public DSLObject
         virtual string                                          asString(const char& delimiter = '\0') const;
 //        void													setDelimiter(char del) {mDelimiter = del;}
         char                                                    getDelimiter() const;
-        unsigned int                                            size() const;
-        unsigned int                                            count() const;
+        size_t                                                  size() const;
+        size_t                                                  count() const;
         void													sort();
 
         virtual StringList&                                     operator=(const StringList& rhs);

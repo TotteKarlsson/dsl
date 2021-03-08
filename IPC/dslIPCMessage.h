@@ -8,47 +8,43 @@ namespace dsl
 {
 
 using std::ostream;
-#undef GetMessage
 
 class DSL_IPC IPCMessage : public IPCData
 {
     public:
                                                     IPCMessage(int msgID = -1, const string& msgData = gEmptyString, int from_socket = -1);
                                                     IPCMessage(const IPCMessage& rhs);
-        int                                         GetCommand()    {return mMessageID;}
-        int                                         GetID()         {return mMessageID;}
-        int                                         GetMessageID()  {return mMessageID;}
-        int                                         GetSocketID()   {return mSocketID;}
-        void                                        SetSocketID(int id){mSocketID = id;}
-        friend ostream&                             operator << (ostream& stream, IPCMessage& rhs)
-        {
-            stream << rhs.GetMessage();
-            return stream;
-        }
-        void                                        Empty();
 
-        friend string                               operator + (const string& lhs, IPCMessage& rhs)
-        {
-            string temp = lhs + rhs.GetMessage();
-            return temp;
-        }
-        IPCMessage&                                 operator +(const string& rhs){  mData = mData + rhs; return *this;}
-        IPCMessage&                                 operator =(const string& rhs){  mData = rhs; return *this;}
+        void                                        setMessageID(int id);
+        int                                         getCommand();
+        int                                         getID() const;
+        int                                         getMessageID() const;
+        int                                         getSocketID()const;
+        void                                        setSocketID(int id);
+        void                                        empty();
 
-        operator const                              string()                const {return mData;}
-        int                                         GetOrigin()             const {return mSocketID;}
-        string                                      GetMessage();
-        virtual string                              GetMessageName()        const;
-        string                                      GetPackedMessage();
-        string                                      GetMessageBody();   //Returns the message without messageID. If message is the messageID, the ID string is returned
-        char                                        GetSeparator() const {return mSeparator;}
+        DSL_IPC friend ostream&                     operator << (ostream& stream, IPCMessage& rhs);
+        DSL_IPC friend string                       operator + (const string& lhs, IPCMessage& rhs);
 
-        bool                                        IsProcessed()            const {return mIsProcessed;}
-        void                                        IsProcessed(bool isIt)       {mIsProcessed = isIt;}
-        void                                        InsertRecord(const string& record){mRecords.push_back(record);}
-        string                                      GetRecord(const unsigned int& rec) const;
-        bool                                        UnPack();
-        bool                                        Pack();
+        IPCMessage&                                 operator + (const string& rhs);
+        IPCMessage&                                 operator = (const string& rhs);
+
+                                                    // return message data
+        operator const                              string() const;
+        int                                         getOrigin() const;
+        string                                      getMessage();
+        virtual string                              getMessageName() const;
+        string                                      getPackedMessage();
+
+													//Returns the message without messageID. If message is the messageID, the ID string is returned
+        string                                      getMessageBody();
+        char                                        getSeparator() const;
+        bool                                        isProcessed() const;
+        void                                        isProcessed(bool isIt);
+        void                                        insertRecord(const string& record);
+        string                                      getRecord(int rec) const;
+        bool                                        unPack();
+        bool                                        pack();
 
     protected:
 													//The server may need to talk back to a client

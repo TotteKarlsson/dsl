@@ -5,14 +5,17 @@
 #include "dslIPCServer.h"
 #include "dslLogger.h"
 #include "dslSocket.h"
+#include "dslIPCMessageEnums.h"
 //---------------------------------------------------------------------------
 
+using namespace std;
 using boost::mutex;
 typedef mutex::scoped_lock ScopedLock;
 
 namespace dsl
 {
 
+//IPCServer(int port = 0, const string& iniSection = gEmptyString, CreateWorkerFPtr createWorkerFPtr = NULL);
 IPCServer::IPCServer(int serverPort, const string& iniSection, CreateWorker createWorkerPtr)
 :
 mMessageDelimiters('[', ']'),
@@ -67,30 +70,32 @@ bool IPCServer::initServer(int pNumber, CreateWorker aCreateIPCWorkerFunction)
         shutDownServer();
     }
 
-    mSocketServer.SetPortNumber(mServerPort);
-    mSocketServer.AssignParent(this);
-    mSocketServer.SetSocketProtocol(mSocketProtocol.getValue());
+    mSocketServer.setPortNumber(mServerPort);
+    mSocketServer.assignParent(this);
+    mSocketServer.setSocketProtocol(mSocketProtocol.getValue());
 
     if(aCreateIPCWorkerFunction)
     {
-	    mSocketServer.AssignCreateWorkerFunctionPtr(aCreateIPCWorkerFunction);
+	    mSocketServer.assignCreateWorkerFunctionPtr(aCreateIPCWorkerFunction);
     }
     else
     {
-	    mSocketServer.AssignCreateWorkerFunctionPtr(mCreateWorkerFunction);
+	    mSocketServer.assignCreateWorkerFunctionPtr(mCreateWorkerFunction);
     }
 
-    mSocketServer.SetIncomingMessageDelimiters(mMessageDelimiters.first, mMessageDelimiters.second);
-    int startRes = mSocketServer.Start();
+    mSocketServer.setIncomingMessageDelimiters(mMessageDelimiters.first, mMessageDelimiters.second);
+//    int startRes = mSocketServer.start();
+    mSocketServer.start();
 
-    if(startRes != 1)
-    {
-        Log(lWarning)<<"Failed to start server "<<mServerName<<" on port number :"<<mServerPort;
-        return false;
-    }
-    Log(lInfo)<<"Server "<<mServerName<<" listening on port number: "<<mServerPort;
+//    if(startRes != 1)
+//    {
+//        Log(lWarning)<<"Failed to start server "<<mServerName<<" on port number :"<<mServerPort;
+//        return false;
+//    }
+//    Log(lInfo)<<"Server "<<mServerName<<" listening on port number: "<<mServerPort;
+    Sleep(100);
 
-    return true;
+    return mSocketServer.isRunning();
 }
 
 bool IPCServer::saveParameters()
@@ -101,32 +106,27 @@ bool IPCServer::saveParameters()
 void IPCServer::setSocketProtocol(Socket::SocketProtocol proto)
 {
     mSocketProtocol.setValue(proto);
-    mSocketServer.SetSocketProtocol(proto);
+    mSocketServer.setSocketProtocol(proto);
 }
 
 bool IPCServer::start(const int portNumber)
 {
-    bool res = initServer(portNumber);
-    if(!res)
-    {
-    	Log(lError) << "IPCServer Failed serving port: "<<portNumber;
-    }
-    return true;
+    return initServer(portNumber);
 }
 
 string IPCServer::getServerInfo()
 {
-    return mSocketServer.GetServerInfo();
+    return mSocketServer.getServerInfo();
 }
 
 string IPCServer::getConnectionInfo()
 {
-    return mSocketServer.GetServerInfo();
+    return mSocketServer.getServerInfo();
 }
 
 int IPCServer::servingPort()
 {
-    return mSocketServer.GetPortNumber();
+    return mSocketServer.getPortNumber();
 }
 
 bool IPCServer::initProcessor()
@@ -152,7 +152,7 @@ bool IPCServer::shutDown()
 
 bool IPCServer::shutDownServer()
 {
-    mSocketServer.ShutDown();
+    mSocketServer.shutDown();
     while(mSocketServer.isAlive())
     {
         Log(lInfo)<<"Shutting down the server thread";
@@ -172,9 +172,9 @@ bool IPCServer::shutDownProcessor()
     return true;
 }
 
-bool IPCServer::stop()
+void IPCServer::stop()
 {
-    return mSocketServer.Stop();
+    return mSocketServer.stop();
 }
 
 bool IPCServer::isRunning()
@@ -184,7 +184,7 @@ bool IPCServer::isRunning()
 
 int IPCServer::getMessageID(const string& msg)
 {
-    return getIPCMessageID(msg);
+    return dsl::getMessageID(msg);
 }
 
 bool IPCServer::readProperties()
@@ -203,7 +203,7 @@ bool IPCServer::request(const string& smsg)
         mMessages.push_back(msg);
     lock.unlock();
 
-    Log(lDebug5)<<"Received message: "<<msg.GetMessage();
+    Log(lDebug5)<<"Received message: "<<msg.getMessage();
     if(mMessages.size())
     {
         mListDataArrived.notify_one();
@@ -218,7 +218,7 @@ bool IPCServer::postRequest(IPCMessage& msg)
         mMessages.push_back(msg);
     lock.unlock();
 
-    Log(lDebug5)<<"Received message: "<<msg.GetMessage();
+    Log(lDebug5)<<"Received message: "<<msg.getMessage();
     if(mMessages.size())
     {
         mListDataArrived.notify_one();
@@ -249,33 +249,56 @@ bool IPCServer::processRequest(IPCMessage& msg)
         msg.unPack();
     }
 
-    switch(msg.GetCommand())
+    switch(msg.getCommand())
     {
         case cPause:
             Sleep(toInt(msg.getData()));
-            msg.IsProcessed(true);
+            msg.isProcessed(true);
         break;
 
         case cSetLogLevel:
             setLogLevel(toLogLevel(msg.getData()));
-            msg.IsProcessed(true);
+            msg.isProcessed(true);
         break;
         case cFlush:
             broadcast("[FLUSH]");
-            msg.IsProcessed(true);
+            msg.isProcessed(true);
         break;
 
         case cShutDown:
             //Signal to main thread that its time to shutdown.
-            mSocketServer.ShutDown();
-            msg.IsProcessed(true);
+            mSocketServer.shutDown();
+            msg.isProcessed(true);
         break;
 
         default:
-            msg.IsProcessed(false);
+            msg.isProcessed(false);
         break;
     }
-    return msg.IsProcessed();
+    return msg.isProcessed();
+}
+
+bool IPCServer::clientRequestResponse(const string& msg, int socketID)
+{
+    if(mSocketServer.isRunning())
+    {
+        string theMessage;
+   	    theMessage = mMessageDelimiters.first + string(msg) + mMessageDelimiters.second;
+    	if(mSocketServer.getNumberOfClients() > 0)
+        {
+        	mSocketServer.sendToWorker(theMessage, socketID);
+	        Log(lDebug5)<<"Client request response:" << theMessage;
+        }
+        else
+        {
+	        Log(lDebug4)<<"No Server Clients. Was to respond to client with message:" << theMessage;
+        }
+    }
+    else
+    {
+        Log(lWarning)<<"Socket server is not running (in client request response)";
+    }
+    return true;
 }
 
 bool IPCServer::broadcast(const string& msg)
@@ -284,9 +307,9 @@ bool IPCServer::broadcast(const string& msg)
     {
         string theMessage;
    	    theMessage = mMessageDelimiters.first + string(msg) + mMessageDelimiters.second;
-    	if(mSocketServer.GetNumberOfClients() > 0)
+    	if(mSocketServer.getNumberOfClients() > 0)
         {
-        	mSocketServer.Broadcast(theMessage);
+        	mSocketServer.broadcast(theMessage);
 	        Log(lDebug5)<<"Server broadcasted:" << theMessage;
         }
         else
@@ -303,12 +326,12 @@ bool IPCServer::broadcast(const string& msg)
 
 bool IPCServer::removeLostConnections()
 {
-    return mSocketServer.RemoveLostConnections();
+    return mSocketServer.removeLostConnections();
 }
 
-int IPCServer::getNumberOfClients()
+size_t IPCServer::getNumberOfClients()
 {
-    return mSocketServer.GetNumberOfClients();
+    return mSocketServer.getNumberOfClients();
 }
 
 void IPCServer::setIncomingMessageDelimiters(const char& left, const char& right)
@@ -355,10 +378,10 @@ string IPCServer::getUsage()
 
 bool IPCServer::logProcessResult(IPCMessage& msg)
 {
-    string logStr = msg.IsProcessed() ? " was processed" : " was not processed";
+    string logStr = msg.isProcessed() ? " was processed" : " was not processed";
     logStr += " by server ";
     logStr += mServerName;
-    Log(lInfo)<<"Message \'"<<  msg.GetID() <<"\'"<< logStr;
+    Log(lInfo)<<"Message \'"<<  msg.getID() <<"\'"<< logStr;
     return true;
 }
 
@@ -369,14 +392,14 @@ bool IPCServer::sendResponse(const string& response, int origin)
     resp += response;
     resp +="]";
 
-    return mSocketServer.SendToWorker(resp, origin);
+    return mSocketServer.sendToWorker(resp, origin);
 }
 
 bool IPCServer::sendResponse(bool response, int origin)
 {
     return  response ?
-            mSocketServer.SendToWorker("[true]", origin)
-            : mSocketServer.SendToWorker("[false]", origin);
+            mSocketServer.sendToWorker("[true]", origin)
+            : mSocketServer.sendToWorker("[false]", origin);
 }
 
 bool IPCServer::setLogLevel(LogLevel lvl)
@@ -389,8 +412,8 @@ bool IPCServer::setLogLevel(LogLevel lvl)
 string IPCServer::getUpTime()
 {
     //Return the up time for the server
-    time_t elapsed = difftime(time(nullptr), mStartTime);
-    return getStringFromSeconds(elapsed);
+    double elapsed = difftime(time(nullptr), mStartTime);
+    return getStringFromSeconds((time_t) elapsed);
 }
 
 }

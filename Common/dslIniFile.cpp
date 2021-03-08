@@ -8,12 +8,10 @@
 #include "dslFileUtils.h"
 #include "dslIniFile.h"
 
-#ifdef _MSC_VER && _MSC_VER < 1900
-#include <stdio.h>
-#include <stdlib.h>
-
-#define snprintf(buf,len, format,...) _snprintf_s(buf, len,len, format, __VA_ARGS__)
-
+#if defined(_MSC_VER) && _MSC_VER < 1900
+    #include <stdio.h>
+    #include <stdlib.h>
+    #define snprintf(buf,len, format,...) _snprintf_s(buf, len,len, format, __VA_ARGS__)
 #endif
 namespace dsl
 {
@@ -260,8 +258,8 @@ bool IniFile::loadFromString(const string& iniData)
         IniSection* pSection = getSection("");
 
         // These need to be set, we'll restore the original values later.
-        mFlags |= mAutoCreateKeys;
-        mFlags |= mAutoCreateSections;
+        mFlags |= (int) mAutoCreateKeys;
+        mFlags |= (int) mAutoCreateSections;
 
         char* buffer = new char[MAX_LINE_BUFFER_SIZE];
         int lines = 0;
@@ -383,8 +381,8 @@ IniSection* IniFile::loadSection(const string& theSection)
         pSection = getSection("");
 
         // These need to be set, we'll restore the original values later.
-        mFlags |= mAutoCreateKeys;
-        mFlags |= mAutoCreateSections;
+        mFlags |= (int) mAutoCreateKeys;
+        mFlags |= (int) mAutoCreateSections;
 
         while(!bDone)
         {
@@ -828,7 +826,7 @@ bool IniFile::createKey(const string& mKey, const string& mValue, const string& 
     bool bAutoKey = (mFlags & ifAutoCreateKeys) > 0 ? true : false;
     bool bReturn  = false;
 
-    mFlags |= mAutoCreateKeys;
+    mFlags |= (int) mAutoCreateKeys;
 
     bReturn = writeValue(mKey, mValue, mComment, szSection);
     if (!bAutoKey)
@@ -892,22 +890,22 @@ IniSection* IniFile::createSection(const string& Section, const string& Comment,
 }
 
 // Simply returns the number of sections in the list.
-unsigned int IniFile::sectionCount()
+size_t IniFile::sectionCount()
 {
     return mSections.size();
 }
 
 // Returns the total number of keys contained within all the sections.
-unsigned int IniFile::keyCount()
+size_t IniFile::keyCount()
 {
-    int nCounter = 0;
+    size_t nCounter = 0;
     SectionItor s_pos;
     for (s_pos = mSections.begin(); s_pos != mSections.end(); s_pos++)
         nCounter += (*s_pos)->mKeys.size();
     return nCounter;
 }
 
-unsigned int IniFile::keyCount(const string& section)
+size_t IniFile::keyCount(const string& section)
 {
     //Get the section
     IniSection* iniSection = getSection(section);
@@ -1036,9 +1034,9 @@ int IniFile::writeLine(fstream& stream, const char* fmt, ...)
     return nLength;
 }
 
-unsigned int IniFile::getNumberOfSections()
+size_t IniFile::getNumberOfSections()
 {
-    return (int) mSections.size();
+    return mSections.size();
 }
 
 string IniFile::getFileName()

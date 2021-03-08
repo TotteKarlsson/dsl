@@ -37,7 +37,7 @@ class DSL_COMMON Projects : public DSLObject
         Project*                                getNext();
         Project*                                getPrevious();
         Project*                                getLast();
-        int                                     count();
+        size_t                                  count();
 
     protected:
         list<Project* >         	      		mProjects;

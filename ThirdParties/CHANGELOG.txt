@@ -1,0 +1,71 @@
+Release 0.6.1 (Nov 22)
+============================
+* updated poco to 1.5
+* Added installation of libmysql prebuilt lib file
+* Moving on with SQLite connector
+* Adding sqlite to Poco libraries
+* Added libmysql 32 bit dll
+* Reenabled SQLite connector
+* Added empty cxx to fix cmake error - linker language cannot be determined
+* Removed VTK stuff from cmake file
+* Updated some curl cmake files
+* Removed mysql distro.. Added mysql borland lib
+* Got poco data compiling a simple example!
+* Compiled mysql connector
+* Adding in mysql headers
+* Update CMake files for compiling MySQL connector
+* Compiled Poco data library
+
+Release 0.6.0 (March 30)
+============================
+* Added tinyxml2 library
+* Cleaned up some binary files
+* Got VTK compiling in dynamic mode (shared libraries)
+* Added some XE3 dlls for releases
+* Updated cmake files 
+* Added tinyxml2 for xml parsing
+* Added midas dll to be used with Mlx lib manager
+
+------------------------- 2015 ------------------------------------
+
+Release 0.5.1 (September 12)
+============================
+* Started Updated ThirdParty CMake file with preset values for libCURL
+* Moved many cmake flags to advanced section, hiding them for regular users
+* Added various root files, README, LICENSE NOTICE ETC
+* Started to versioning the ThirdParty lib bundle
+* Compiled curl
+* Added CURL
+* Added #define for borland
+* Set Opengl error flag to off by default
+* Set default build type to Release
+* Fixin case problem
+* Made changes so vtk 6.1 compiles with borland
+* Also, the ThirdParty CMake is now modified so a minimal set of VTK libaries are built, i.e. much less than before
+* Set SHARED libs flag to off by default
+* Now running with vtk 6.1
+* Added vtk 6.1
+* Compiled with cg
+* Fixed CMake warnings when creating buildfiles for vtk
+* Trying vtk 510 backport for maverick
+* Added vtk changes for borland compiler
+* Simplified ThirdParty build
+
+Release 0.5.0 (August 5)
+============================
+* Tricky VS warning stuff..
+* Fixing one coherent third party build
+* Preparing to add vtk
+* Fixed annoying linker warning
+* Added dirent for VS
+* Updated CMake file with -fPIC for compilation on LINUX
+* Added vtk 5.10.1 to Ubuntu build
+* Added CMake file for third parties
+* Added SQLite Files
+* Added Poco Files
+
+Release 0.0.0 (July 16)
+============================
+* Created git repository
+
+------------------------- 2014 ------------------------------------

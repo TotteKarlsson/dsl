@@ -34,7 +34,7 @@ class DSL_COMMON Timer : public Thread
         bool                            isPaused();     //This does not really pause the thread itself.
                                                         //It only prevents the timer function to be executed
 
-		EventFunction					OnTimer;
+		EventFunction					onTimer;
 
     private:
         Timespan                        mInterval;      //in milliseconds

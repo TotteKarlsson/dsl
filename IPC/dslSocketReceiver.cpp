@@ -37,7 +37,13 @@ void SocketReceiver::worker()
         {
             if(mSocket.receive() != -1)
             {
-            	deque<char>& inComing = mSocket.getIncomingDataBuffer();
+            	deque<char>& inComing = mSocket.mMessageBuffer;
+
+                if(mSocket.onReceiveData)
+                {
+                    mSocket.onReceiveData(&mSocket);
+                }
+
                 while(inComing.size())
                 {
                     char ch = inComing.front();
@@ -45,12 +51,12 @@ void SocketReceiver::worker()
 
                     if(!aMessage.build(ch))
                     {
-                        Log(lInfo)<<"Character was discarded: \'"<<ch<<"\'";
+                        Log(lDebug4) << "Character was discarded: \'" << ch << "\'";
                     }
 
                     if(aMessage.isComplete())
                     {
-                        Log(lDebug)<<"Received message: "<<aMessage.getMessage()<<" on socket id: "<<mSocket.getSocketHandle();
+                        Log(lDebug) << "Received message: " << aMessage.getMessage() << " on socket id: " << mSocket.getSocketHandle();
                         mMessages.postMessage(aMessage.getMessage());
                     }
                 }
@@ -58,17 +64,17 @@ void SocketReceiver::worker()
             else
             {
                 //The connection is broken or closed
-                Log(lInfo)<<"Connection was closed";
+                Log(lInfo) << "Connection was closed";
                 mIsTimeToDie = true;
                 if(mSocket.onDisconnected)
                 {
-					mSocket.onDisconnected();
+					mSocket.onDisconnected(&mSocket);
                 }
             }
         }
     }
 
-    Log(lInfo)<<"Exiting socket receiver thread";
+    Log(lInfo) << "Exiting socket receiver thread";
     mIsFinished = true;
 }
 

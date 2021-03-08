@@ -6,7 +6,7 @@
 #include "dslIPCServer.h"
 #include "dslIPCReceiver.h"
 
-using std::string;
+using namespace std;
 
 #undef GetMessage
 namespace dsl
@@ -39,6 +39,12 @@ IPCReceiver::~IPCReceiver()
     }
 }
 
+string IPCReceiver::getRemoteHostName()
+{
+    return "<none>";
+}
+
+
 void IPCReceiver::run()
 {
     Worker();
@@ -66,7 +72,7 @@ void IPCReceiver::Worker()
 
                 if(aMessage.isComplete() )
                 {
-                    int msgID          = getIPCMessageID(aMessage.getMessage()); //A virtual function
+                    int msgID          = getMessageID(aMessage.getMessage()); //A virtual function
                     IPCMessage msg     = IPCMessage(msgID, aMessage.getMessage(), this->getSocketHandle());
                     if(mServer)
                     {

@@ -25,6 +25,4 @@ class DSL_COMMON DSLObject
 
 }
 
-using dsl::DSLObject;
-
 #endif

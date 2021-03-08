@@ -6,7 +6,7 @@ extern "C" int _libmain(unsigned long reason)
 	return 1;
 }
 
-#if defined(_WIN32)
+#if defined(__BORLANDC__)
     #pragma comment(lib, "sqlite.lib")
     #pragma comment(lib, "PocoFoundation.lib")
     #pragma comment(lib, "tinyxml2.lib")

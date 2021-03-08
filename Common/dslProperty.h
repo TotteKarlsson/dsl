@@ -28,7 +28,6 @@ class Property : public BaseProperty
 		void                                        setDefaultValue(const T& val);
 		T	                                        getDefaultValue();
         void                                        setValue(const T& val);
-        void                                        setEditValue(const T& val);
         void                                        setComment(const string& val);
         void                                        resetToDefault();
         virtual string                              getTypeName() const;
@@ -42,8 +41,8 @@ class Property : public BaseProperty
         T&                                          getValueReference();
         T&                                          getEditValueReference();
 
-        void                                        setValueReference(T& reference, 	bool transferValue = false);
-        void                                        setEditValueReference(T& reference, bool transferValue = false);
+        void                                        setValueReference(T& reference);
+//        void                                        setEditValueReference(T& reference);
 
                                                     operator T() const;
         T                                           operator+(const T& a);
@@ -79,6 +78,9 @@ class Property : public BaseProperty
                                                     //However, the value can be set to point to
                                                     //another variable by using the function setReference
                                                     //and set back to setReferenceToDummy
+
+                                                    //!If we are in edit mode, this function is called from the setValue function
+        void                                        setEditValue(const T& val);
 };
 
 template <class T> inline
@@ -188,26 +190,16 @@ T& Property<T>::getEditValueReference()
 }
 
 template<class T> inline
-void Property<T>::setValueReference(T& reference, bool transferValue)
+void Property<T>::setValueReference(T& reference)
 {
-	if(transferValue)
-    {
-        reference = *mValue;
-    }
-
     mValue = &reference;
 }
 
-template<class T> inline
-void Property<T>::setEditValueReference(T& reference, bool transferValue)
-{
-	if(transferValue)
-    {
-        reference = *mEditValue;
-    }
-
-    mEditValue = &reference;
-}
+//template<class T> inline
+//void Property<T>::setEditValueReference(T& reference)
+//{
+//    *(*mEditValue) = &reference;
+//}
 
 template<class T> inline
 bool Property<T>::operator==(const T& val)

@@ -55,10 +55,10 @@
         <PackageImports>CloudService;FireDAC;FireDACCommon;FireDACCommonDriver;FireDACIBDriver;FireDACSqliteDriver;inet;RESTBackendComponents;RESTComponents;soapmidas;soaprtl;soapserver;$(PackageImports)</PackageImports>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
         <Multithreaded>true</Multithreaded>
-        <IncludePath>..\..\VCL\Common\archive\;..\..\VCL\Common\;P:\libs\dsl\VCL\Common\;$(IncludePath)</IncludePath>
+        <IncludePath>..\..\Common;..\..\VCL\Common\;..\..\VCL\Common\archive\;..\..\IPC;$(IncludePath)</IncludePath>
         <ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
         <_TCHARMapping>char</_TCHARMapping>
-        <ILINK_LibraryPath>..\..\VCL\Common\archive\;..\..\VCL\Common\;P:\libs\dsl\VCL\Common\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>..\..\VCL\Common\archive\;..\..\VCL\Common\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <SanitizedProjectName>dslVCLCommon</SanitizedProjectName>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_OSX32)'!=''">
@@ -98,17 +98,15 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <Defines>EXPORT_VCLCOMMON;WIN32_LEAN_AND_MEAN;$(Defines)</Defines>
-        <FinalOutputDir>$(BUILD)\bin</FinalOutputDir>
-        <BPILibOutputDir>$(BUILD)\lib</BPILibOutputDir>
+        <Defines>EXPORT_VCLCOMMON;$(Defines)</Defines>
+        <FinalOutputDir>$(DEBUG_BCC32)\bin</FinalOutputDir>
+        <BPILibOutputDir>$(DEBUG_BCC32)\lib</BPILibOutputDir>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>(None)</Manifest_File>
         <DynamicRTL>true</DynamicRTL>
         <BCC_PCHInject>..\..\VCL\dslVCLPCH.h</BCC_PCHInject>
         <_TCHARMapping>wchar_t</_TCHARMapping>
-        <IncludePath>$(DSL_ROOT)\Common;$(IncludePath)</IncludePath>
-        <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
@@ -122,6 +120,10 @@
         <CppCompile Include="..\..\VCL\Common\dslApplicationLicenseController.cpp">
             <DependentOn>..\..\VCL\Common\dslApplicationLicenseController.h</DependentOn>
             <BuildOrder>10</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\VCL\Common\dslApplicationProperties.cpp">
+            <DependentOn>..\..\VCL\Common\dslApplicationProperties.h</DependentOn>
+            <BuildOrder>9</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\VCL\Common\dslFormSaver.cpp">
             <DependentOn>..\..\VCL\Common\dslFormSaver.h</DependentOn>
@@ -146,6 +148,9 @@
         <CppCompile Include="..\..\VCL\Common\dslTMemoLogger.cpp">
             <DependentOn>..\..\VCL\Common\dslTMemoLogger.h</DependentOn>
             <BuildOrder>3</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\VCL\Common\dslTMemoSocketServer.cpp">
+            <BuildOrder>13</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\VCL\Common\dslTSaveFormToRegistry.cpp">
             <DependentOn>..\..\VCL\Common\dslTSaveFormToRegistry.h</DependentOn>
@@ -185,18 +190,9 @@
                     <ProjectProperties Name="VerifyPackages">True</ProjectProperties>
                     <ProjectProperties Name="IndexFiles">False</ProjectProperties>
                 </ProjectProperties>
-                <Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k260.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp260.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
-                </Excluded_Packages>
+                <Excluded_Packages/>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="3">
-                <DeployFile LocalName="%DEBUG_BCC32%\bin\dslVCLCommon.tds" Configuration="Debug" Class="DebugSymbols">
-                    <Platform Name="Win32">
-                        <RemoteName>dslVCLCommon.tds</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32c260.dll" Class="DependencyModule">
                     <Platform Name="Win32">
                         <Overwrite>true</Overwrite>
@@ -219,6 +215,12 @@
                 </DeployFile>
                 <DeployFile LocalName="$(BDS)\Redist\iossimulator\libPCRE.dylib" Class="DependencyModule">
                     <Platform Name="iOSSimulator">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="c:\cg_build\bin\dslVCLCommon.tds" Configuration="Debug" Class="DebugSymbols">
+                    <Platform Name="Win32">
+                        <RemoteName>dslVCLCommon.tds</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -287,8 +289,9 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64260.dll" Class="DependencyModule">
-                    <Platform Name="Win64">
+                <DeployFile LocalName="c:\cg_build\bin\dslVCLCommon.dll" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>dslVCLCommon.dll</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -302,6 +305,11 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64260.dll" Class="DependencyModule">
+                    <Platform Name="Win64">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64250.dll" Class="DependencyModule">
                     <Platform Name="Win64">
                         <Overwrite>true</Overwrite>
@@ -309,12 +317,6 @@
                 </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx64\libcgcrtl.dylib" Class="DependencyModule">
                     <Platform Name="OSX64">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="%DEBUG_BCC32%\bin\dslVCLCommon.dll" Configuration="Debug" Class="ProjectOutput">
-                    <Platform Name="Win32">
-                        <RemoteName>dslVCLCommon.dll</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

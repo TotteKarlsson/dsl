@@ -11,7 +11,41 @@
 namespace dsl
 {
 
-std::string ws2s(const std::wstring& s)
+#pragma comment(lib, "version.lib")
+string getDLLVersion(TCHAR* dllName)
+{
+    stringstream v;
+    DWORD  verHandle = 0;
+    UINT   size      = 0;
+    LPBYTE lpBuffer  = NULL;
+    DWORD  verSize   = GetFileVersionInfoSize(dllName, &verHandle);
+
+    if (verSize != NULL)
+    {
+        LPSTR verData = new char[verSize];
+        if (GetFileVersionInfo( dllName, verHandle, verSize, verData))
+        {
+            if (VerQueryValue(verData, TEXT("\\"),(VOID FAR* FAR*)&lpBuffer,&size))
+            {
+                if (size)
+                {
+                    VS_FIXEDFILEINFO *verInfo = (VS_FIXEDFILEINFO *)lpBuffer;
+                    if (verInfo->dwSignature == 0xfeef04bd)
+                    {
+                        v << (int) (( verInfo->dwFileVersionMS >> 16 ) & 0xffff) << "."
+                          << (int) (( verInfo->dwFileVersionMS >>  0 ) & 0xffff) << "."
+                          << (int) (( verInfo->dwFileVersionLS >> 16 ) & 0xffff) << "."
+                          << (int) (( verInfo->dwFileVersionLS >>  0 ) & 0xffff) << ".";
+                    }
+                }
+            }
+        }
+        delete[] verData;
+    }
+    return v.str();
+}
+
+string ws2s(const std::wstring& s)
 {
     int len;
     int slength = (int)s.length() + 1;
@@ -70,6 +104,33 @@ void sendToClipBoard(const string& str)
     CloseClipboard();
 }
 
+string getTempPath()
+{
+#if defined(_UNICODE)
+    DWORD length = GetTempPathW( 0, NULL );
+#else
+	DWORD length = GetTempPathA( 0, NULL );
+#endif
+
+    if( length == 0 )
+    {
+        return "";
+    }
+    std::vector<TCHAR> tempPath( length );
+
+#if defined(_UNICODE)
+	    length = GetTempPathW( static_cast<DWORD>( tempPath.size() ), &tempPath[0] );
+#else
+	    length = GetTempPathA( static_cast<DWORD>( tempPath.size() ), &tempPath[0] );
+#endif
+    if( length == 0 || length > tempPath.size() )
+    {
+        return "";
+    }
+
+    return std::string( tempPath.begin(), tempPath.begin() + static_cast<std::size_t>(length) );
+}
+
 string getSpecialFolder(int folder)
 {
     TCHAR szPath[MAX_PATH];
@@ -92,7 +153,6 @@ string getSpecialFolder(int folder)
         throw(dsl::DSLException(msg.str()));
     }
 }
-
 
 string getKnownFolder(GUID folderID, DWORD flags)
 {

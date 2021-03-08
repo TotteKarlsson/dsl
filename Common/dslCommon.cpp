@@ -31,10 +31,13 @@ std::string compiler =
 }
 
 }
+
+#if defined(__BORLANDC__)
 namespace boost
 {
 void tss_cleanup_implemented(void) {};
 }
+#endif
 
 extern "C" int _libmain(unsigned long reason)
 {

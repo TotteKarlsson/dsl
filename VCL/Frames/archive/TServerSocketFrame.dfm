@@ -55,7 +55,7 @@ object ServerSocketFrame: TServerSocketFrame
         Caption = 'ToolButton1'
         Style = tbsSeparator
       end
-      object PortNrE: mtkIntEdit
+      object PortNrE: TIntegerEdit
         Left = 97
         Top = 0
         Width = 80

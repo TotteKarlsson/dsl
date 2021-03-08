@@ -15,13 +15,14 @@ class DSL_IPC IPCMessageBuilder : public DSLObject
 {
     public:
                                             IPCMessageBuilder(const char& lDel, const char& rDel = '\n');
-        bool                                isBuilding(){return mIsBuilding;}
-        bool                                isComplete(){return mHasMessage;}
+        void                                setDelimiters(const char& lDel, const char& rDel = '\n');
+        bool                                isBuilding();
+        bool                                isComplete();
         void                                reset();
         bool                                build(const char& ch);
         string                              getMessage();
-        unsigned int                        getMessageSize(){return mMessage.size();}
-        void                                setDelimiters(const char& lDel, const char& rDel = '\n');
+        size_t                              getMessageSize();
+
 
     private:
         string                              mMessage;

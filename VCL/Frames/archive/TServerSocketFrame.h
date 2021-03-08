@@ -40,7 +40,7 @@ __published:    // IDE-managed Components
     TAction     *ClearLogMemoA;
     TMenuItem     *Clear1;
     TToolButton *ToolButton1;
-    mtkIntEdit     *PortNrE;
+    TIntegerEdit     *PortNrE;
     void __fastcall writeMemoKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
     void __fastcall Memo1Change(TObject *Sender);
     void __fastcall ToggleListeningExecute(TObject *Sender);

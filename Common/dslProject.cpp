@@ -82,9 +82,9 @@ Project* Project::getChild(int i)
 	return mChilds.getProject(i);
 }
 
-int	Project::getNumberOfChilds()
+size_t	Project::getNumberOfChilds()
 {
-	int sz =  mChilds.count();
+	size_t sz =  mChilds.count();
 	return sz;
 }
 

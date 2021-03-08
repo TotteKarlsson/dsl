@@ -45,8 +45,8 @@ DSL_COMMON StringList       getLinesInFile(const string& fName);
 DSL_COMMON string           getFileContent(const string& fName);
 
 DSL_COMMON string           getParentFolder(const string& folder);
-DSL_COMMON string           getStringFromSeconds(long seconds);
-DSL_COMMON int              indexOf(const std::vector<std::string>& vec, const std::string& elem);
+DSL_COMMON string           getStringFromSeconds(time_t seconds);
+DSL_COMMON dsluint          indexOf(const std::vector<std::string>& vec, const std::string& elem);
 
 DSL_COMMON bool             startsWith( const string& prefix, const string& src, bool caseLess = false);
 DSL_COMMON bool             endsWith(const string& postFix, const string& src);

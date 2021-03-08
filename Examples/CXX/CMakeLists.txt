@@ -1,17 +1,13 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6.3 FATAL_ERROR)
 PROJECT(DSLExamples)
 
-link_directories(					
-    ${CMAKE_INSTALL_PREFIX}/lib
-)
-
 include_directories(
     ${DSL_ROOT}
     ${DSL_ROOT}/Common
     ${DSL_ROOT}/Math
     ${DSL_ROOT}/Database
-    ${CMAKE_SOURCE_DIR}/ThirdParties/Poco/Foundation/include
-    ${CMAKE_INSTALL_PREFIX}/include
+    ${DSL_ROOT}/ThirdParties/
+    ${DSL_ROOT}/ThirdParties/Poco/Foundation/include/
 )
 
 if(INSTALL_CXX_EXAMPLES)

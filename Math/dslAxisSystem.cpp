@@ -340,7 +340,7 @@ EulerAngleTriplet AxisSystem::getEulerAnglesTo(const AxisSystem& sys2) const
     {
         double zz = s2.Z().SP(temp.Z());
         int n = (1 + sign(zz))/2;
-        int sign = -pow(-1.0,n);
+        int sign = (int) -pow(-1.0,n);
         double argy = sign * s2.X().SP(temp.Y());
         double argx = sign * s2.X().SP(temp.X());
 

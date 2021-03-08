@@ -4,6 +4,7 @@
 #include "dslUtils.h"
 #include <sstream>
 //---------------------------------------------------------------------------
+
 namespace dsl
 {
 using namespace std;
@@ -48,19 +49,19 @@ string Version::asString(const string& format) const
     stringstream st;
     if(format == "all")
     {
-        st << getMajor()<<"."<<getMinor()<<"."<<getPatch()<<"."<<getBuild();
+        st << getMajor() << "." << getMinor() << "." << getPatch() << "." << getBuild();
     }
     else if(format == "major.minor.patch")
     {
-        st << getMajor()<<"."<<getMinor()<<"."<<getPatch();
+        st << getMajor() << "." << getMinor() << "." << getPatch();
     }
     else if(format == "major.minor")
     {
-        st << getMajor()<<"."<<getMinor();
+        st << getMajor() << "." << getMinor();
     }
     else
     {
-        st << getMajor()<<"."<<getMinor()<<"."<<getPatch()<<"."<<getBuild();
+        st << getMajor() << "." << getMinor() << "." << getPatch() << "." << getBuild();
     }
     return st.str();
 }

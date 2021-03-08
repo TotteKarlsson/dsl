@@ -3,6 +3,8 @@
 #include "dslTAboutFrame.h"
 #include "dslConstants.h"
 #include "dslTLogMemoFrame.h"
+#include "dslTServerSocketFrame.h"
+#include "dslTClientSocketFrame.h"
 #pragma package(smart_init)
 
 //---------------------------------------------------------------------------
@@ -34,4 +36,35 @@ namespace Dsltlogmemoframe
          RegisterComponents(gDuneFrames, classes, 0);
     }
 }
+
+//---------------------------------------------------------------------------
+static inline void ValidCtrCheck(TServerSocketFrame *)
+{
+    new TServerSocketFrame(nullptr);
+}
+
+namespace Dsltserversocketframe
+{
+    void __fastcall PACKAGE Register()
+    {
+        TComponentClass classes[1] = {__classid(TServerSocketFrame)};
+        RegisterComponents("Dune Components", classes, 0);
+    }
+}
+
+//---------------------------------------------------------------------------
+static inline void ValidCtrCheck(TClientSocketFrame *)
+{
+    new TClientSocketFrame(nullptr);
+}
+
+namespace Dsltclientsocketframe
+{
+    void __fastcall PACKAGE Register()
+    {
+        TComponentClass classes[1] = {__classid(TClientSocketFrame)};
+        RegisterComponents("Dune Components", classes, 0);
+    }
+}
+
 

@@ -13,11 +13,12 @@ class DSL_IPC SocketWorker : public Thread, public Socket
 {
     public:
                                     SocketWorker(int portNr = -1, int socket_handle = -1);
-        int                         GetPortNumber();
         virtual            	        ~SocketWorker();
-        virtual string              GetInfo();
-        void                        IgnoreIncomingMessages(bool doIt);
-        void                        SetMessageDelimiters(const char& left, const char& right='\n');
+
+        int                         getPortNumber();
+        virtual string              getInfo();
+        void                        ignoreIncomingMessages(bool doIt);
+        void                        setMessageDelimiters(const char& left, const char& right='\n');
 
     protected:
         int                         mPortNumber;

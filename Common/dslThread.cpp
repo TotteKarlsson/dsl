@@ -17,7 +17,8 @@ mIsStarted(false),
 mIsFinished(false),
 mIsWorking(false),
 mIsPaused(false),
-mExitStatus(0)
+mExitStatus(0),
+mThread(label)
 {}
 
 Thread::~Thread()

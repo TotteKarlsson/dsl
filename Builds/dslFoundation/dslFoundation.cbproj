@@ -55,10 +55,10 @@
         <PackageImports>CloudService;FireDAC;FireDACCommon;FireDACCommonDriver;FireDACIBDriver;FireDACSqliteDriver;inet;RESTBackendComponents;RESTComponents;soapmidas;soaprtl;soapserver;$(PackageImports)</PackageImports>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
         <Multithreaded>true</Multithreaded>
-        <IncludePath>C:\pDisk\libs\dsl\Common\;..\..\DataBase\;..\..\Math\mtrand\;..\..\VCL\Common\;..\..\Plugins\;..\..\Common\;..\..\IPC\;..\..\Math\;..\..\;$(AT_ROOT)\thirdparty;$(IncludePath)</IncludePath>
+        <IncludePath>..\..\DataBase\;..\..\Math\mtrand\;..\..\VCL\Common\;..\..\Plugins\;..\..\Common\;..\..\IPC\;..\..\Math\;..\..\;$(AT_ROOT)\thirdparty;$(IncludePath)</IncludePath>
         <ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
         <_TCHARMapping>char</_TCHARMapping>
-        <ILINK_LibraryPath>C:\pDisk\libs\dsl\Common\;..\..\DataBase\;..\..\Math\mtrand\;..\..\VCL\Common\;..\..\Plugins\;..\..\Common\;..\..\IPC\;..\..\Math\;..\..\;P:\libs\dslib\Math\;P:\libs\dslib\IPC\;P:\libs\dslib\;P:\libs\dslib\Common\;P:\builds\dsl\dslFoundation\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>..\..\DataBase\;..\..\Math\mtrand\;..\..\VCL\Common\;..\..\Plugins\;..\..\Common\;..\..\IPC\;..\..\Math\;..\..\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <SanitizedProjectName>dslFoundation</SanitizedProjectName>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_OSX32)'!=''">
@@ -99,8 +99,8 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <BPILibOutputDir>$(BUILD)\lib</BPILibOutputDir>
-        <FinalOutputDir>$(BUILD)\bin</FinalOutputDir>
+        <BPILibOutputDir>$(DEBUG_BCC32)\lib</BPILibOutputDir>
+        <FinalOutputDir>$(DEBUG_BCC32)\bin</FinalOutputDir>
         <Defines>EXPORT_COMMON;EXPORT_MATH;EXPORT_IPC;EXPORT_PLUGINS;EXPORT_DATABASE;$(Defines)</Defines>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
@@ -111,7 +111,11 @@
         <ILINK_LibraryPath>C:\Python37\libs;$(DEBUG_BCC32)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <BCC_PCHName>..\..\pch\dsl_pch.pch</BCC_PCHName>
         <_TCHARMapping>wchar_t</_TCHARMapping>
+        <PostBuildEvent><![CDATA[copy /Y C:\CodeGear\Tokyo\Redist\boost\win32\boost_thread-bcb-mt-d-1_39.dll $(BUILD)\bin
+$(PostBuildEvent)]]></PostBuildEvent>
+        <BCC_IncludePath>C:\multivideorecorder\ThirdParties\aidsl\ThirdParties\Poco\Foundation\include;$(BCC_IncludePath)</BCC_IncludePath>
         <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
+        <BCC_Defines>BOOST_USE_WINDOWS_H;$(BCC_Defines)</BCC_Defines>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
@@ -294,9 +298,6 @@
             <DependentOn>..\..\DataBase\dslSQLite.h</DependentOn>
             <BuildOrder>68</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\DataBase\dslSQLiteBuffer.cpp">
-            <BuildOrder>73</BuildOrder>
-        </CppCompile>
         <CppCompile Include="..\..\DataBase\dslSQLiteException.cpp">
             <DependentOn>..\..\DataBase\dslSQLiteException.h</DependentOn>
             <BuildOrder>69</BuildOrder>
@@ -312,6 +313,52 @@
         <CppCompile Include="..\..\DataBase\dslSQLiteTable.cpp">
             <DependentOn>..\..\DataBase\dslSQLiteTable.h</DependentOn>
             <BuildOrder>70</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\IPC\dslIPCData.cpp">
+            <DependentOn>..\..\IPC\dslIPCData.h</DependentOn>
+            <BuildOrder>54</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\IPC\dslIPCMessage.cpp">
+            <DependentOn>..\..\IPC\dslIPCMessage.h</DependentOn>
+            <BuildOrder>55</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\IPC\dslIPCMessageBuilder.cpp">
+            <DependentOn>..\..\IPC\dslIPCMessageBuilder.h</DependentOn>
+            <BuildOrder>45</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\IPC\dslIPCMessageEnums.cpp">
+            <DependentOn>..\..\IPC\dslIPCMessageEnums.h</DependentOn>
+            <BuildOrder>46</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\IPC\dslIPCMessageProcessor.cpp">
+            <DependentOn>..\..\IPC\dslIPCMessageProcessor.h</DependentOn>
+            <BuildOrder>47</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\IPC\dslIPCReceiver.cpp">
+            <BuildOrder>56</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\IPC\dslIPCServer.cpp">
+            <DependentOn>..\..\IPC\dslIPCServer.h</DependentOn>
+            <BuildOrder>48</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\IPC\dslSocket.cpp">
+            <BuildOrder>50</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\IPC\dslSocketClient.cpp">
+            <BuildOrder>51</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\IPC\dslSocketReceiver.cpp">
+            <BuildOrder>52</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\IPC\dslSocketServer.cpp">
+            <BuildOrder>53</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\IPC\dslSocketWorker.cpp">
+            <BuildOrder>54</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\IPC\dslToggleSocketConnectionThread.cpp">
+            <DependentOn>..\..\IPC\dslToggleSocketConnectionThread.h</DependentOn>
+            <BuildOrder>44</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Math\dslAxisSystem.cpp">
             <DependentOn>..\..\Math\dslAxisSystem.h</DependentOn>
@@ -389,8 +436,6 @@
                     <ProjectProperties Name="IndexFiles">False</ProjectProperties>
                 </ProjectProperties>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\BPL\dslVCLComponents.bpl">File p:\build\BPL\dslVCLComponents.bpl not found</Excluded_Packages>
-                    <Excluded_Packages Name="p:\build\bin\dslVCLVisualComponents.bpl">File p:\build\bin\dslVCLVisualComponents.bpl not found</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcboffice2k260.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcbofficexp260.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
                 </Excluded_Packages>
@@ -416,13 +461,7 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="%DEBUG_BCC32%\bin\dslFoundation.dll" Configuration="Debug" Class="ProjectOutput">
-                    <Platform Name="Win32">
-                        <RemoteName>dslFoundation.dll</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="%DEBUG_BCC32%\bin\dslFoundation.tds" Configuration="Debug" Class="DebugSymbols">
+                <DeployFile LocalName="p:\build\bin\dslFoundation.tds" Configuration="Debug" Class="DebugSymbols">
                     <Platform Name="Win32">
                         <RemoteName>dslFoundation.tds</RemoteName>
                         <Overwrite>true</Overwrite>
@@ -510,6 +549,12 @@
                 </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32250.dll" Class="DependencyModule">
                     <Platform Name="Win32">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="p:\build\bin\dslFoundation.dll" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>dslFoundation.dll</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -1200,4 +1245,12 @@
     <Import Project="$(BDS)\Bin\CodeGear.Cpp.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Cpp.Targets')"/>
     <Import Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj" Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')"/>
     <Import Project="$(MSBuildProjectName).deployproj" Condition="Exists('$(MSBuildProjectName).deployproj')"/>
+    <PropertyGroup Condition="'$(Config)'=='Debug' And '$(Platform)'=='Win32'">
+        <PreBuildEvent/>
+        <PreBuildEventIgnoreExitCode>False</PreBuildEventIgnoreExitCode>
+        <PreLinkEvent/>
+        <PreLinkEventIgnoreExitCode>False</PreLinkEventIgnoreExitCode>
+        <PostBuildEvent>copy /Y C:\CodeGear\Tokyo\Redist\boost\win32\boost_thread-bcb-mt-d-1_39.dll $(BUILD)\bin</PostBuildEvent>
+        <PostBuildEventIgnoreExitCode>False</PostBuildEventIgnoreExitCode>
+    </PropertyGroup>
 </Project>

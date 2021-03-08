@@ -92,16 +92,16 @@ void ApplicationProperties::append(PropertiesSP props)
     mSections.push_back(props);
 }
 
-shared_ptr<IniFileProperties> ApplicationProperties::appendNewINISection(const string& secName)
+IniFilePropertiesSP ApplicationProperties::appendNewINISection(const string& secName)
 {
-	shared_ptr<IniFileProperties> p = shared_ptr<IniFileProperties>(new IniFileProperties(&mIniFile, secName));
+	IniFilePropertiesSP p = IniFilePropertiesSP(new IniFileProperties(&mIniFile, secName));
     mSections.push_back(p);
     return p;
 }
 
-shared_ptr<TRegistryProperties> ApplicationProperties::appendNewRegistrySection(const string& secName)
+TRegistryPropertiesSP ApplicationProperties::appendNewRegistrySection(const string& secName)
 {
-	shared_ptr<TRegistryProperties> p = shared_ptr<TRegistryProperties>(new TRegistryProperties(secName));
+	TRegistryPropertiesSP p = TRegistryPropertiesSP(new TRegistryProperties(secName));
     mSections.push_back(p);
     return p;
 }

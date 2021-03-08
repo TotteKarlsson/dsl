@@ -18,43 +18,43 @@
 namespace dsl
 {
 
-typedef SocketWorker* (*CreateWorker)(int port_number, int connection, void* parent);
+typedef SocketWorker* (*CreateWorker)(int port_number, SOCKET connection, void* parent);
 
 class DSL_IPC SocketServer : public Thread, public Socket
 {
     public:
                                                     SocketServer(int port_nr = -1);
                                                     ~SocketServer();
-        string                                      GetServerInfo();
-        void                                        SetPortNumber(int pNum){mPortNumber = pNum;}    //!<Sets the portNr
-        int                                         GetPortNumber(){return mPortNumber;}            //!<Returns the portNr
+        string                                      getServerInfo();
+        void                                        setPortNumber(int pNum){mPortNumber = pNum;}    //!<Sets the portNr
+        int                                         getPortNumber(){return mPortNumber;}            //!<Returns the portNr
+        virtual string                              getRemoteHostName();
 
-        int                                         Start();
-        bool                                        Stop();
+        virtual bool                                start(bool inThread = true);
+        void                                        stop();
 
                                                     // overridden from Thread
         void                                        run();
-        void                                        Worker();
-        string                                      GetProcessInfo(string indent);
-        void                                        AssignParent(void* _parent){mParent = _parent;}
+        void                                        worker();
+        string                                      getProcessInfo(string indent);
+        void                                        assignParent(void* _parent){mParent = _parent;}
 
                                                     // Server methods
-        void                                        SetSocketProtocol(SocketProtocol sp){mSocketProtocol = sp;}
-        bool                                        Broadcast( const string& msg );
-        bool                                        SendToWorker(const string& msg, int socketId);
-        bool                                        RemoveLostConnections();
+        void                                        setSocketProtocol(SocketProtocol sp){mSocketProtocol = sp;}
+        bool                                        broadcast( const string& msg );
+        bool                                        sendToWorker(const string& msg, int socketId);
+        bool                                        removeLostConnections();
 
-        int                                         GetNumberOfClients(){return mWorkerList.size();}
-
-        void                                        SetIncomingMessageDelimiters(const char& left, const char& right='\n');
+        size_t                                      getNumberOfClients(){return mWorkerList.size();}
+        void                                        setIncomingMessageDelimiters(const char& left, const char& right='\n');
 
                                                     //Pointer to CreateWorker function..
                                                     //has to be supplied by client application (use the Assign.. function below)
         CreateWorker                                CreateWorkerFunction;
-        void                                        AssignCreateWorkerFunctionPtr(CreateWorker ptr){CreateWorkerFunction = ptr;}
-        void                                        ShutDown();
-        SocketWorker*                               GetFirstWorker();
-        void                                        RetireWorker(SocketWorker* aWorker);
+        void                                        assignCreateWorkerFunctionPtr(CreateWorker ptr);
+        void                                        shutDown();
+        SocketWorker*                               getFirstWorker();
+        void                                        retireWorker(SocketWorker* aWorker);
 
     protected:
         int                                         mPortNumber;

@@ -37,6 +37,6 @@ class DSL_COMMON IniFileProperties : public Properties
 
 };
 
-typedef shared_ptr<IniFileProperties> IniFilePropertiesSP;
+typedef dsl_shared_ptr<IniFileProperties> IniFilePropertiesSP;
 }
 #endif

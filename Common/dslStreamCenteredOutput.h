@@ -3,6 +3,8 @@
 #include "dslCommonExporter.h"
 #include <iomanip>
 #include <iostream>
+#include <string>
+#include "dslConstants.h"
 //---------------------------------------------------------------------------
 namespace dsl
 {
@@ -22,7 +24,7 @@ class DSL_COMMON StreamCenteredOutput
 
     public:
         StreamCenteredOutput(const std::string& str);
-        int width() const;
+        dsluint width() const;
 
     private:
         string strVal;

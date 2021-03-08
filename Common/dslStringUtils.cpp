@@ -182,13 +182,13 @@ bool endsWith(const string& ending, const string& fullString)
     }
 }
 
-string getStringFromSeconds(long elapsed)
+string getStringFromSeconds(time_t elapsed)
 {
     if(elapsed < 0)
 	{
         return "00:00:00";
     }
-    int hours = elapsed / 3600;
+    int hours = (int) elapsed / 3600;
     int minutes = (elapsed / 60) % 60 ;
     int seconds = elapsed % 60;
     string h,m,s;
@@ -211,7 +211,7 @@ string getStringFromSeconds(long elapsed)
     return timeStr;
 }
 
-int indexOf(const vector<string>& vec, const string& elem)
+dsluint indexOf(const vector<string>& vec, const string& elem)
 {
     if(!vec.size())
     {
@@ -971,8 +971,10 @@ vector<string> splitString(const string &text, const char& oneSep)
 vector<string> splitString(const string &text, const string &separators)
 {
     vector<string> words;
+
     size_t n = text.length();
     size_t start = text.find_first_not_of(separators);
+
     while( (start >= 0) && (start < n) )
     {
         size_t stop = text.find_first_of(separators, start);
@@ -980,6 +982,7 @@ vector<string> splitString(const string &text, const string &separators)
         {
             stop = n;
         }
+
         words.push_back(text.substr(start, stop - start));
         start = text.find_first_not_of(separators, stop+1);
     }

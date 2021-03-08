@@ -6,13 +6,11 @@ include_directories(
     ./../Common
     ./../Math
     ./../Plugins
-    ${CMAKE_SOURCE_DIR}/ThirdParties/Poco/Foundation/include
-    ${CMAKE_SOURCE_DIR}/ThirdParties
-    ${TP_INCLUDE}
+    ./../ThirdParties/
+    ./../ThirdParties/Poco/Foundation/include/
 )
 
-message("Link folder:" ${CMAKE_INSTALL_PREFIX}/lib)
-link_directories(${CMAKE_BINARY_DIR}/lib)
+message("Build folder is : " ${BUILD})
 
 set(src
 ../Common/dslBaseProperty
@@ -56,7 +54,6 @@ set(src
 ../Common/dslToggler
 ../Common/dslUtils
 ../Common/dslVersion
-../Common/dslWin32Utils
 ../Common/dslXMLUtils
 
 ../Plugins/dslPlugin
@@ -64,19 +61,19 @@ set(src
 ../Plugins/dslPluginMetaData
 ../Plugins/dslPluginWithEvents
 
-#../IPC/dslIPCData
-#../IPC/dslIPCMessage
-#../IPC/dslIPCMessageBuilder
-#../IPC/dslIPCMessageEnums
-#../IPC/dslIPCMessageProcessor
-#../IPC/dslIPCReceiver
-#../IPC/dslIPCServer
-#../IPC/dslSocket
-#../IPC/dslSocketClient
-#../IPC/dslSocketReceiver
-#../IPC/dslSocketServer
-#../IPC/dslSocketWorker
-#../IPC/dslToggleSocketConnectionThread
+../IPC/dslIPCData
+../IPC/dslIPCMessage
+../IPC/dslIPCMessageBuilder
+../IPC/dslIPCMessageEnums
+../IPC/dslIPCMessageProcessor
+../IPC/dslIPCReceiver
+../IPC/dslIPCServer
+../IPC/dslSocket
+../IPC/dslSocketClient
+../IPC/dslSocketReceiver
+../IPC/dslSocketServer
+../IPC/dslSocketWorker
+../IPC/dslToggleSocketConnectionThread
 
 ../Math/dslDihedralAngle
 ../Math/dslAxisSystem
@@ -99,76 +96,66 @@ set(src
 #../DataBase/dslSQLiteException
 )
 if (CMAKE_SYSTEM MATCHES "Windows")
-    set(src ${src} )
+    set(src ${src} 
+        ../Common/dslWin32Utils
+    )
 endif()
 
 #===== Shared library
 if(${BUILD_SHARED_LIBS})
 #    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -Hi${CMAKE_SOURCE_DIR}/pch/dsl_pch.h -Hh=${CMAKE_SOURCE_DIR}/pch/dsl_pch.h -H=${CMAKE_SOURCE_DIR}/pch/dsl_pch.cmake -H")
 
-    add_library(${target} SHARED
-    ${src}
-    )
+    add_library(${target} SHARED ${src})
+    target_include_directories (${target} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
     
-    set_target_properties(${target}  PROPERTIES 
+    set_target_properties(${target} PROPERTIES 
         OUTPUT_NAME ${target}${LIBRARY_POSTFIX}
     )
+
     target_compile_definitions(${target} PRIVATE EXPORT_COMMON EXPORT_PLUGINS EXPORT_IPC EXPORT_MATH EXPORT_DATABASE)
-    #link libraries
-    if (CMAKE_SYSTEM MATCHES "Linux")
-            target_link_libraries(${target} 
-                tinyxml2
-                poco_foundation
-                pthread
-                -lrt
-    #            sqlite
-            )
-    endif()  
 
     if (CMAKE_SYSTEM MATCHES "Windows")
-            target_link_libraries(${target} 
-            #${CMAKE_INSTALL_PREFIX}/lib/sqlite.lib
-            ${CMAKE_INSTALL_PREFIX}/lib/tinyxml2${LIBRARY_POSTFIX}.lib
-            ${CMAKE_INSTALL_PREFIX}/lib/PocoFoundation${LIBRARY_POSTFIX}.lib
-            Shell32.lib
+        target_link_libraries(
+            ${target} 
+                tinyxml2
+                poco_foundation
+                Shell32.lib
+                ws2_32
         )
     endif()
+
 
     if(${INSTALL_CXX_LIBS})
         install(    
-        TARGETS ${target} 
-        RUNTIME DESTINATION bin COMPONENT core
-        LIBRARY DESTINATION lib COMPONENT core
-        ARCHIVE DESTINATION lib COMPONENT core
-        )            
-    endif()
+            TARGETS ${target} 
+            RUNTIME DESTINATION bin COMPONENT core
+            LIBRARY DESTINATION lib COMPONENT core
+            ARCHIVE DESTINATION lib COMPONENT core
+        )       
 
-    #set(pcHeader "${CMAKE_SOURCE_DIR}/pch/dsl_pch.h")
-endif() #Shared lib
+        #Headers
+        FILE (GLOB common_headers ./../Common/*.h)
+        FILE (GLOB math_headers ./../Math/*.h)
+        FILE (GLOB ipc_headers ./../IPC/*.h)
+        FILE (GLOB plugins_headers ./../Plugins/*.h)
+        FILE (GLOB db_headers ./../DataBase/*.h)
 
-#===== General Installs
-if(${INSTALL_CXX_LIBS})
-
-    FILE (GLOB common_headers ./../Common/*.h)
-    FILE (GLOB math_headers ./../Math/*.h)
-    FILE (GLOB ipc_headers ./../IPC/*.h)
-    FILE (GLOB plugins_headers ./../Plugins/*.h)
-    FILE (GLOB db_headers ./../DataBase/*.h)
-    install (   
-        FILES ${common_headers} ${math_headers} ${ipc_headers} ${db_headers}
-        ${plugins_headers}
-        DESTINATION include/dsl 
-        COMPONENT cxx_headers
-    )
-
-    if(${BORLAND})
-
-        install(FILES
-            ${PROJECT_BINARY_DIR}/bin/${target}.tds
-            DESTINATION bin
-            COMPONENT debug
+        install(   
+            FILES ${common_headers} ${math_headers} ${ipc_headers} ${db_headers}
+            ${plugins_headers}
+            DESTINATION include/dsl 
+            COMPONENT cxx_headers
         )
-    endif()        
 
+        if(${BORLAND})
+            install(FILES
+                ${PROJECT_BINARY_DIR}/bin/${target}.tds
+                DESTINATION bin
+                COMPONENT debug
+            )
+        endif()
+
+
+    endif()
 endif()
 

@@ -1,11 +1,13 @@
 #pragma hdrstop
-#include "dslStringUtils.h"
 #include "dslSocketClient.h"
+#include "dslStringUtils.h"
 #include "dslLogger.h"
-#include "dslIPCMessageBuilder.h"
+#include <sstream>
+//---------------------------------------------------------------------------
 
 namespace dsl
 {
+using namespace std;
 
 SocketClient::SocketClient(int portNr, const string& hostname) :
 Socket(-1),
@@ -19,6 +21,14 @@ mToggleConnection(NULL)
     }
 }
 
+SocketClient::~SocketClient()
+{}
+
+string SocketClient::getRemoteHostName()
+{
+    return mHostName;
+}
+
 bool SocketClient::disConnect()
 {
     return close();
@@ -29,40 +39,50 @@ bool SocketClient::reConnect()
     return connect(mPortNumber, mHostName);
 }
 
+int SocketClient::getPortNumber()
+{
+	return mPortNumber;
+}
+
+void SocketClient::assignParent(void* _parent)
+{
+	mParent = _parent;
+}
+
 bool SocketClient::connect(int portNr, const string& hostname)
 {
 	mPortNumber = portNr;
     mHostName =  hostname.size() ? hostname : string("localhost");
 
-    struct sockaddr_in ServerAddress;             /* Echo server address */
-    string servIP;
+    struct sockaddr_in ServerAddress;
+    string server_ip;
 
     if(mHostName == "localhost")
     {
-        servIP = "127.0.0.1";                /* First arg: server IP address (dotted quad) */
+        server_ip = "127.0.0.1";                /* First arg: server IP address (dotted quad) */
     }
     else
     {
-        servIP = mHostName;
+        server_ip = mHostName;
     }
 
      if(setupSocket() != true)
     {
-        Log(lInfo)<<"Failed to connect client to "<<mHostName<<" on port number "<<portNr;
+        Log(lInfo) << "Failed to connect client to " << mHostName << " on port number " << portNr;
         return false;
     }
 
     /* Construct the server address structure */
     memset(&ServerAddress, 0, sizeof(ServerAddress));             /* Zero out structure */
     ServerAddress.sin_family      = AF_INET;                     /* Internet address family */
-    ServerAddress.sin_addr.s_addr = inet_addr(servIP.c_str());   /* Server IP address */
+    ServerAddress.sin_addr.s_addr = inet_addr(server_ip.c_str());   /* Server IP address */
     ServerAddress.sin_port        = htons(portNr);                 /* Server port */
 
     /* Establish the connection to the server */
     if (::connect(mSocketHandle, (struct sockaddr *) &ServerAddress, sizeof(ServerAddress)) < 0)
     {
         int error = WSAGetLastError();
-        Log(lDebug3)<<"Client socket connection failed. Error "<<error<<" occured.";
+        Log(lDebug3) << "Client socket connection failed. Error " << error << " occured.";
         mSocketHandle = -1;
         return false;
     }
@@ -70,117 +90,47 @@ bool SocketClient::connect(int portNr, const string& hostname)
     //Worked out fine
     mIsBroken = false;
 
-    Log(lInfo)<<"Client socket connection to host: "<<mHostName<<" on port:"<<portNr<<" succeded";
+    Log(lInfo) << "Client socket connection to host: " << mHostName << " on port:" << portNr << " succeded";
 
     if(onConnected)
     {
-    	onConnected();
+    	onConnected(this);
     }
-
+	mReceiver.start();
     return true;
 }
 
-bool SocketClient::requestByID(IPC_ID request)
+bool SocketClient::requestByID(IPC_ID request_id)
 {
     //Make sure the request has a good format
-    string req = "[";
-    req += dsl::toString(request).c_str();
-    req += "]";
+    stringstream request;
+    request << "[" << dsl::toString(request_id) << "]";
 
-    if(send(req) == -1)
-    {
-        Log(lInfo)<<"Sending request failed";
-        return false;
-    }
+    return sendRequest(request.str());
 
-    return true;
-//    if(!waitForResponse)
-//    {
-//        return "";
-//    }
-//
-//    IPCMessageBuilder aMessage('[',']');
-//    while(!aMessage.isComplete())
-//    {
-//        if(receive() != -1)
-//        {
-//            while(mMessageBuffer.size())
-//            {
-//                char ch = mMessageBuffer.front();
-//                mMessageBuffer.pop_front();
-//
-//                if(!aMessage.build(ch))
-//                {
-//                    Log(lInfo)<<"Character was discarded: \'"<<ch<<"\'";
-//                }
-//
-//                if(aMessage.isComplete())
-//                {
-//                    Log(lInfo)<<"Received message: "<<aMessage.getMessage()<<" on socket id: "<<this->getSocketHandle();
-//                }
-//            }
-//        }
-//        else
-//        {
-//            //The connection is broken
-//            mMessageBuffer.clear();
-//            Log(lInfo)<<"Connection was broken";
-//            return "[NO RESPONSE]";
-//        }
-//    }
-//
-//    return aMessage.getMessage();
 }
 
 bool SocketClient::request(const string& request)
 {
     //Make sure the request has a good format
-    string req = "[";
-    req += request;
-    req += "]";
+    string req = "[" + request +  "]";
+    return sendRequest(req);
 
-    if(send(req) == -1)
+}
+
+bool SocketClient::sendRequest(const string& request)
+{
+    if(send(request) == -1)
     {
-        Log(lInfo)<<"Failed sending request: "<<req;
+        Log(lInfo) << "Failed sending request: " << request;
         return false;
     }
 
-//    if(!waitForResponse)
-//    {
-//        return false;
-//    }
-
-//    IPCMessageBuilder aMessage('[',']');
-//    while(!aMessage.isComplete())
-//    {
-//        if(receive() != -1)
-//        {
-//            while(mMessageBuffer.size())
-//            {
-//                char ch = mMessageBuffer.front();
-//                mMessageBuffer.pop_front();
-//
-//                if(!aMessage.build(ch))
-//                {
-//                    Log(lInfo)<<"Character was discarded: \'"<<ch<<"\'";
-//                }
-//
-//                if(aMessage.isComplete())
-//                {
-//                    Log(lDebug3)<<"Received message: "<<aMessage.getMessage()<<" on socket id: "<<this->getSocketHandle();
-//                }
-//            }
-//        }
-//        else
-//        {
-//            //The connection is broken
-//            mMessageBuffer.clear();
-//            Log(lInfo)<<"Connection was broken";
-//            return "[NO RESPONSE]";
-//        }
-//    }
-//
-//    return aMessage.getMessage();
+	mLastSentData = request;
+    if(onSendData)
+    {
+        onSendData(this);
+    }
 	return true;
 }
 

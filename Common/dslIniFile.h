@@ -41,7 +41,7 @@ class DSL_COMMON IniFile : public DSLObject
 
         virtual                                ~IniFile();
 
-        unsigned int                            getNumberOfSections();
+        size_t                                  getNumberOfSections();
         bool                                    loadFromString(const string& iniData);
 
         // File handling methods
@@ -85,9 +85,9 @@ class DSL_COMMON IniFile : public DSLObject
         IniSection*                             createSection(const string& Section, const string& Comment, KeyList Keys);
 
         // Utility Methods
-        unsigned int                            sectionCount();
-        unsigned int                            keyCount();
-        unsigned int                            keyCount(const string& section);
+        size_t                                  sectionCount();
+        size_t                                  keyCount();
+        size_t                                  keyCount(const string& section);
         void                                    clear();
         void                                    setFileName(const string& fName);
         string                                  commentStr(string& Comment);

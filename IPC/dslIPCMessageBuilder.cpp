@@ -18,6 +18,21 @@ mNrOfLeftDel(0),
 mNrOfRightDel(0)
 {}
 
+bool IPCMessageBuilder::isBuilding()
+{
+	return mIsBuilding;
+}
+
+bool IPCMessageBuilder::isComplete()
+{
+	return mHasMessage;
+}
+
+size_t IPCMessageBuilder::getMessageSize()
+{
+	return mMessage.size();
+}
+
 void IPCMessageBuilder::reset()
 {
     mIsBuilding = false;
@@ -97,7 +112,7 @@ bool IPCMessageBuilder::build(const char& ch)
     {
         mHasMessage = true;
         mIsBuilding = false;
-        return true;        //Don't insert delimiter
+        return true;
     }
 
     //Insert the character, discard irrelevant ones

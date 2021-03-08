@@ -11,9 +11,9 @@
 //We are not using boost threads, only conditions and mutexes
 //See http://stackoverflow.com/questions/16443989/warnings-when-compiling-boost-libraries-in-c-builder
 //for explanation of the #define
-#define BOOST_THREAD_USE_LIB
+//#define BOOST_THREAD_USE_LIB
 
-//TODO:: use poco thread and mutexes!
+//TODO:: use poco thread and mutexes and sockets..
 
 #include <boost/thread/condition.hpp>
 #include "dslSocket.h"
@@ -28,7 +28,7 @@ using std::pair;
 class IPCReceiver;
 class SocketWorker;
 
-typedef SocketWorker* (*CreateWorkerFPtr)(int port_number, int connection, void* parent);
+typedef SocketWorker* (*CreateWorker)(int port_number, SOCKET connection, void* parent);
 
 class DSL_IPC IPCServer : public DSLObject
 {
@@ -36,25 +36,26 @@ class DSL_IPC IPCServer : public DSLObject
         boost::mutex                                    mListMutex;
         boost::condition                                mListDataArrived;
 
-                                                        IPCServer(int port = 0, const string& iniSection = gEmptyString, CreateWorkerFPtr createWorkerFPtr = NULL);
+                                                        IPCServer(int port = 0, const string& iniSection = gEmptyString, CreateWorker createWorkerFPtr = NULL);
                                                         ~IPCServer();
 
         virtual bool                                    shutDown();
         virtual bool                                    init(int pNumber = -1, CreateWorker createWorkerPtr = NULL);
 
-        int                                             getNumberOfClients();
+        size_t                                          getNumberOfClients();
         string                                          getServerInfo();
         void                                            setSocketServer(SocketServer* aServer);
         string                                          getConnectionInfo();
         int                                             servingPort();
         SocketServer&                                   getSocketServer(){return mSocketServer;}
 
+        bool                                            clientRequestResponse(const string& msg, int socketID);
         bool                                            broadcast(const string& msg);
         bool                                            removeLostConnections();
-        int                                             nrOfMessages(){return mMessages.size();}
+        size_t                                          nrOfMessages(){return mMessages.size();}
 
-        bool                                            request(const string& msg);            //Post a message to the message list
-        bool                                            postRequest(IPCMessage& msg);       //Post a message to the message list
+        bool                                            request(const string& msg);            	//Post a message to the message list
+        bool                                            postRequest(IPCMessage& msg);       	//Post a message to the message list
         virtual void                                    processRequests();
         virtual void                                    processNextRequest();
 
@@ -63,11 +64,10 @@ class DSL_IPC IPCServer : public DSLObject
 
         bool                                            isRunning();
         bool                                            isProcessorRunning();
-
         void                                            readProperties(IniFile& iniFile);
 
         bool                                            start(const int portNumber = -1);
-        bool                                            stop();
+        void                                            stop();
 
                                                         //Ini Parameter stuff
         virtual bool                                    readIniFile(const string& fileName){return false;}

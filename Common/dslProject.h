@@ -57,7 +57,7 @@ class DSL_COMMON Project : public Subject
 
         void                                    setParent(Project* p);
         Project*        			            getParent();
-        int										getNumberOfChilds();
+        size_t									getNumberOfChilds();
         Project*								getChild(int i);
         bool                                    removeChild(Project* child);
         Project*                                getProjectRoot();

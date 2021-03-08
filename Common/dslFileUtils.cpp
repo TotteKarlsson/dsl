@@ -9,13 +9,14 @@
 #include <cerrno>
 #include <set>
 #include "Poco/Exception.h"
+#include "dslException.h"
 
 #if !defined(_Linux)
 //#include <io.h>
 #endif
 
 #if defined(_MSC_VER)
-    #include "dirent/dirent.h"
+//    #include "dirent/dirent.h"
     #include <direct.h>
 	#include  <io.h>
 #elif defined(__BORLANDC__)
@@ -60,7 +61,14 @@ string getFileContent(const string& fName)
         return contents;
     }
 
-    throw(errno);
+    stringstream msg;
+    msg <<"Failure in getting filecontent for file: " << fName << endl;
+    msg <<"Error was: " <<string(strerror(errno));
+
+
+	const DSLException e(msg.str());
+
+    throw(e);
 }
 
 //string getFileContent(const string& fName)
@@ -74,20 +82,19 @@ string getFileContent(const string& fName)
 DSL_COMMON double getFileSize(const string& file, FileSizeType type)
 {
     const int CONVERSION_VALUE = 1024;
-
     Poco::File aFile(file);
-    unsigned int bytes = aFile.getSize();
+    Poco::File::FileSize bytes = aFile.getSize();
 
     //determine what conversion they want
     switch (type)
     {
-        case fstByte:             return bytes;
-        case fstKiloByte:         return (bytes / CONVERSION_VALUE);
-        case fstMegaByte:         return (bytes / (CONVERSION_VALUE * CONVERSION_VALUE ));
-        case fstGigaByte:         return (bytes / (CONVERSION_VALUE * CONVERSION_VALUE * CONVERSION_VALUE));
-        default:		          return bytes;    break;
+        case fstByte:             return  bytes;
+        case fstKiloByte:         return (bytes / (double) (CONVERSION_VALUE));
+        case fstMegaByte:         return (bytes / (double)(CONVERSION_VALUE * CONVERSION_VALUE));
+        case fstGigaByte:         return (bytes / (double)(CONVERSION_VALUE * CONVERSION_VALUE * CONVERSION_VALUE));
+        default:		          break;
 	}
-    return 0;
+    return bytes;
 }
 
 bool createFile(const string& fName, ios_base::openmode mode)
@@ -286,7 +293,7 @@ string getLastFolderInPath(const string& p)
     StringList folders(p, gPathSeparator);
     if(folders.size() > 0)
     {
-        return folders[folders.size() -1 ];
+       return folders[folders.size() - 1];
     }
     return gEmptyString;
 }

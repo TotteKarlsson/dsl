@@ -72,7 +72,7 @@ class DSL_COMMON Properties : public DSLObject
         virtual void                                        setupProperties();
 };
 
-typedef shared_ptr<Properties> PropertiesSP;
+typedef dsl_shared_ptr<Properties> PropertiesSP;
 
 DSL_COMMON string toString(const Properties& props);
 

@@ -1,6 +1,5 @@
 #ifndef SocketReceiverH
 #define SocketReceiverH
-#include <string>
 #include "dslSocket.h"
 #include "dslMessageContainer.h"
 
@@ -15,7 +14,6 @@ class DSL_IPC SocketReceiver : public Thread
                                 ~SocketReceiver();
         void                    run();
         virtual void            worker();
-
 
     protected:
     	Socket&					mSocket;
