@@ -63,10 +63,10 @@ bool IniFileProperties::read()
     return true;
 }
 
-bool IniFileProperties::write()
+bool IniFileProperties::write(bool saveToFile)
 {
     //This function writes the values to the iniFile.
-    //iniFile has to be saved explicitly to save values to file!
+    //To save to disk, set the saveToFile flag to true
 
     if(mIniFile == nullptr)
     {
@@ -87,6 +87,12 @@ bool IniFileProperties::write()
             Log(lDebug4)<<mProperties[i]->getLabel()<<" = "<<mProperties[i]->getValueAsString();
         }
     }
+
+    if(saveToFile)
+    {
+        return mIniFile->save();
+    }
+
     return true;
 }
 
@@ -112,4 +118,13 @@ IniFile* IniFileProperties::getIniFile()
 	return mIniFile;
 }
 
+string IniFileProperties::getIniFileName() const
+{
+    if(mIniFile)
+    {
+        return mIniFile->getFullFileName();
+    }
+
+    return string("");
+}
 }

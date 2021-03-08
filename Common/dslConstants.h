@@ -13,6 +13,7 @@ namespace dsl
 {
 
 using std::string;
+typedef unsigned int uint;
 typedef unsigned int dsluint;
 
 //using namespace std;
@@ -44,6 +45,7 @@ DSL_COMMON extern const double gPiBy2;
 DSL_COMMON extern const double gPiBy4;
 
 enum FileSizeType {fstByte = 0, fstKiloByte, fstMegaByte, fstGigaByte};
+enum LayoutMode {lmPortrait1 = 0, lmPortrait2, lmLandscape, lmUndefined};
 /////////////////////////////////////////////////////////////////////////////////////////////
 enum DATA_FORMAT {  dfMoleculix, dfInteger, dfDouble, dfComplex,
                     dfFree,

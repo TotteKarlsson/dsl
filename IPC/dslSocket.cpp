@@ -2,6 +2,7 @@
 #include "dslSocket.h"
 #include "dslLogger.h"
 #include "dslStringUtils.h"
+#include "dslSharedPointer.h"
 //---------------------------------------------------------------------------
 
 using std::endl;
@@ -9,13 +10,14 @@ using dsl::toString;
 
 namespace dsl
 {
-Socket::Socket(int socket_handle)
+Socket::Socket(SOCKET socket_handle)
 :
 mSocketHandle(socket_handle),
 mIsBroken(false),
 mSocketAddressFamily(sfInet),
 mSocketType(stStream),
-mSocketProtocol(spTCP)
+mSocketProtocol(spTCP),
+onDisconnect(0)
 {}
 
 Socket::~Socket()
@@ -50,7 +52,7 @@ bool Socket::setupSocket()
 {
     if(hasHandle())
     {
-        close();
+        closeSocket();
     }
 
     if (WSAStartup(MAKEWORD(2, 0), &mWSAData) != 0) /* Load Winsock 2.0 DLL */
@@ -71,10 +73,10 @@ bool Socket::setupSocket()
     return true;
 }
 
-int Socket::close()
+int Socket::closeSocket()
 {
     int retVal = 0;
-    if(mSocketHandle != -1)
+    if(mSocketHandle != nullptr)
     {
         int retVal = closesocket(mSocketHandle);
         if(retVal != 0)
@@ -83,50 +85,50 @@ int Socket::close()
         }
         else
         {
-            Log(lInfo)<<"Socket with handle "<<mSocketHandle<<" was closed";
-            mSocketHandle = -1;
+            Log(lInfo)<<"Socket with handle " << mSocketHandle << " was closed";
+            mSocketHandle = NULL;
             mIsBroken = true;
         }
     }
     return retVal;
 }
 
-int Socket::receive(long bytes)
+int Socket::receive(long bSize)
 {
-    long bSize = bytes;
-    char *msg = new char[bSize];
+    char* msg = new char[bSize];
 
     //This is a blocking call, execute in a thread.
     int nReceived = recv(mSocketHandle, msg, bSize, 0);
 
-    //If == -1, then the socket is broken
-    if (nReceived == -1)
-    {
-        delete [] msg;
-        mIsBroken = true;
-        close();
-        return -1;
-    }
-
     //If == 0, then the socket was closed
     if (nReceived == 0)
     {
-        close();
+        Log(lDebug) << "Socket with handle " << mSocketHandle << " was orderly closed";
         delete [] msg;
         return 0;
+    }
+
+    //If == -1, then the socket is broken
+    if (nReceived == -1)
+    {
+        Log(lDebug) << "Socket with handle " << mSocketHandle << " was closed with receive found by the server to be broken";
+        mIsBroken = true;
+        delete [] msg;
+        return -1;
     }
 
     for(int i = 0; i < nReceived; i++)
     {
         mMessageBuffer.push_back(msg[i]);
     }
+
     delete [] msg;
     return nReceived;
 }
 
 int Socket::send(const string& msg)
 {
-    if(mSocketHandle == -1)
+    if(mSocketHandle == 0)
     {
         return -1;
     }
@@ -141,7 +143,7 @@ int Socket::send(const string& msg)
         }
         else
         {
-            Log(lInfo) << "Socket send error: " << errno ;
+            Log(lWarning) << "Socket send error: " << errno ;
         }
     }
     return retval;
@@ -150,7 +152,7 @@ int Socket::send(const string& msg)
 string Socket::getReceivedBufferContent()
 {
     string content;
-	for(int i = 0; i < mMessageBuffer.size(); i++)
+	for(size_t i = 0; i < mMessageBuffer.size(); i++)
     {
         content += mMessageBuffer[i];
     }
@@ -164,15 +166,10 @@ deque<char>& Socket::getIncomingDataBuffer()
 
 bool Socket::hasHandle()
 {
-    return (mSocketHandle != -1);
+    return (mSocketHandle != nullptr);
 }
 
-int Socket::getSocketID()
-{
-    return mSocketHandle;
-}
-
-int Socket::getSocketHandle()
+SOCKET Socket::getSocketHandle()
 {
     return mSocketHandle;
 }
@@ -181,6 +178,5 @@ string Socket::getInfo()
 {
     return "Some socket info...";
 }
-
 
 }

@@ -18,12 +18,16 @@
 namespace dsl
 {
 
+class Socket;
+class IPCServer;
+typedef boost::function< void(void) >	voidvoidCB;
+
 typedef SocketWorker* (*CreateWorker)(int port_number, SOCKET connection, void* parent);
 
 class DSL_IPC SocketServer : public Thread, public Socket
 {
     public:
-                                                    SocketServer(int port_nr = -1);
+                                                    SocketServer(IPCServer& parent, int port_nr = -1);
                                                     ~SocketServer();
         string                                      getServerInfo();
         void                                        setPortNumber(int pNum){mPortNumber = pNum;}    //!<Sets the portNr
@@ -37,7 +41,7 @@ class DSL_IPC SocketServer : public Thread, public Socket
         void                                        run();
         void                                        worker();
         string                                      getProcessInfo(string indent);
-        void                                        assignParent(void* _parent){mParent = _parent;}
+//        void                                        assignParent(void* _parent){mParent = _parent;}
 
                                                     // Server methods
         void                                        setSocketProtocol(SocketProtocol sp){mSocketProtocol = sp;}
@@ -56,6 +60,9 @@ class DSL_IPC SocketServer : public Thread, public Socket
         SocketWorker*                               getFirstWorker();
         void                                        retireWorker(SocketWorker* aWorker);
 
+		SocketClientCallBack                        onClientConnect;
+		SocketClientCallBack	                    onClientDisconnect;
+
     protected:
         int                                         mPortNumber;
         char                                        mLeftMessageDelimiter;
@@ -64,19 +71,22 @@ class DSL_IPC SocketServer : public Thread, public Socket
         SocketProtocol                              mSocketProtocol;
         static int                                  serverCount;
 
+                                                    //This will call the onClientConnect callback above, if present
+        void                                        privateOnClientConnect(Socket* );
+        void                                        privateOnClientDisconnect(Socket* );
+
                                                     /* Local address */
         struct                                      sockaddr_in mServerAddress;
 
                                                     /* Client address */
         struct                                      sockaddr_in mClientAddress;
-
         list<SocketWorker*>                         mWorkerList;
 
                                                     //Child thread accesses the mWorkerList
         boost::mutex                                mWorkerListMutex;
 
                                                     //The parent is the object that owns the server
-        void*                                       mParent;
+        IPCServer&                                  mParent;
         int                                         TCPWorker();
         int                                         UDPWorker();
 };

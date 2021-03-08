@@ -4,29 +4,32 @@
 #include "dslConstants.h"
 #include "Poco/DateTime.h"
 #include "Poco/DateTimeFormat.h"
-#include <list>
 #include <vector>
+#include <list>
 #include <string>
 //---------------------------------------------------------------------------
 namespace dsl
 {
 
+using std::vector;
 using Poco::DateTime;
 using std::string;
 using std::list;
-using std::vector;
 using std::wstring;
 using std::ostream;
+
 
 class StringList;
 
 template<typename T>
 class Range;
 
+DSL_COMMON string           getMD5(const string& input);
+
 enum STR2INT_ERROR { stiSUCCESS, stiOVERFLOW, stiUNDERFLOW, stiINCONVERTIBLE };
 DSL_COMMON STR2INT_ERROR 	str2int (int &i, char const *s, int base = 0);
-
 DSL_COMMON string			toHex(int byte);
+
 DSL_COMMON int 				hexToDec(const string& hex);
 DSL_COMMON string 			hexCharToBinString(char c);
 DSL_COMMON string 			hexStringToBinString(const std::string& hex);
@@ -46,7 +49,7 @@ DSL_COMMON string           getFileContent(const string& fName);
 
 DSL_COMMON string           getParentFolder(const string& folder);
 DSL_COMMON string           getStringFromSeconds(time_t seconds);
-DSL_COMMON dsluint          indexOf(const std::vector<std::string>& vec, const std::string& elem);
+DSL_COMMON uint          	indexOf(const std::vector<std::string>& vec, const std::string& elem);
 
 DSL_COMMON bool             startsWith( const string& prefix, const string& src, bool caseLess = false);
 DSL_COMMON bool             endsWith(const string& postFix, const string& src);
@@ -98,12 +101,6 @@ DSL_COMMON string           dataFormatToStr(const DATA_FORMAT& format);
 DSL_COMMON string           fileFormatToStr(const FILE_FORMAT& format);
 DSL_COMMON FILE_FORMAT      strToFileFormat(const string& str);
 
-DSL_COMMON string           getTimeString();    //Return a string containing the date time in format "Wed Mar 31 15:02:11 2004\n"
-DSL_COMMON string           getDateTimeString();    //Return a string containing the date time in format "2004 Mar 31 15:02:11"
-
-
-//See: http://www.cplusplus.com/reference/ctime/strftime/
-DSL_COMMON string           getFormattedDateTimeString(const string& format);    //Return a string containing the date time in format "2004 Mar 31 15:02:11"
 
 DSL_COMMON vector<string>   split(const string &s, char delim);
 DSL_COMMON vector<string>&  split(const string &s, char delim, vector<string> &elems);

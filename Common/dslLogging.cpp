@@ -8,6 +8,7 @@ namespace dsl
 {
 
 Logging gLogger;
+
 int Logging::mNrOfInstances = 0;
 
 Logging::Logging()

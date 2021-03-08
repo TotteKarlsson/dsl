@@ -47,7 +47,7 @@ class PACKAGE TSTDStringLabeledEdit : public TLabeledPropertyEdit
     __published:
                                                     //Use the property to access value directly
         __property String                           Value = {read=getStringValue, write=setValueFromUnicodeString, default=0, stored=true};
-        __property OnChange;
+//        __property OnChange;
 };
 
 #endif

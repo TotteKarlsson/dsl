@@ -24,22 +24,23 @@ class DSL_COMMON Thread : public DSLObject, public Poco::Runnable
         bool                                        isTimeToDie();
         bool                                        isAlive();
         bool                                        isStarted();
-        bool                                        isWorking();
-        bool                                        isRunning();
+        bool                                        isWorking() const;
+        bool                                        isRunning() const;
         virtual bool                                isFinished();
         virtual void                                reset();
 
                                                     //!How we start poco threads
         virtual bool                                start(bool inThread = true);
 
-        void                                        pause();
-        void                                        resume();
-        virtual void                                stop();
-
+                                                    //Run must be overridden!
                                                     //The derived run function is doing the work
                                                     //Poco calls run from the Thread::run function
                                                     //Need to cleanup this logic...
         virtual void               	                run();
+
+        void                                        pause();
+        void                                        resume();
+        virtual void                                stop();
         bool                                        isPaused();
 
     protected:
@@ -55,6 +56,9 @@ class DSL_COMMON Thread : public DSLObject, public Poco::Runnable
         																	//for example .. perhaps use mIsWaiting..
         bool                                        mIsPaused;              //Use to pause a thread... has to be implemented in derived classes..
         int                                         mExitStatus;            //Read exit status to get some ideas on what happened in the worker
+
+
+
 };
 
 }

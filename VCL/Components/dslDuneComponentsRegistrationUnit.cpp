@@ -7,11 +7,11 @@
 #include "dslTFloatLabel.h"
 #include "dslTIniFileC.h"
 #include "dslTPropertyCheckBox.h"
-#include "dslTURLLabel.h"
+//#include "dslTURLLabel.h"
 #include "dslTSTDStringEdit.h"
 #include "dslTSTDStringLabeledEdit.h"
 #include "dslTIntLabel.h"
-#include "dslTPluginManager.h"
+//#include "dslTPluginManager.h"
 #include "dslTLogFileReader.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -31,20 +31,20 @@ using namespace dsl;
 
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
-static inline void ValidCtrCheck(TPluginManager *)
-{
-    new TPluginManager(nullptr);
-}
-
-namespace Dsltpluginmanager
-{
-    void __fastcall PACKAGE Register()
-    {
-         TComponentClass classes[1] = {__classid(TPluginManager)};
-         RegisterComponents(gDuneComponents, classes, 0);
-    }
-}
-//---------------------------------------------------------------------------
+//static inline void ValidCtrCheck(TPluginManager *)
+//{
+//    new TPluginManager(nullptr);
+//}
+//
+//namespace Dsltpluginmanager
+//{
+//    void __fastcall PACKAGE Register()
+//    {
+//         TComponentClass classes[1] = {__classid(TPluginManager)};
+//         RegisterComponents(gDuneComponents, classes, 0);
+//    }
+//}
+////---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 static inline void ValidCtrCheck(TLogFileReader *)
 {
@@ -187,20 +187,20 @@ namespace Dsltintegeredit
 }
 
 //---------------------------------------------------------------------------
-//---------------------------------------------------------------------------
-static inline void ValidCtrCheck(TURLLabel *)
-{
-  new TURLLabel(nullptr);
-}
-
-namespace Dslturllabel
-{
-    void __fastcall PACKAGE Register()
-    {
-        TComponentClass classes[1] = {__classid(TURLLabel)};
-        RegisterComponents(gDuneComponents, classes, 0);
-    }
-}
+////---------------------------------------------------------------------------
+//static inline void ValidCtrCheck(TURLLabel *)
+//{
+//  new TURLLabel(nullptr);
+//}
+//
+//namespace Dslturllabel
+//{
+//    void __fastcall PACKAGE Register()
+//    {
+//        TComponentClass classes[1] = {__classid(TURLLabel)};
+//        RegisterComponents(gDuneComponents, classes, 0);
+//    }
+//}
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------

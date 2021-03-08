@@ -43,6 +43,7 @@ void __fastcall TSTDStringEdit::assignExternalProperty(Property<string>* prop, b
     }
     //Transfer external property value to VCL component
     Value = vclstr(prop->getValue());
+	getProperty()->discardEdit();
 }
 
 //---------------------------------------------------------------------------

@@ -51,7 +51,7 @@ class PACKAGE TIntegerLabeledEdit : public TLabeledPropertyEdit
     __published:
                                                     //Use the property to access value directly
         __property int __fastcall                   Value = {read=getValue, write=setValue, default=0, stored=true};
-        __property OnChange;
+//        __property OnChange;
 };
 
 #endif

@@ -17,6 +17,7 @@ class DSL_IPC IPCMessageProcessor : public Thread
                                             ~IPCMessageProcessor();
 
                                             // overridden from Thread
+        bool                                start(bool inThread = true);
         void                                worker();
         void                                shutDown();
         void                                run();

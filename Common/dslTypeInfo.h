@@ -16,6 +16,7 @@ enum ObjectType
     otInt,
     otDouble,
     otStdString,
+    otPairOfInts,
     otChar,
     otStringList,
     otPoint,

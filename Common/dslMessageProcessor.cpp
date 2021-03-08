@@ -75,7 +75,7 @@ bool MessageProcessor::start(bool inThread)
 {
     if(inThread)
     {
-        return dsl::Thread::start();
+    	dsl::Thread::run();
     }
     else
     {

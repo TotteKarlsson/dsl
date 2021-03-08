@@ -16,6 +16,9 @@ FValue(&mDummy)
 
 	mBaseProperty = new Property<int>(-1,"PropertyLabel");
 	setReference(getProperty()->getValueReference());
+
+    //The above updates the graphical component, causing the isModified flag to be set. Discard this..
+    mBaseProperty->discardEdit();
 }
 
 Property<int>* TIntegerLabeledEdit::getProperty()
@@ -46,6 +49,7 @@ void TIntegerLabeledEdit::assignExternalProperty(Property<int>* prop, bool direc
     //Transfer external property value to VCL component
     *FValue = prop->getValue();
     update();
+	getProperty()->discardEdit();
 }
 
 //---------------------------------------------------------------------------

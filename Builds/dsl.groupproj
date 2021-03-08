@@ -12,9 +12,6 @@
         <Projects Include="dslVCLComponents\dslVCLComponents.cbproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="dslVCLVisualComponents\dslVCLVisualComponents.cbproj">
-            <Dependencies/>
-        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -50,23 +47,14 @@
     <Target Name="dslVCLComponents:Make">
         <MSBuild Projects="dslVCLComponents\dslVCLComponents.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="dslVCLVisualComponents">
-        <MSBuild Projects="dslVCLVisualComponents\dslVCLVisualComponents.cbproj"/>
-    </Target>
-    <Target Name="dslVCLVisualComponents:Clean">
-        <MSBuild Projects="dslVCLVisualComponents\dslVCLVisualComponents.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="dslVCLVisualComponents:Make">
-        <MSBuild Projects="dslVCLVisualComponents\dslVCLVisualComponents.cbproj" Targets="Make"/>
-    </Target>
     <Target Name="Build">
-        <CallTarget Targets="dslFoundation;dslVCLCommon;dslVCLComponents;dslVCLVisualComponents"/>
+        <CallTarget Targets="dslFoundation;dslVCLCommon;dslVCLComponents"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="dslFoundation:Clean;dslVCLCommon:Clean;dslVCLComponents:Clean;dslVCLVisualComponents:Clean"/>
+        <CallTarget Targets="dslFoundation:Clean;dslVCLCommon:Clean;dslVCLComponents:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="dslFoundation:Make;dslVCLCommon:Make;dslVCLComponents:Make;dslVCLVisualComponents:Make"/>
+        <CallTarget Targets="dslFoundation:Make;dslVCLCommon:Make;dslVCLComponents:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

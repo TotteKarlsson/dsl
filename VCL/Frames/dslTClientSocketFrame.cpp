@@ -25,8 +25,8 @@ __fastcall TClientSocketFrame::TClientSocketFrame(TComponent* Owner)
     mSocketClient()
 {
     BitBtn1->Caption = "Connect";
-    mSocketClient.onConnected 		= boost::bind(&TClientSocketFrame::onConnected, this, _1);
-    mSocketClient.onDisconnected 	= boost::bind(&TClientSocketFrame::onDisconnected, this, _1);
+    mSocketClient.onConnect 		= boost::bind(&TClientSocketFrame::onConnected, this, _1);
+    mSocketClient.onDisconnect	 	= boost::bind(&TClientSocketFrame::onDisconnected, this, _1);
     mSocketClient.onReceiveData 	= boost::bind(&TClientSocketFrame::onReceiveData, this, _1);
     mSocketClient.onSendData 		= boost::bind(&TClientSocketFrame::onSentData, this, _1);
 }
@@ -40,7 +40,7 @@ void TClientSocketFrame::setStatusBar(TStatusBar* sb)
 
 void TClientSocketFrame::onConnected(Socket* s)
 {
-    Log(lInfo) << "Socket with ID: " << s->getSocketID() <<" was connected";
+    Log(lInfo) << "Socket with ID: " << s->getSocketHandle() <<" was connected";
     SentDataMemo->Clear();
     ReceivedDataMemo->Clear();
     BitBtn1->Caption = "Disconnect";

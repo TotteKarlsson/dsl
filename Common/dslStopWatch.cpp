@@ -7,7 +7,9 @@ namespace dsl
 StopWatch::StopWatch()
 :
 mIsRunning(false)
-{}
+{
+    mStart = mEnd = 0;
+}
 
 StopWatch::~StopWatch()
 {}

@@ -14,6 +14,7 @@ string toString(ObjectType val)
         case otInt:                 return "int";
         case otDouble:              return "double";
         case otStdString:           return "string";
+        case otPairOfInts:          return "pairOfInts";
         case otChar:                return "char";
         case otStringList:          return "stringList";
         case otPoint:               return "point";

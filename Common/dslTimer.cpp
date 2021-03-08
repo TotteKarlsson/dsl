@@ -12,16 +12,16 @@ Timer::Timer(const Timespan& interval, EventFunction f, const string& label)
 :
 mInterval(interval),
 Thread(label),
+mFinishEarly(false),
 onTimer(f)
 {}
 
 Timer::~Timer()
 {}
 
-bool Timer::assignTimerFunction(EventFunction ef)
+void Timer::finishEarly()
 {
-    onTimer = ef;
-    return true;
+	mFinishEarly = true;
 }
 
 void Timer::run()
@@ -56,6 +56,7 @@ void Timer::worker() //The threads worker function
 {
     mIsStarted = true;            //Use to indicate if Worker function is entered
     mIsWorking = true;
+    mFinishEarly = false;
     mTheStart.update();
     mTheLastFire.update();
 
@@ -76,9 +77,19 @@ void Timer::worker() //The threads worker function
 
             mTheLastFire.update();
         }
+
+        if(mFinishEarly)
+        {
+            if(onTimer != NULL)
+            {
+                onTimer();
+                mIsTimeToDie = true;
+            }
+            Log(lDebug) << "The timer (" << mLabel <<") finished early";
+        }
     }
 
-    Log(lDebug) <<"Timer Worker Finished";
+    Log(lDebug5) <<"Timer Worker Finished";
     mIsWorking  = false;
     mIsFinished = true;
 }
@@ -89,18 +100,18 @@ bool Timer::setInterval(int interval)
     return true;
 }
 
-Timespan Timer::getInterval()
+Timespan Timer::getInterval() const
 {
     return mInterval;
 }
 
-Timespan Timer::getElapsedTime()
+Timespan Timer::getElapsedTime() const
 {
     Timestamp now;
     return  now - mTheStart;
 }
 
-Timespan Timer::getElapsedTimeSinceLastFire()
+Timespan Timer::getElapsedTimeSinceLastFire() const
 {
     Timestamp now;
     return  now - mTheLastFire;

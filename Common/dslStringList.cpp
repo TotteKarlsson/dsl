@@ -264,16 +264,16 @@ string StringList::asString(const char& delimiter) const
     stringstream names;
     for(uint i = 0; i < mStrings.size(); i++)
     {
-        names<<mStrings[i];
-        if( i < mStrings.size() - (uint) 1)
+        names << mStrings[i];
+        if(i < mStrings.size() - (uint) 1)
         {
             if(delimiter != '\0')
             {
-                names<<delimiter;
+                names << delimiter;
             }
             else
             {
-                names<<mDelimiter;
+                names << mDelimiter;
             }
         }
     }
@@ -319,6 +319,11 @@ void StringList::appendList(const StringList& list)
     }
 }
 
+void StringList::append(int item)
+{
+    mStrings.push_back(dsl::toString(item));
+}
+
 void StringList::append(const string& item)
 {
     mStrings.push_back(item);
@@ -332,6 +337,24 @@ int StringList::find(const string& item) const
 int StringList::indexOf(const string& item)
 {
     return dsl::indexOf(mStrings, item);
+}
+
+string StringList::getFirstLineStartingWith(const string& item, bool ignoreWhiteSpace) const
+{
+	for(int i = 0; i < mStrings.size(); i++)
+    {
+        string line(mStrings[i]);
+        if(ignoreWhiteSpace)
+	    {
+            line = trimWS(line);
+        }
+
+    	if(dsl::startsWith(item, line))
+        {
+        	return mStrings[i];
+        }
+    }
+	return "";
 }
 
 string StringList::getLineContaining(const string& subStr)
@@ -351,6 +374,26 @@ void StringList::removeAt(int index)
     mLI = mStrings.begin() + index;
     mStrings.erase(mLI);
 }
+
+
+bool StringList::hasString(const string& item, bool caseSensitive) const
+{
+    for(int i = 0; i < count(); i++)
+    {
+        bool equal(false);
+        //Only coimpare string with equal size
+        if(item.size() == mStrings[i].size())
+        {
+            CASE_SENSITIVITY cs = caseSensitive ? csCaseSensitive : csCaseInsensitive;
+            if(compareStrings(item, mStrings[i], cs))
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 
 bool StringList::contains(const string& item) const
 {

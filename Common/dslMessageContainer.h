@@ -15,9 +15,6 @@ class MessageProcessor;
 //!A threadsafe container
 class DSL_COMMON MessageContainer : public DSLObject
 {
-	//Friends can access our mutexes
-	friend                                  MessageProcessor;
-
     public:
                                                 MessageContainer();
 		virtual                                 ~MessageContainer();

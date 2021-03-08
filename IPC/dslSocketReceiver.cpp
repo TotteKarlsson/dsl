@@ -1,6 +1,6 @@
 #pragma hdrstop
 #include <string>
-#include "dslToggleSocketConnectionThread.h"
+//#include "dslToggleSocketConnectionThread.h"
 #include "dslStringUtils.h"
 #include "dslSocketReceiver.h"
 #include "dslIPCMessageBuilder.h"
@@ -21,6 +21,19 @@ mMessages(msgs)
 SocketReceiver::~SocketReceiver()
 {}
 
+bool SocketReceiver::start(bool inThread)
+{
+    if(inThread)
+    {
+        Thread::run();
+    }
+    else
+    {
+    	run();
+    }
+    return true;
+}
+
 void SocketReceiver::run()
 {
 	worker();
@@ -35,10 +48,19 @@ void SocketReceiver::worker()
         IPCMessageBuilder aMessage('[',']');
         while(!aMessage.isComplete() && mIsTimeToDie == false)
         {
-            if(mSocket.receive() != -1)
+        	int nBytes = mSocket.receive();
+            if(nBytes == -1 || nBytes == 0)
+            {
+                if(mSocket.onDisconnect)
+                {
+                    mSocket.onDisconnect(&mSocket);
+                }
+                mSocket.closeSocket();
+                stop();
+            }
+            else
             {
             	deque<char>& inComing = mSocket.mMessageBuffer;
-
                 if(mSocket.onReceiveData)
                 {
                     mSocket.onReceiveData(&mSocket);
@@ -59,16 +81,6 @@ void SocketReceiver::worker()
                         Log(lDebug) << "Received message: " << aMessage.getMessage() << " on socket id: " << mSocket.getSocketHandle();
                         mMessages.postMessage(aMessage.getMessage());
                     }
-                }
-            }
-            else
-            {
-                //The connection is broken or closed
-                Log(lInfo) << "Connection was closed";
-                mIsTimeToDie = true;
-                if(mSocket.onDisconnected)
-                {
-					mSocket.onDisconnected(&mSocket);
                 }
             }
         }

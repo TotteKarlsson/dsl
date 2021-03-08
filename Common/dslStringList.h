@@ -26,11 +26,13 @@ class DSL_COMMON StringList : public DSLObject
                                                                 //Copy constructor
                                                                 StringList(const StringList& cp);
                                                                 ~StringList();
+
         void                                                    strip(const StringList& chars);
         void                                                    outerStrip(const StringList& chars);
         virtual void                                            reSize(int size);
         virtual void                                            insertAt(int index, const string& item);
 
+        virtual void                                            append(int item);
         virtual void                                            append(const string& item);
         virtual void                                            appendList(const StringList& list);
         void                                                    truncate(int linesAfter);
@@ -51,9 +53,11 @@ class DSL_COMMON StringList : public DSLObject
         void                                                    removeAt(int index);
         int                                                     find(const string& item) const;
         int                                                     indexOf(const string& item);
+        string													getFirstLineStartingWith(const string& item, bool ignoreWhiteSpace = true) const;
         string													getLineContaining(const string& item);
         void                                                    clear();
         void                                                    empty();
+        bool                                                    hasString(const string& item, bool caseSensitive = false) const;
         bool                                                    contains(const string& item) const;
         bool                                                    dontContain(const string& item) const;
         string                                                  getLongest();

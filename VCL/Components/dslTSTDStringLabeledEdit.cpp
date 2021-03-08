@@ -49,6 +49,7 @@ void TSTDStringLabeledEdit::assignExternalProperty(Property<string>* prop, bool 
     //Transfer external property value to VCL component
     *FValue = prop->getValue();
     update();
+	getProperty()->discardEdit();
 }
 
 //---------------------------------------------------------------------------

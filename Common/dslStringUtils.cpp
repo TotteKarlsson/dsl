@@ -6,6 +6,8 @@
 #include "dslException.h"
 #include "Poco/Path.h"
 #include "Poco/DateTimeParser.h"
+#include "Poco/DigestStream.h"
+#include "Poco/MD5Engine.h"
 #include <algorithm>
 #include <fstream>
 #include <functional>
@@ -24,7 +26,22 @@ namespace dsl
     typedef unsigned int uint;
 using namespace std;
 using Poco::DateTimeParser;
+using Poco::DigestOutputStream;
+using Poco::DigestEngine;
+using Poco::MD5Engine;
 
+
+string getMD5(const string& input)
+{
+	MD5Engine md5;
+	DigestOutputStream ostr(md5);
+	ostr << input;
+	ostr.flush();
+
+	const DigestEngine::Digest& digest = md5.digest();
+	string result = DigestEngine::digestToHex(digest);
+    return result;
+}
 
 string toHex(int byte)
 {
@@ -211,7 +228,7 @@ string getStringFromSeconds(time_t elapsed)
     return timeStr;
 }
 
-dsluint indexOf(const vector<string>& vec, const string& elem)
+dsl::uint indexOf(const vector<string>& vec, const string& elem)
 {
     if(!vec.size())
     {
@@ -321,78 +338,6 @@ string trimWS(const string& _s)
     return trimWSFront(trimWSBack(_s));
 }
 
-//string Trim(const string& str, const string& chars)
-//{
-//    string rStr = str;
-//
-//    //Remove WhiteSpaces in front and back of str
-//    rStr = TrimForward(rStr, chars);
-//    return TrimReverse(rStr, chars);
-//}
-//
-//string TrimForward(const string& sline, const string& chars)
-//{
-//    int charNr = 0;
-//    string line = sline;
-//    bool canContinue = false;
-//    do
-//    {
-//        char aChar = line[charNr];
-//        if(chars.find(aChar) != string::npos)
-//        {
-//            canContinue = true;
-//            charNr++;
-//        }
-//        else
-//        {
-//            canContinue = false;
-//        }
-//    }
-//    while(canContinue == true);
-//
-//    if(charNr != 0)
-//    {
-//        line.erase(0,charNr);
-//    }
-//    return line;
-//}
-//
-//string TrimReverse(const string& sline, const string& chars)
-//{
-//    int charNr = 0;
-//    string line = sline;
-//    bool canContinue = false;
-//    do
-//    {
-//        char aChar = line[line.size() - 1 - charNr];
-//        if(chars.rfind(aChar) != string::npos)
-//        {
-//            canContinue = true;
-//            charNr++;
-//        }
-//        else
-//        {
-//            canContinue = false;
-//        }
-//    }
-//    while(canContinue == true);
-//
-//    if(charNr != 0)
-//    {
-//        line.erase(line.size() - charNr, line.size());
-//        line += "\n";
-//    }
-//    return line;
-//}
-
-//void CleanLines(vector<string>& lines, const string& chars)
-//{
-//    for(unsigned int i = 0; i < lines.size(); i++)
-//    {
-//        lines[i] = Trim(lines[i], chars);
-//    }
-//}
-//
 string asString(const vector<string>& list)
 {
     string res;
@@ -704,19 +649,25 @@ string getFileExtension(const string& fileName)
 
 string getFilePath(const string& fileN)
 {
-    string path;
-    if(fileN.find_last_of( '\\' ) != std::string::npos)
-    {
-        path = fileN.substr( 0, fileN.find_last_of( '\\' ));
-        return path;
-    }
-    else if(fileN.find_last_of( '/' ) != std::string::npos)
-    {
-        path = fileN.substr( 0, fileN.find_last_of( '/' ));
-        return path;
-    }
+    Poco::Path p(fileN);
+    p.setFileName("");
+    p.makeDirectory();
 
-    return "";
+    return p.toString();
+//    string path;
+//    if(fileN.find_last_of( '\\' ) != std::string::npos)
+//    {
+//        path = fileN.substr( 0, fileN.find_last_of( '\\' ));
+//
+//        return path;
+//    }
+//    else if(fileN.find_last_of( '/' ) != std::string::npos)
+//    {
+//        path = fileN.substr( 0, fileN.find_last_of( '/' ));
+//        return path;
+//    }
+//
+//    return "";
 }
 
 bool hasFilePath(const string& fileN)
@@ -1081,37 +1032,6 @@ string joinPath(const string& p1, const string& p2, const string& p3, const stri
     return joinPath(tmp, p5, pathSeparator);
 }
 
-string getTimeString()
-{
-    time_t timer;
-    struct tm *tblock;
-    /* gets time of day */
-    timer = time(NULL);
-    /* converts date/time to a structure */
-    tblock = localtime(&timer);
-    string theTime = asctime(tblock);
-    return theTime;
-}
-
-string getFormattedDateTimeString(const string& format)
-{
-    struct tm *time_now;
-    time_t secs_now;
-    char str[200];
-    time(&secs_now);
-    time_now = localtime(&secs_now);
-    strftime(str, 80, format.c_str(), time_now);
-    return string(str);
-}
-
-string getDateTimeString()
-{
-    string theTime = getTimeString();
-    //TableRow tTimeTbl(theTime);
-    StringList tTimeTbl(theTime);
-    string timeStr = tTimeTbl[4] + " " + tTimeTbl[1] + " " + tTimeTbl[2] + " " + tTimeTbl[3];
-    return timeStr;
-}
 
 int toInt(const string& str, bool fromBeginning)
 {
@@ -1429,7 +1349,7 @@ string toString(const unsigned char n)
 string toString(double val, int precision)
 {
     stringstream s;
-    s << std::setprecision(precision) << val;
+    s << std::fixed << std::setprecision(precision) << val;
 	return s.str();
 }
 

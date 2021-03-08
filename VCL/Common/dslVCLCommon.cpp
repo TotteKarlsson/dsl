@@ -25,11 +25,11 @@ extern "C" int _libmain(unsigned long reason)
 	return 1;
 }
 
-#pragma comment(lib, "dslFoundation.lib")
-#pragma comment(lib, "PocoFoundation.lib")
-#pragma comment(lib, "tinyxml2.lib")
-
-#pragma link "vcl.bpi"
+//#pragma comment(lib, "dslFoundation.lib")
+//#pragma comment(lib, "poco_foundation.lib")
+//#pragma comment(lib, "tinyxml2.lib")
+//
+//#pragma link "vcl.bpi"
 #pragma link "vclactnband.bpi"
 
 //#pragma link "rtl"

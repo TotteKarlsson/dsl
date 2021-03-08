@@ -25,14 +25,19 @@ mServerPort(serverPort, string("SERVER_PORT")),
 mCreateWorkerFunction(createWorkerPtr),
 mIniSection(iniSection),
 mServerName(""),
-mSocketProtocol(Socket::SocketProtocol::spTCP, string("SERVER_PROTOCOL"))
-
+mSocketProtocol(Socket::SocketProtocol::spTCP, string("SERVER_PROTOCOL")),
+mSocketServer(*this)
 {
+//    mSocketServer.
     if(mServerPort != -1)
     {
         init(mServerPort, createWorkerPtr);
     }
+
     initProcessor();
+    mSocketServer.onClientConnect 		= boost::bind(&IPCServer::privateOnClientConnect, 		this, _1);
+    mSocketServer.onClientDisconnect 	= boost::bind(&IPCServer::privateOnClientDisconnect, 	this, _1);
+
 }
 
 IPCServer::~IPCServer()
@@ -71,7 +76,7 @@ bool IPCServer::initServer(int pNumber, CreateWorker aCreateIPCWorkerFunction)
     }
 
     mSocketServer.setPortNumber(mServerPort);
-    mSocketServer.assignParent(this);
+//    mSocketServer.assignParent(this);
     mSocketServer.setSocketProtocol(mSocketProtocol.getValue());
 
     if(aCreateIPCWorkerFunction)
@@ -84,7 +89,6 @@ bool IPCServer::initServer(int pNumber, CreateWorker aCreateIPCWorkerFunction)
     }
 
     mSocketServer.setIncomingMessageDelimiters(mMessageDelimiters.first, mMessageDelimiters.second);
-//    int startRes = mSocketServer.start();
     mSocketServer.start();
 
 //    if(startRes != 1)
@@ -93,9 +97,24 @@ bool IPCServer::initServer(int pNumber, CreateWorker aCreateIPCWorkerFunction)
 //        return false;
 //    }
 //    Log(lInfo)<<"Server "<<mServerName<<" listening on port number: "<<mServerPort;
-    Sleep(100);
-
+//    Sleep(100);
     return mSocketServer.isRunning();
+}
+
+void IPCServer::privateOnClientConnect(Socket* s)
+{
+    if(onClientConnect)
+    {
+		onClientConnect(s);
+    }
+}
+
+void IPCServer::privateOnClientDisconnect(Socket* s)
+{
+    if(onClientDisconnect)
+    {
+		onClientDisconnect(s);
+    }
 }
 
 bool IPCServer::saveParameters()
@@ -153,9 +172,17 @@ bool IPCServer::shutDown()
 bool IPCServer::shutDownServer()
 {
     mSocketServer.shutDown();
+    int count(0);
     while(mSocketServer.isAlive())
     {
-        Log(lInfo)<<"Shutting down the server thread";
+        Log(lInfo)<<"Shuting down the IPC server thread";
+        Sleep(10);
+        count++;
+        if(count > 500)
+        {
+	        Log(lError)<< "Failed shutting down the IPC server thread";
+            return false;
+        }
     }
 
     return true;

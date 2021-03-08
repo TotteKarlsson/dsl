@@ -20,8 +20,18 @@
 #pragma hdrstop
 #pragma argsused
 
+//This file should not be part of CMake build
+
 extern "C" int _libmain(unsigned long reason)
 {
 	return 1;
 }
 
+#pragma comment(lib, "dslFoundation")
+#pragma comment(lib, "poco_foundation")
+//#pragma comment(lib, "tinyxml2.lib")
+//
+//#pragma link "vcl.bpi"
+#pragma link "vclactnband.bpi"
+
+//#pragma link "rtl"

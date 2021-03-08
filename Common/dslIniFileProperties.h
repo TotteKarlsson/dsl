@@ -24,18 +24,19 @@ class DSL_COMMON IniFileProperties : public Properties
 
         void                                                setIniFile(IniFile* iniFile);
         IniFile*                                            getIniFile();
-        string                                              getIniFileName();
+        string                                              getIniFileName() const;
 
         void                                                addStringProperty(const string& label, const string& value);
         void                                                addIntProperty(const string& label, int value);
 
         virtual bool                                        read();
-        virtual bool                                        write();
+        virtual bool                                        write(bool saveToFile = false);
 
     protected:
         IniFile*                     	                    mIniFile;
 
 };
+
 
 typedef dsl_shared_ptr<IniFileProperties> IniFilePropertiesSP;
 }

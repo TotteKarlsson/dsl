@@ -115,6 +115,7 @@ BaseProperty* Properties::getProperty(const string& label)
             return mProperties[i];
         }
     }
+    Log(lError) << "Failed getting property with name: " << label;
     return nullptr;
 }
 

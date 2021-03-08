@@ -10,7 +10,15 @@
 namespace dsl
 {
 
-DSL_COMMON std::string          getTime(bool show_milli_sec = false);
+DSL_COMMON std::string          getTime(const string& format = "%b-%m-%y-%H%M%S", int timeZoneDiff = 0);
+DSL_COMMON std::string          getLocalTime(const string& format = "%b-%m-%y-%H%M%S");
+DSL_COMMON string           	getTimeString();    //Return a string containing the date time in format "Wed Mar 31 15:02:11 2004\n"
+DSL_COMMON string           	getDateTimeString();    //Return a string containing the date time in format "2004 Mar 31 15:02:11"
+
+
+//See: http://www.cplusplus.com/reference/ctime/strftime/
+DSL_COMMON string           	getFormattedDateTimeString(const string& format);    //Return a string containing the date time in format "2004 Mar 31 15:02:11"
+
 DSL_COMMON std::string          rgbToString(double rgb[3]);
 DSL_COMMON bool 				setupLogging(const string& logFileLocation, const string& logFileName);
 DSL_COMMON void                 sleep(long ms);

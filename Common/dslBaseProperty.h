@@ -52,9 +52,10 @@ class DSL_COMMON BaseProperty : public DSLObject
                                                         //Modification idea is when we are using setting forms and OK, Cancel button
         bool                                            setEditMode(bool val);
         virtual void                                    applyEdit() = 0;
+//        virtual void                                    revertValue() = 0;
 
                                                         //Sets modified flag to false
-        void                   			                discardEdit();
+        virtual void           			                discardEdit();
         bool                                            isInEditMode();
         void					                        setModified();
         bool					                        isModified();

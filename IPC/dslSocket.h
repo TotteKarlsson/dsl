@@ -19,6 +19,7 @@ using std::deque;
 
 class Socket;
 typedef boost::function<void (Socket*)> SocketClientCallBack;
+
 class SocketReceiver;
 
 class DSL_IPC Socket : public DSLObject
@@ -29,27 +30,29 @@ class DSL_IPC Socket : public DSLObject
         enum                                        SocketType          { stStream=1,     stDGram = 2,     stRaw     = 3};
         enum                                        SocketProtocol      { spTCP   =6,     spUDP   = 17,    spRM      = 113};
 
-    public:
-                                                    Socket(int socket_handle = -1);
+                                                    Socket(SOCKET socket_handle = -1);
         virtual                                     ~Socket();
 
         void                                        setSocketProtocol(SocketProtocol proto);
         bool                                        setupSocket();
-        int                                         close();
+        int                                         closeSocket();
+
+        virtual int                                 send(const string& msg);
         int                                         receive(long receiveBuffer = 32000);
-        int                                         send(const string& msg);
+
         bool                                        hasHandle();
         bool                                        isConnected();
-        int                                         getSocketID();
-        int                                         getSocketHandle();
+        SOCKET                                      getSocketHandle();
         virtual string                              getRemoteHostName() = 0;
 		virtual string                              getLastSentData();
 
         									        //!Make it simple to consume incoming data
         deque<char>&                                getIncomingDataBuffer();
         string                                      getInfo();
-		SocketClientCallBack				        onConnected;
-		SocketClientCallBack				        onDisconnected;
+
+		SocketClientCallBack				        onConnect;
+		SocketClientCallBack				        onDisconnect;
+		SocketClientCallBack                        onFailedConnect;
 
 		SocketClientCallBack				        onReceiveData;
 		SocketClientCallBack				        onSendData;
@@ -63,7 +66,6 @@ class DSL_IPC Socket : public DSLObject
         SocketAddressFamily                         mSocketAddressFamily;
         SocketType                                  mSocketType;
         SocketProtocol                              mSocketProtocol;
-
         string                                      mLastSentData;
 };
 
@@ -102,14 +104,8 @@ bool Property<Socket::SocketProtocol>::read(IniFile* iniFile, const string& sect
     }
 
     string val(iniFile->readString(mKey, section, dsl::toString(mDefaultValue)));
-
-//    LogLevel tempVal = getLogLevel(val);
-//
-//    mWasRead = iniFile->wasItFound();
-//    setValue( mWasRead ? tempVal : mDefaultValue);
     return mWasRead;
 }
-
 
 }
 #endif

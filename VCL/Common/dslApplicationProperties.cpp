@@ -1,9 +1,8 @@
 #pragma hdrstop
-//#include <windows.h>
-//#include "dslWin32Utils.h"
 #include "dslApplicationProperties.h"
 #include "dslUtils.h"
 #include "dslFileUtils.h"
+#include "dslWin32Utils.h"
 #include "dslLogger.h"
 #include "dslRegistryProperties.h"
 #include "dslException.h"
@@ -60,7 +59,7 @@ void ApplicationProperties::writeProperties()
 
 bool ApplicationProperties::saveIniFile()
 {
-    mIniFile.save();
+    return mIniFile.save();
 }
 
 void ApplicationProperties::init()

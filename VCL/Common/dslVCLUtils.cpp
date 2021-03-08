@@ -25,6 +25,37 @@ string __fastcall joinPathU(const string& f1, const UnicodeString& f2)
 	return joinPath(f1, stdstr(f2));
 }
 
+int hideTabs(TPageControl* pc)
+{
+    if(!pc)
+    {
+        return -1;
+    }
+
+    for(int page = 0; page < pc->PageCount; page++)
+    {
+        pc->Pages[page]->TabVisible = false;
+    }
+}
+
+void disable(TActionList* a, bool visible)
+{
+    for(int i = 0; i < a->ActionCount; i++)
+    {
+        a->Actions[i]->Enabled = false;
+        a->Actions[i]->Visible = visible;
+    }
+}
+
+void enable(TActionList* a)
+{
+    for(int i = 0; i < a->ActionCount; i++)
+    {
+        a->Actions[i]->Enabled = true;
+        a->Actions[i]->Visible = true;
+    }
+}
+
 bool __fastcall sendApplicationMessage(TApplication* Application, long msg, long data1, long data2)
 {
 	if(!Application)
@@ -109,6 +140,7 @@ string __fastcall createWindowTitle(const string& appName, TApplication* app)
     {
         return "";
     }
+
 	dslApplicationInfo appInfo(app);
 
 	title << appName;
@@ -168,41 +200,41 @@ void __fastcall populateStyleMenu(TMenuItem* ThemesMenu, TNotifyEvent ThemesMenu
     }
 }
 
-string __fastcall createWindowTitle(const string& appName, TApplication* app, ApplicationLicenseController& lc)
-{
-	stringstream title;
-    if(!app)
-    {
-        return "";
-    }
-	dslApplicationInfo appInfo(app);
-
-	title << appName;
-
-	//Check if pre release
-	if(lc.getLicenseMode() == lmActivated)
-    {
-        ////Figure out if this is a lite or standard version
-        //title << " Lite";
-    }
-
-    Version version(stdstr(appInfo.mVersion));
-    title <<" - [Version: "<< version.getMajor() << "." << version.getMinor() << "." << version.getPatch()<<"]";
-
-    //Check if pre release
-    if(lc.isPreRelease())
-    {
-        title << " - (PreRelesase)";
-    }
-
-    //Check if pre release
-    if(lc.getLicenseMode() == lmTrial)
-    {
-        title << " - (Trial Mode)";
-    }
-
-    return title.str();
-}
+//string __fastcall createWindowTitle(const string& appName, TApplication* app, ApplicationLicenseController& lc)
+//{
+//	stringstream title;
+//    if(!app)
+//    {
+//        return "";
+//    }
+//	dslApplicationInfo appInfo(app);
+//
+//	title << appName;
+//
+//	//Check if pre release
+//	if(lc.getLicenseMode() == lmActivated)
+//    {
+//        ////Figure out if this is a lite or standard version
+//        //title << " Lite";
+//    }
+//
+//    Version version(stdstr(appInfo.mVersion));
+//    title <<" - [Version: "<< version.getMajor() << "." << version.getMinor() << "." << version.getPatch()<<"]";
+//
+//    //Check if pre release
+//    if(lc.isPreRelease())
+//    {
+//        title << " - (PreRelesase)";
+//    }
+//
+//    //Check if pre release
+//    if(lc.getLicenseMode() == lmTrial)
+//    {
+//        title << " - (Trial Mode)";
+//    }
+//
+//    return title.str();
+//}
 
 string __fastcall readStringFromRegistry(const string& regRoot, const string& section, const string& key, const string& def)
 {
@@ -342,31 +374,16 @@ bool __fastcall SetCWD(const string& wd)
 //Return application path on success, empty string on failure
 string __fastcall getApplicationPath()
 {
-    char buff[MAX_PATH];
-    if (!GetModuleFileNameA(nullptr, buff, sizeof(buff)) || (GetLastError() == ERROR_INSUFFICIENT_BUFFER))
+    char pathBuffer[MAX_PATH];
+    if (!GetModuleFileNameA(nullptr, pathBuffer, sizeof(pathBuffer)) || (GetLastError() == ERROR_INSUFFICIENT_BUFFER))
     {
         return "";
     }
 
-    string path;
-    path = buff;
-    string::size_type pos = path.rfind('\\');
-    if (pos == string::npos)
-    {
-        return "";
-    }
+//    string path;
+//    path = buff;
 
-    path.erase(path.begin() + pos + 1, path.end());
-
-    pos = path.rfind('.');
-    if (pos != string::npos)
-    {
-        path.erase(path.begin() + pos, path.begin() + pos + 2);
-    }
-
-//    string temp;
-//    temp = ToWStdString(path).c_str();
-    return path;
+    return getFilePath(pathBuffer);
 }
 
 string __fastcall getApplicationName()

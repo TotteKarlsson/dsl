@@ -6,7 +6,9 @@
 
 namespace dsl
 {
-SocketWorker::SocketWorker(int portNr, int sock_handle)
+
+using namespace std;
+SocketWorker::SocketWorker(int portNr, SOCKET sock_handle)
 :
 Socket(sock_handle),
 mPortNumber(portNr),
@@ -15,22 +17,21 @@ mLeftMessageDelimiter('\n'),
 mRightMessageDelimiter('\n')
 {
     mLabel    = "SocketConnection [" + toString(sock_handle) + "]";
-    Log(lInfo)<<"Created a socket worker using port number:"<<mPortNumber<<" and socket handle "<<mSocketHandle;
+    Log(lDebug3)<<"Created a socket worker using port number:"<<mPortNumber<<" and socket handle "<<mSocketHandle;
 }
 
 //----------------------------------------------------------------
 SocketWorker::~SocketWorker()
 {
-    Log(lInfo)<<"Killing socket worker on port number:"<<mPortNumber;
-    close();
+    Log(lDebug) << "Closing socket worker on port number: " << mPortNumber;
+    closeSocket();
 }
 
 string SocketWorker::getInfo()
 {
-    string info = "Socket Worker Information \n";
-    info += "mSocketHandle = " + dsl::toString((int) mSocketHandle);
-    info += "\n";
-    return info;
+    stringstream info;
+    info << "socket_handle=" + dsl::toString((int) mSocketHandle);
+    return info.str();
 }
 
 int SocketWorker::getPortNumber()

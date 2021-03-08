@@ -52,6 +52,20 @@ void TSaveFormToRegistry::read()
             mForm->Top = top;
             mForm->Left = left;
         }
+        else if(mForm->Position == poDefaultPosOnly)
+        {
+            int top         =   Registry->ReadInteger("", "Top", 0);
+            int left        =   Registry->ReadInteger("", "Left", 0);
+
+            //Check that the window is inside the desktop
+            if(top < 0 || top > Screen->Height)
+            {
+                top = 0;
+            }
+
+            mForm->Top = top;
+            mForm->Left = left;
+        }
 
         if(mForm->BorderStyle != bsToolWindow)
         {

@@ -92,6 +92,7 @@ class DSL_COMMON IniFile : public DSLObject
         void                                    setFileName(const string& fName);
         string                                  commentStr(string& Comment);
         IniKey*                                 getKey(const string& Key, const string& Section);
+		IniSection*                             getSectionWithKeyValue(const string& keyName, const string& keyValue);
 		IniSection*                             getSection(unsigned int secNr);
 		IniSection*                             getSection(const string& Section, bool create = false);
         StringList								getListOfSections();

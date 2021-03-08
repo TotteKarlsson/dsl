@@ -33,10 +33,7 @@ mServer(server)
 //----------------------------------------------------------------------------
 IPCReceiver::~IPCReceiver()
 {
-    if(isAlive())
-    {
-        close();
-    }
+    stop();
 }
 
 string IPCReceiver::getRemoteHostName()
@@ -45,12 +42,25 @@ string IPCReceiver::getRemoteHostName()
 }
 
 
+bool IPCReceiver::start(bool inThread)
+{
+    if(inThread)
+    {
+        Thread::run();
+    }
+    else
+    {
+    	run();
+    }
+    return true;
+}
+
 void IPCReceiver::run()
 {
-    Worker();
+    worker();
 }
 //----------------------------------------------------------------
-void IPCReceiver::Worker()
+void IPCReceiver::worker()
 {
     IPCMessageBuilder aMessage('[',']');
     while( !isTimeToDie() )

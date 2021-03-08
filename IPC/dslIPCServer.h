@@ -29,7 +29,7 @@ class IPCReceiver;
 class SocketWorker;
 
 typedef SocketWorker* (*CreateWorker)(int port_number, SOCKET connection, void* parent);
-
+typedef boost::function< void(void) >    					voidCB;
 class DSL_IPC IPCServer : public DSLObject
 {
     public:
@@ -50,7 +50,7 @@ class DSL_IPC IPCServer : public DSLObject
         SocketServer&                                   getSocketServer(){return mSocketServer;}
 
         bool                                            clientRequestResponse(const string& msg, int socketID);
-        bool                                            broadcast(const string& msg);
+        virtual bool                                    broadcast(const string& msg);
         bool                                            removeLostConnections();
         size_t                                          nrOfMessages(){return mMessages.size();}
 
@@ -83,10 +83,16 @@ class DSL_IPC IPCServer : public DSLObject
         bool                                            shutDownServer();
         bool                                            shutDownProcessor();
 
+        SocketClientCallBack                  			onClientConnect;
+        SocketClientCallBack                  			onClientDisconnect;
+
     protected:
         SocketServer                                    mSocketServer;
         pair<char, char>                                mMessageDelimiters;
         time_t                                          mStartTime;
+
+        void                                            privateOnClientConnect(Socket* s);
+        void                                            privateOnClientDisconnect(Socket* s);
 
         unsigned int                                    mNrOfProcessedRequests;
         virtual bool                                    initServer(int pNumber = -1, CreateWorker aCreateIPCWorkerFunction = NULL);

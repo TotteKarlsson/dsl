@@ -10,7 +10,7 @@ class PACKAGE TLogFileReader : public TComponent
 	public:
     							__fastcall 	TLogFileReader(TComponent* Owner);
     							__fastcall 	~TLogFileReader();
-		bool                                start();
+		bool                                start(const string& logFileName = dsl::gEmptyString);
 		bool                                stop();
         bool                                isRunning();
 

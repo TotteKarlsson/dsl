@@ -12,7 +12,7 @@ namespace dsl
 class DSL_IPC SocketWorker : public Thread, public Socket
 {
     public:
-                                    SocketWorker(int portNr = -1, int socket_handle = -1);
+                                    SocketWorker(int portNr = -1, SOCKET socket_handle = nullptr);
         virtual            	        ~SocketWorker();
 
         int                         getPortNumber();

@@ -36,6 +36,18 @@ string LogFileReader::getLogFileName()
     return mFileName;
 }
 
+bool LogFileReader::start(bool inThread)
+{
+    if(inThread)
+    {
+        Thread::run();
+    }
+    else
+    {
+    	run();
+    }
+}
+
 void LogFileReader::run()
 {
     worker();
@@ -119,18 +131,18 @@ void LogFileReader::worker()
 		//Read until end of file
 		while(!mFS.eof() && mIsTimeToDie == false )
 		{
-
 			getline(mFS, mTheData);
-
 			if(mTheData.size() > 1)
 			{
 				if(mCallBackFnc)
 				{
 					TThread::Synchronize(nullptr, mCallBackFnc);
 				}
+
                 //Need this in case logs are coming faster than we can write.
                 //1 ms is enough for the UI to refresh
-				Sleep(5);
+                //Need to check when data is consumed
+				Sleep(1);
 				mTheData.clear();
 			}
 		}

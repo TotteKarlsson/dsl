@@ -159,7 +159,7 @@ string IPCMessage::getMessageBody()
         }
         else
         {
-            for(dsluint i = 1; i < recs.size(); i++)
+            for(dsl::uint i = 1; i < recs.size(); i++)
             {
                 msgBody += recs[i];
                 if(i != recs.size() - 1)
@@ -171,7 +171,7 @@ string IPCMessage::getMessageBody()
     }
     else
     {
-        for(dsluint i = 1; i < mRecords.size(); i++)
+        for(dsl::uint i = 1; i < mRecords.size(); i++)
         {
             msgBody += mRecords[i];
             if(i != mRecords.size() -1)
@@ -225,7 +225,7 @@ bool IPCMessage::pack()
 //        startRecord = 1;
 //    }
 
-    for(dsluint i = startRecord; i < mRecords.size(); i++)
+    for(dsl::uint i = startRecord; i < mRecords.size(); i++)
     {
         string record = mRecords[i];
         mData += record;

@@ -5,6 +5,9 @@
 
 namespace dsl
 {
+
+DSL_COMMON string   getDLLVersion(const string& dllname);
+
                     //!Wide string to std::string
 DSL_COMMON string 	ws2s(const std::wstring& s);
 DSL_COMMON string 	getClipBoardText();
@@ -12,8 +15,6 @@ DSL_COMMON void 	sendToClipBoard(const string& str);
 DSL_COMMON string   getTempPath();
 DSL_COMMON string 	getSpecialFolder(int fldr);
 DSL_COMMON string 	getKnownFolder(GUID folder, DWORD flags = 0);
-DSL_COMMON string   getDLLVersion(TCHAR* dllname);
-
 DSL_COMMON string 	getLastWin32Error();
 
 DSL_COMMON void 	MouseClick(int x, int y);

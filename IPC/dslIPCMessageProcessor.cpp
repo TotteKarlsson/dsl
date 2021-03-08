@@ -38,6 +38,18 @@ void IPCMessageProcessor::shutDown()
     return;
 }
 
+bool IPCMessageProcessor::start(bool inThread)
+{
+    if(inThread)
+    {
+        Thread::run();
+    }
+    else
+    {
+    	run();
+    }
+}
+
 void IPCMessageProcessor::run()
 {
     worker();

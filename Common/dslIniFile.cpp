@@ -98,6 +98,20 @@ bool IniFile::clearSection(const string& aSection)
     return false;
 }
 
+IniSection* IniFile::getSectionWithKeyValue(const string& keyName, const string& keyValue)
+{
+    for(unsigned int i = 0; i < mSections.size(); i++)
+    {
+        IniSection* section = mSections[i];
+        IniKey* key =section->getKey(keyName);
+        if(key && key->mValue == keyValue)
+        {
+            return section;
+        }
+    }
+    return nullptr;
+}
+
 // Set's the mFileName member variable. For use when creating the IniFile
 // object by hand versus loading it from a file
 void IniFile::setFileName(const string& FileName)

@@ -1,7 +1,7 @@
 #ifndef dslApplicationPropertiesH
 #define dslApplicationPropertiesH
 #include <list>
-//#include <System.hpp>
+#include <System.hpp>
 #include "dslObject.h"
 #include "dslProperties.h"
 #include "dslVCLCommonExporter.h"

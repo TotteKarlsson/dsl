@@ -98,8 +98,8 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <BPILibOutputDir>$(DEBUG_BCC32)\lib</BPILibOutputDir>
-        <FinalOutputDir>$(DEBUG_BCC32)\bin</FinalOutputDir>
+        <BPILibOutputDir>$(BUILD)\lib</BPILibOutputDir>
+        <FinalOutputDir>$(BUILD)\bin</FinalOutputDir>
         <Defines>EXPORT_PYTHON_PLUGINS;$(Defines)</Defines>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>

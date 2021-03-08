@@ -20,11 +20,12 @@ __fastcall TServerSocketFrame::TServerSocketFrame(TComponent* Owner)
     TFrame(Owner),
     mServer(dsl_shared_ptr<TMemoSocketServer>(new TMemoSocketServer("MemoSocket.ini", "GENERAL")))
 {
-//    mServer = new TMemoSocketServer("MemoSocket.ini", "GENERAL");
+
     mAppFolder = GetCurrentDir().c_str();
     BitBtn1->Caption = "Start server";
     StatusBar1->Panels->Items[0]->Text = "Not serving..";
 }
+
 //---------------------------------------------------------------------------
 __fastcall TServerSocketFrame::~TServerSocketFrame()
 {}

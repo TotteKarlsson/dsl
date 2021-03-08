@@ -1,9 +1,7 @@
 #ifndef dslPropertyH
 #define dslPropertyH
 #include "dslObject.h"
-#include "dslIniFile.h"
 #include "dslStringUtils.h"
-#include "dslCommonExporter.h"
 #include "dslBaseProperty.h"
 #include "Poco/DateTime.h"
 #include "Poco/DateTimeFormatter.h"
@@ -17,12 +15,15 @@ namespace dsl
 using std::string;
 using std::ostream;
 using Poco::DateTimeFormatter;
+LayoutMode          fromString(const string& v);
+string 				toString(const LayoutMode& m);
+//typedef std::pair<int, int> PairOfInts;
 
 template <class T>
 class Property : public BaseProperty
 {
     public:
-                                                    Property(const T& value, const string& lbl = gNoneString, const string& comment =gNoneString );
+                                                    Property(const T& value, const string& lbl = gNoneString, const string& comment = gNoneString );
 
                                                     ~Property();
 		void                                        setDefaultValue(const T& val);
@@ -32,6 +33,7 @@ class Property : public BaseProperty
         void                                        resetToDefault();
         virtual string                              getTypeName() const;
         T                                           getValue() const;
+        T                                           getEditValue() const;
         string                                      getValueAsString() const;
         string                                      getComment();
         ObjectType                                  getObjectType();
@@ -68,6 +70,7 @@ class Property : public BaseProperty
         bool                                        write(IniFile* iniFile, const string& section);
         bool                                        assignValueFromString(const string& val);
         void                                        applyEdit();
+        void                                        discardEdit();
 
     protected:
         T                                           mDefaultValue;
@@ -100,6 +103,13 @@ template<class T> inline
 void Property<T>::applyEdit()
 {
     (*mValue) = mEditValue;
+    mIsModified = false;
+}
+
+template<class T> inline
+void Property<T>::discardEdit()
+{
+    mEditValue = (*mValue);
     mIsModified = false;
 }
 
@@ -184,6 +194,12 @@ T& Property<T>::getValueReference()
 }
 
 template<class T> inline
+T Property<T>::getEditValue() const
+{
+    return mEditValue;
+}
+
+template<class T> inline
 T& Property<T>::getEditValueReference()
 {
     return mEditValue;
@@ -253,13 +269,13 @@ string Property<T>::getINIRecord()
 template<class T> inline
 ObjectType Property<T>::getPropertyType()
 {
-    return otUndefined; //(getValue());
+    return otUndefined;
 }
 
 template<class T> inline
 T& Property<T>::operator=(const T& rhs)
 {
-    (*mValue) = rhs;
+    setValue(rhs);
     return (*mValue);
 }
 
@@ -478,11 +494,24 @@ ObjectType Property<string>::getPropertyType()
     return otStdString;
 }
 
+
+template<> inline
+Property<std::string>& Property<std::string>::operator=(const Property<string>& rhs)
+{
+    if(this != &rhs)
+    {
+    	mKey = rhs.mKey;
+    	setValue(rhs);
+    }
+    return (*this);
+}
+
 template<> inline
 Property<string>::operator string() const
 {
     return *mValue;
 }
+
 
 template<> inline
 const char* Property<string>::c_str() const
@@ -524,6 +553,66 @@ bool Property<std::string>::read(IniFile* iniFile, const string& section)
     setValue(mWasRead ? tempVal : mDefaultValue);
     return mWasRead;
 }
+
+////------------- pair<int, int> -----------------------------------------
+//template<> inline
+//string Property<PairOfInts>::getTypeName() const
+//{
+//    return "string";
+//}
+//
+//template<> inline
+//ObjectType Property<PairOfInts>::getPropertyType()
+//{
+//    return otStdString;
+//}
+//
+//template<> inline
+//Property<PairOfInts>::operator PairOfInts() const
+//{
+//    return *mValue;
+//}
+//
+//template<> inline
+//bool Property<PairOfInts>::assignValueFromString(const string& val)
+//{
+//    dsl::StringList l(val, ',');
+//    if(l.size() == 2)
+//    {
+//        PairOfInts aValue(toInt(l[0]), toInt(l[1]));
+//        setValue(aValue);
+//        return true;
+//
+//    return false;
+//}
+//
+//template<> inline
+//bool Property<PairOfInts>::write(IniFile* iniFile, const string& section)
+//{
+//    if(iniFile)
+//    {
+//        iniFile->writeString(mKey, getValue(), mComment, section);
+//        return true;
+//    }
+//    else
+//    {
+//        return false;
+//    }
+//}
+//
+//template<> inline
+//bool Property<PairOfInts>::read(IniFile* iniFile, const string& section)
+//{
+//    if(iniFile == nullptr)
+//    {
+//        return false;
+//    }
+//
+//    string    tempVal = iniFile->readString(mKey, section, mDefaultValue);
+//    mWasRead = iniFile->wasItFound();
+//    setValue(mWasRead ? tempVal : mDefaultValue);
+//    return mWasRead;
+//}
 
 //------------- Poco DateTime -----------------------------------------
 template<> inline
@@ -585,6 +674,94 @@ bool Property<Poco::DateTime>::read(IniFile* iniFile, const string& section)
     mWasRead = iniFile->wasItFound();
     setValue(mWasRead ? dt : mDefaultValue);
     return mWasRead;
+}
+
+//------------- LayoutMode enum -----------------------------------------
+template<> inline
+Property<LayoutMode>::operator LayoutMode () const
+{
+    return (*mValue);
+}
+
+template<> inline
+string Property<LayoutMode>::getTypeName() const
+{
+	return "layoutMode";
+}
+
+template<> inline
+string Property<LayoutMode>::getValueAsString() const
+{
+	LayoutMode val = getValue();
+	return dsl::toString(val);
+}
+
+template<> inline
+bool Property<LayoutMode>::assignValueFromString(const string& val)
+{
+    setValue(fromString(val));
+    return false;
+}
+
+template<> inline
+bool Property<LayoutMode>::write(IniFile* iniFile, const string& section)
+{
+    if(iniFile)
+    {
+        iniFile->writeString(mKey, getValueAsString(), mComment, section);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+template<> inline
+bool Property<LayoutMode>::read(IniFile* iniFile, const string& section)
+{
+    if(iniFile == nullptr)
+    {
+        return false;
+    }
+
+    string    tempVal = iniFile->readString(mKey, section, "");
+    LayoutMode value(fromString(tempVal));
+
+    mWasRead = iniFile->wasItFound();
+    setValue(mWasRead ? value : mDefaultValue);
+    return mWasRead;
+}
+
+dsl::LayoutMode inline fromString(const string& v)
+{
+    if(v == "landscape")
+    {
+        return lmLandscape;
+    }
+    else if (v == "portrait")
+    {
+        return lmPortrait1;
+    }
+    else if (v == "portrait2")
+    {
+        return lmPortrait2;
+    }
+    else
+    {
+        return lmUndefined;
+    }
+}
+
+string inline toString(const LayoutMode& m)
+{
+    switch(m)
+    {
+        case lmLandscape: return "landscape";
+        case lmPortrait1: return "portrait1";
+        case lmPortrait2: return "portrait2";
+        default:          return "undefined";
+	}
 }
 
 }

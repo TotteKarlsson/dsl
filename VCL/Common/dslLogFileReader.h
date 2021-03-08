@@ -14,6 +14,8 @@ class VCLCOMMON LogFileReader : public dsl::Thread
 											LogFileReader(const string& fName, Callback AMethod = NULL, bool startAtEnd = true);
 		void					            assignOnMessageCallBack(Callback AMethod);
 		bool                                reStart();
+
+        bool                                start(bool inThread = true);
 		void                                worker();
 		void                                setFileName(const string& fName);
 		string                              getLogFileName();
@@ -21,15 +23,14 @@ class VCLCOMMON LogFileReader : public dsl::Thread
 		string&                             getData();
 		void                                purge();
 		void                                run();
+		Callback	                        mCallBackFnc;
 
 	protected:
 		ifstream                            mFS;
 		bool                                mStartAtFileEnd;
 		string                              mFileName;
 		string                              mTheData;
-		Callback	                        mCallBackFnc;
 		bool                                init();
 };
-
 
 #endif

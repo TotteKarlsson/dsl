@@ -45,6 +45,7 @@ void __fastcall TIntegerEdit::assignExternalProperty(Property<int>* prop, bool d
 
 	//Transfer external property value to VCL component
 	Value = prop->getValue();
+	getProperty()->discardEdit();
 }
 
 //---------------------------------------------------------------------------

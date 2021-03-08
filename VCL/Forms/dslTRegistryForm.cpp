@@ -14,9 +14,9 @@ TForm(Owner),
 mFormSaver(regRoot, formName, this)
 {
     mRegistryRoot = (formName.size()) ? formName : string("DefaultFormSettings");
-    readRegistry();
 }
 
+//Read the registry in a forms onShow event
 void __fastcall TRegistryForm::readRegistry()
 {
 	mFormSaver.read();
@@ -43,8 +43,4 @@ void __fastcall TRegistryForm::CreateParams(TCreateParams &Params)
 	TForm::FormStyle = fsNormal;
 }
 
-//---------------------------------------------------------------------------
-void __fastcall TRegistryForm::FormClose(TObject *Sender, TCloseAction &Action)
-{
-    writeToRegistry();
-}
+

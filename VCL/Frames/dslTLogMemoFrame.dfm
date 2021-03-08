@@ -4,15 +4,15 @@ object LogMemoFrame: TLogMemoFrame
   Width = 866
   Height = 404
   TabOrder = 0
-  object Panel1: TPanel
+  object LogPanel: TPanel
     Left = 0
     Top = 0
     Width = 866
     Height = 404
     Align = alClient
-    Caption = 'Panel1'
+    Caption = 'LogPanel'
     TabOrder = 0
-    object GroupBox1: TGroupBox
+    object LogGroupBox: TGroupBox
       Left = 1
       Top = 1
       Width = 864
@@ -28,7 +28,7 @@ object LogMemoFrame: TLogMemoFrame
         Align = alLeft
         AutoSize = True
         ButtonHeight = 21
-        Caption = 'ToolBar1'
+        Caption = 'LogToolbar'
         TabOrder = 0
         object mClearLogMemoBtn: TBitBtn
           Left = 0
@@ -93,7 +93,7 @@ object LogMemoFrame: TLogMemoFrame
   end
   object LogFileReader1: TLogFileReader
     LogFileMemo = infoMemo
-    Left = 40
-    Top = 64
+    Left = 64
+    Top = 120
   end
 end

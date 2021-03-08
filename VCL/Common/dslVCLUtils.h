@@ -8,7 +8,6 @@
 #include <list>
 #include <sstream>
 #include "dslUtils.h"
-#include "dslApplicationLicenseController.h"
 #include "dslVCLCommonExporter.h"
 #include "dslWin32Utils.h"
 #include "dslStringList.h"
@@ -30,7 +29,7 @@ namespace dsl
 //	bool 				__fastcall VCLCOMMON sendApplicationMessage(TApplication* Application, long msg, long data1 = 0, long data2 = 0);
 
 	string              __fastcall VCLCOMMON createWindowTitle(const string& appName, TApplication* app);
-	string              __fastcall VCLCOMMON createWindowTitle(const string& appName, TApplication* app, ApplicationLicenseController& lc);
+//	string              __fastcall VCLCOMMON createWindowTitle(const string& appName, TApplication* app, ApplicationLicenseController& lc);
 	bool                __fastcall VCLCOMMON clearStringGrid(TStringGrid* grid);
 	String              __fastcall VCLCOMMON vclstr(const string& s);
 	String              __fastcall VCLCOMMON vclstr(const char* s);
@@ -46,6 +45,8 @@ namespace dsl
     string              __fastcall VCLCOMMON readStringFromRegistry(const string& regRoot, const string& section, const string& key, const string& def = gEmptyString);
     bool                __fastcall VCLCOMMON writeStringToRegistry(const string& regRoot, const string& section, const string& key, const string& value);
 
+    //PageControls
+    int                            VCLCOMMON hideTabs(TPageControl* pc);
     //CheckList Boxes
     StringList          __fastcall VCLCOMMON getCheckedItems(TCheckListBox* listBox);
 	int					__fastcall VCLCOMMON getNumberOfCheckedItems(TCheckListBox* lb);
@@ -79,6 +80,8 @@ namespace dsl
 //    string              __fastcall VCLCOMMON getSpecialFolder(int fldr);
     String              __fastcall VCLCOMMON GetCWD();
     bool                __fastcall VCLCOMMON SetCWD(const string& wd);
+    void                            VCLCOMMON disable(TActionList* a, bool visible = true);
+    void                            VCLCOMMON enable(TActionList* a);
 	void                __fastcall VCLCOMMON enableDisablePageControl(TPageControl *p, bool bEnabled);
 	void                __fastcall VCLCOMMON enableDisablePanel(TPanel *p, bool bEnabled);
     void                __fastcall VCLCOMMON enableDisableGroupBox(TGroupBox *GB, bool bEnabled);

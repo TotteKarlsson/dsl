@@ -22,7 +22,7 @@
 //#include "dslStringUtils.h"
 
 
-//#include "Poco/Condition.h"
+#include "Poco/Condition.h"
 //#include "Poco/Mutex.h"
 //#include "Poco/Path.h"
 //#include "Poco/File.h"

@@ -98,25 +98,16 @@ bool IPCMessageBuilder::build(const char& ch)
         return false;
     }
 
-    if(mNrOfLeftDel > 1)
-    {
-    	//This is an error...
-        Log(lError) << "Message builder read inconsistent data: Two left delimiters present";
-        Log(lError) << "Current buffer is: "<<mMessage;
-		Log(lError) << "Resetting message builder";
-        reset();
-        return false;
-    }
-
     if(mNrOfLeftDel == mNrOfRightDel && mNrOfLeftDel > 0)
     {
+		mMessage += ch;
         mHasMessage = true;
         mIsBuilding = false;
         return true;
     }
 
     //Insert the character, discard irrelevant ones
-    if(!(ch == '\r' || ch == '\n' || ch == mLeftDelimiter || ch == mRightDelimiter))
+    if(!(ch == '\r' || ch == '\n'))// || ch == mLeftDelimiter || ch == mRightDelimiter))
     {
     	mMessage += ch;
     }
@@ -129,3 +120,4 @@ string IPCMessageBuilder::getMessage()
 }
 
 }
+

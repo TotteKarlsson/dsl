@@ -14,19 +14,21 @@ using Poco::Timespan;
 
 //The timer class is desgined to fire off a function,
 //assigned to function pointers, ever x seconds.
+typedef boost::function<void(void)> 	EventFunction;
+
 class DSL_COMMON Timer : public Thread
 {
-	typedef boost::function<void()> 	EventFunction;
+
     public:
                                         Timer(const Timespan& interval = Timespan(1000*Timespan::MILLISECONDS), EventFunction ef = 0, const string& lbl = gNoneString);
                                         ~Timer();
         bool                            setInterval(int interval);
-        Timespan                        getInterval();
-        Timespan                        getElapsedTime();
-        Timespan                        getElapsedTimeSinceLastFire();
+        void                            finishEarly();
+        Timespan                        getInterval() const;
+        Timespan                        getElapsedTime() const;
+        Timespan                        getElapsedTimeSinceLastFire() const;
         void                            worker();
         string                          getLabel();
-        bool                            assignTimerFunction(EventFunction ef);
         void                            pause();
         void                            resume();
         bool                            start(bool runInThread = true);
@@ -40,6 +42,7 @@ class DSL_COMMON Timer : public Thread
         Timespan                        mInterval;      //in milliseconds
         Timestamp                       mTheStart;      //When timer was started
         Timestamp                       mTheLastFire;   //When Timer last fired
+        bool                            mFinishEarly;   //Will tell the timer to fire and finish
 };
 
 }

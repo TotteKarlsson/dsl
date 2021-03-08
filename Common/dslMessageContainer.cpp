@@ -21,21 +21,21 @@ void MessageContainer::postMessage(const string& msg)
     {
         Poco::ScopedLock<Poco::Mutex> lock(mListMutex);
         mMessages.push_back(msg);
-        mGotMessage.signal();
     }
+    mGotMessage.signal();
 }
 
 string MessageContainer::pop()
 {
     string msg("");
-    {    //Scoped lock
+    {
+    	//Scoped lock
         Poco::ScopedLock<Poco::Mutex> lock(mListMutex);
         if(mMessages.size())
         {
             msg = mMessages.front();
             mMessages.pop_front();
         }
-        mListMutex.unlock();
     }
 
     return msg;
@@ -44,15 +44,13 @@ string MessageContainer::pop()
 string MessageContainer::peek()
 {
     string msg("");
-
-    {    //Scoped lock
+    {
+    	//Scoped lock
         Poco::ScopedLock<Poco::Mutex> lock(mListMutex);
-        mListMutex.lock();
         if(mMessages.size())
         {
             msg = mMessages.front();
         }
-        mListMutex.unlock();
     }
 
     return msg;
@@ -60,9 +58,11 @@ string MessageContainer::peek()
 
 unsigned int MessageContainer::count()
 {
-    mListMutex.lock();
-    unsigned int sz = (unsigned int) mMessages.size();
-    mListMutex.unlock();
-    return sz;
+    {
+	    //Scoped lock
+    	Poco::ScopedLock<Poco::Mutex> lock(mListMutex);
+	    unsigned int sz = (unsigned int) mMessages.size();
+    	return sz;
+	}
 }
 }

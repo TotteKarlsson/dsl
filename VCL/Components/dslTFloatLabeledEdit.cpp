@@ -46,6 +46,7 @@ void TFloatLabeledEdit::assignExternalProperty(Property<double>* prop, bool dire
 
 	//Transfer external property value to VCL component
 	Value = prop->getValue();
+	getProperty()->discardEdit();
 }
 
 //---------------------------------------------------------------------------

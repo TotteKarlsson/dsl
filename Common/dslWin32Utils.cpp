@@ -6,24 +6,30 @@
 #include "dslUtils.h"
 #include "dslFileUtils.h"
 #include "dslException.h"
+#include "dslStringUtils.h"
 //---------------------------------------------------------------------------
 
 namespace dsl
 {
 
-#pragma comment(lib, "version.lib")
-string getDLLVersion(TCHAR* dllName)
+std::string getDLLVersion(const string& _dllName)
 {
+#if defined(_UNICODE)
+    wstring dllName(wstdstr(_dllName));
+#else
+    string dllName(_dllName);
+#endif
     stringstream v;
     DWORD  verHandle = 0;
     UINT   size      = 0;
     LPBYTE lpBuffer  = NULL;
-    DWORD  verSize   = GetFileVersionInfoSize(dllName, &verHandle);
+
+    DWORD  verSize   = GetFileVersionInfoSize(dllName.c_str(), &verHandle);
 
     if (verSize != NULL)
     {
         LPSTR verData = new char[verSize];
-        if (GetFileVersionInfo( dllName, verHandle, verSize, verData))
+        if (GetFileVersionInfo(dllName.c_str(), verHandle, verSize, verData))
         {
             if (VerQueryValue(verData, TEXT("\\"),(VOID FAR* FAR*)&lpBuffer,&size))
             {

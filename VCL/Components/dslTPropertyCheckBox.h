@@ -42,7 +42,7 @@ class PACKAGE TPropertyCheckBox : public TCheckBox
 
                                                     //Use the property to access value directly
     __published:
-        __property      							OnClick;
+//        __property      							OnClick;
         __property bool                             Value = {read=getValue, write=setValue, default=false, stored=true};
 
 

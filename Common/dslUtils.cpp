@@ -105,76 +105,52 @@ void pause(bool doIt, const string& msg)
 //    getch();
 }
 
-//char* createText(const string& str)
-//{
-//    if(str.size() == 0)
-//    {
-//        return nullptr;
-//    }
-//    char* text = new char[str.size() + 1];
-//    std::copy(str.begin(), str.end(), text);
-//    text[str.size()] = '\0'; //terminating 0!
-//    return text;
-//}
-//
-//char* createText(const char* str)
-//{
-//    string aString(str);
-//    return createText(aString);
-//}
-//
-//char* createText(const StringList& strList)
-//{
-//    if(strList.count() == 0)
-//    {
-//        return nullptr;
-//    }
-//    string list = strList.asString();
-//    char* text = new char[list.size() + 1];
-//    std::copy(list.begin(), list.end(), text);
-//    text[list.size()] = '\0'; //terminating 0!
-//    return text;
-//}
+string getLocalTime(const string& format)
+{
+    Poco::LocalDateTime ts;
+    Poco::DateTimeFormatter f;
+    return  f.format(ts, format);
+}
 
-#if defined(_WIN32)
-	#define WIN32_LEAN_AND_MEAN
-    #include <windows.h>
-    string getTime(bool show_milli_sec)
-    {
-        const int MAX_LEN = 200;
-        char buffer[MAX_LEN];
-        if (GetTimeFormatA(LOCALE_USER_DEFAULT, 0, 0, "HH':'mm':'ss", buffer, MAX_LEN) == 0)
-        {
-            return "Error in dsl::GetTime()";
-        }
-        char result[100] = {0};
-        if(show_milli_sec)
-        {
-            static DWORD first = GetTickCount();
-            std::sprintf(result, "%s.%03ld", buffer, (long)(GetTickCount() - first) % 1000);
-            return string(result);
-            }
-        else
-        {
-            return string(buffer);
-        }
-    }
-#else
-#include <sys/time.h>
-    string getTime(bool show_milli_sec)
-    {
-        char buffer[11];
-        time_t t;
-        time(&t);
-        tm r = {0};
-        strftime(buffer, sizeof(buffer), "%X", localtime_r(&t, &r));
-        struct timeval tv;
-        gettimeofday(&tv, 0);
-        char result[100] = {0};
-        std::sprintf(result, "%s.%03ld", buffer, (long)tv.tv_usec / 1000);
-        return result;
-    }
-#endif
+string getTime(const string& format, int timeZoneDiff)
+{
+    Poco::Timestamp ts;
+    Poco::DateTimeFormatter f;
+    return  f.format(ts, format, timeZoneDiff);
+}
+
+string getTimeString()
+{
+    time_t timer;
+    struct tm *tblock;
+    /* gets time of day */
+    timer = time(NULL);
+    /* converts date/time to a structure */
+    tblock = localtime(&timer);
+    string theTime = asctime(tblock);
+    return theTime;
+}
+
+string getFormattedDateTimeString(const string& format)
+{
+    struct tm *time_now;
+    time_t secs_now;
+    char str[200];
+    time(&secs_now);
+    time_now = localtime(&secs_now);
+    strftime(str, 80, format.c_str(), time_now);
+    return string(str);
+}
+
+string getDateTimeString()
+{
+    string theTime = getTimeString();
+    //TableRow tTimeTbl(theTime);
+    StringList tTimeTbl(theTime);
+    string timeStr = tTimeTbl[4] + " " + tTimeTbl[1] + " " + tTimeTbl[2] + " " + tTimeTbl[3];
+    return timeStr;
+}
+
 
 //---------------------------------------------------------------------------
 string zeroPadIntLeft(int nr, int width)

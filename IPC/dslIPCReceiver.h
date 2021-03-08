@@ -16,12 +16,16 @@ class DSL_IPC IPCReceiver : public SocketWorker
 {
 	public:
 		                                IPCReceiver(int portNr, int socketHandle, IPCServer* server);
-		                                ~IPCReceiver();
-		virtual void                    Worker();
+		virtual                         ~IPCReceiver();
+
+                                        //!over ride me
+        virtual bool                    start(bool inthread = true);
+		virtual void                    worker();
 		void                            run();
 		string 							getRemoteHostName();
 
 	protected:
+                                        //!The server will manage the receiver
 		IPCServer*                      mServer;
 };
 

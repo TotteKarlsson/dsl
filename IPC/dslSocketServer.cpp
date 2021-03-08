@@ -1,11 +1,11 @@
 #pragma hdrstop
 #include <winsock.h>
-
 #include "dslStringUtils.h"
 #include "dslSocketServer.h"
 #include "dslLogger.h"
 #include "dslIPCMessage.h"
 #include "dslIPCMessageBuilder.h"
+#include "boost/bind.hpp"
 
 #define MAXHOSTNAME 255
 
@@ -16,6 +16,7 @@ using boost::mutex;
 typedef mutex::scoped_lock ScopedLock;
 using namespace std;
 
+using dsl::Socket;
 namespace dsl
 {
 
@@ -23,13 +24,14 @@ int SocketServer::serverCount = 0;
 void HandleTCPClient(int clntSocket);   /* TCP client handling function */
 
 //----------------------------------------------------------------
-SocketServer::SocketServer(int port_nr):
-Socket(-1),
+SocketServer::SocketServer(IPCServer& parent, int port_nr)
+:
+Socket(0),
 CreateWorkerFunction(nullptr),
 mLeftMessageDelimiter('\n'),
 mRightMessageDelimiter('\n'),
 mSocketProtocol(spTCP),
-mParent(nullptr)
+mParent(parent)
 {
     setPortNumber(port_nr);
     serverCount++;
@@ -39,7 +41,7 @@ mParent(nullptr)
 //----------------------------------------------------------------
 SocketServer::~SocketServer()
 {
-    close();
+    closeSocket();
     shutDown();
     serverCount--;
 }
@@ -58,27 +60,27 @@ void SocketServer::shutDown()
 {
     //Call close on the socket
     Thread::stop();    //Sets time to die to true
-    close();
+    closeSocket();
 
-    ScopedLock lock(mWorkerListMutex);
-    while(mWorkerList.size() > 0)
     {
-        SocketWorker *wkr = mWorkerList.front();
-        mWorkerList.pop_front();
-        if(wkr)
+        ScopedLock lock(mWorkerListMutex);
+        while(mWorkerList.size() > 0)
         {
-            wkr->stop();
-            wkr->close();
-            while(wkr->isRunning())
+            SocketWorker *wkr = mWorkerList.front();
+            mWorkerList.pop_front();
+            if(wkr)
             {
-                ;
+                wkr->stop();
+                wkr->closeSocket();
+                while(wkr->isRunning())
+                {
+                    ;
+                }
+
+                delete wkr;
             }
-
-            delete wkr;
         }
-    }
-
-    lock.unlock();
+ 	}
 }
 
 void SocketServer::stop()
@@ -93,7 +95,7 @@ void SocketServer::run()
     worker();
 }
 
-bool SocketServer::start(bool inThread )
+bool SocketServer::start(bool inThread)
 {
     if(mPortNumber < 1)
     {
@@ -146,7 +148,8 @@ bool SocketServer::start(bool inThread )
         return false;
     }
 
-    return Thread::start();
+	Thread::run();
+    return true;
 }
 
 void SocketServer::setIncomingMessageDelimiters(const char& left, const char& right)
@@ -185,14 +188,16 @@ bool SocketServer::broadcast(const string& msg)
 
 void SocketServer::retireWorker(SocketWorker* aWorker)
 {
-    ScopedLock lock(mWorkerListMutex);
-    mWorkerList.remove( aWorker );
+    {
+    	ScopedLock lock(mWorkerListMutex);
+	    mWorkerList.remove( aWorker );
+    }
     delete aWorker;
 }
 
 SocketWorker* SocketServer::getFirstWorker()
 {
-    boost::mutex::scoped_lock lock(mWorkerListMutex);
+   	boost::mutex::scoped_lock lock(mWorkerListMutex);
     return mWorkerList.size() ?    *(mWorkerList.begin()) : nullptr;
 }
 
@@ -203,7 +208,7 @@ bool SocketServer::sendToWorker(const string& msg, int socketID)
     ScopedLock lock(mWorkerListMutex);
     for (list<SocketWorker *>::iterator wkr = mWorkerList.begin(); wkr != mWorkerList.end(); wkr++)
     {
-        if( (*wkr)->getSocketID() == socketID && (*wkr)->isConnected() )
+        if( (*wkr)->getSocketHandle() == socketID && (*wkr)->isConnected() )
         {
             (*wkr)->send(msg);
             success = true;
@@ -226,11 +231,12 @@ void SocketServer::worker() //Waiting for connections, or UDP data grams
             case spTCP:
                 if(TCPWorker() == 1)
                 {
-                    Log(lInfo)<<"Socket client was accepted..";
+                    //Put a callback here for onConnection
+                    Log(lInfo) << "A socket client connected.";
                 }
                 else
                 {
-                    Log(lError)<<"There was a problem accepting socket client.";
+                    Log(lDebug)<<"The TCP socket worker finished without a client.";
                 }
             break;
 
@@ -266,12 +272,17 @@ int SocketServer::TCPWorker()
     }
     else
     {
+        if(mIsTimeToDie)
+        {
+            return -1;
+        }
+
        // got a connection
         Log(lDebug3)<<"A socket client connected";
         if(CreateWorkerFunction != nullptr)
         {
             //This function creates a SocketWorker..
-            SocketWorker *wkr = CreateWorkerFunction(mPortNumber, clntSock, mParent);
+            SocketWorker *wkr = CreateWorkerFunction(mPortNumber, clntSock, &mParent);
             if(!wkr)
             {
 	            Log(lError)<< "Failed to create a socket worker for a client. Client will not be served..";
@@ -283,15 +294,40 @@ int SocketServer::TCPWorker()
                 mWorkerList.push_back(wkr);
             }
 
+            wkr->onConnect    = boost::bind(&SocketServer::privateOnClientConnect, 		this, _1);
+            wkr->onDisconnect = boost::bind(&SocketServer::privateOnClientDisconnect, 	this, _1);
             wkr->setMessageDelimiters(mLeftMessageDelimiter, mRightMessageDelimiter);
+
+            if(onClientConnect)
+            {
+                onClientConnect(wkr);
+            }
+
+
             wkr->start();
-            Log(lDebug)<< "A socket worker was created.";
+            Log(lDebug3)<< "A socket worker was created.";
          }
         else
         {
             Log(lError)<< "Create client worker function is not assigned in SocketServer. Client will not be served..";
         }
         return 1;
+    }
+}
+
+void SocketServer::privateOnClientConnect(Socket* s)
+{
+    if(onClientConnect)
+    {
+        onClientConnect(s);
+    }
+}
+
+void SocketServer::privateOnClientDisconnect(Socket* s)
+{
+    if(onClientDisconnect)
+    {
+        onClientDisconnect(s);
     }
 }
 
@@ -334,20 +370,25 @@ int SocketServer::UDPWorker()
 
 bool SocketServer::removeLostConnections()
 {
-    ScopedLock lock(mWorkerListMutex);
-    bool bMore = true;
-    while ( bMore )
     {
-        bMore = false;
-        for ( list<SocketWorker *>::iterator wkr = mWorkerList.begin(); wkr != mWorkerList.end(); wkr++ )
+        ScopedLock lock(mWorkerListMutex);
+        bool bMore = true;
+        while ( bMore )
         {
-            if ( !(*wkr)->isConnected() )
+            bMore = false;
+            for ( list<SocketWorker *>::iterator wkr = mWorkerList.begin(); wkr != mWorkerList.end(); wkr++ )
             {
-                delete *wkr;
-                mWorkerList.remove( *wkr );
+                if ( !(*wkr)->isConnected() )
+                {
+                    if(!(*wkr)->isAlive())
+                    {
+                    	delete *wkr;
+                    	mWorkerList.remove( *wkr );
+                    }
 
-                bMore = true;
-                break;
+                    bMore = true;
+                    break;
+                }
             }
         }
     }
@@ -360,16 +401,21 @@ string SocketServer::getServerInfo()
     size_t nrOfClients = getNumberOfClients();
 
     stringstream info;
-    info<<"Is accepting connections: \n";
-    info<<"Listening Port = "<<getPortNumber()<<endl;
-    info<<"Nr of Clients = "<<nrOfClients<<endl;
-    boost::mutex::scoped_lock lock(mWorkerListMutex);
-    for ( list<SocketWorker *>::iterator wkr = mWorkerList.begin(); wkr != mWorkerList.end(); wkr++ )
+    info << "server_port=" 		<< getPortNumber() << endl;
+    info << "client_count=" 	<< nrOfClients	   << endl;
+
     {
-        info<<(*wkr)->getInfo()<<endl;
+        boost::mutex::scoped_lock lock(mWorkerListMutex);
+        for ( list<SocketWorker *>::iterator wkr = mWorkerList.begin(); wkr != mWorkerList.end(); wkr++ )
+        {
+            if(*wkr)
+            {
+            	info << (*wkr)->getInfo() << endl;
+            }
+        }
     }
 
-    return info.str();
+    return (info.str().size()) ? info.str() : string("");
 }
 
 //----------------------------------------------------------------------------

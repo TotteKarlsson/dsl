@@ -46,7 +46,7 @@ class PACKAGE TFloatLabeledEdit : public TLabeledPropertyEdit
         operator const double();
 
     __published:
-        __property int 			NrOfDecimals 	= {read=FNrOfDecimals, write=FNrOfDecimals, default=2};
+        __property int 			NrOfDecimals 	= {read=FNrOfDecimals, write=FNrOfDecimals, default=8};
         __property double       Value 			= {read=getValue, write=setValue, default=0, stored=true};
 };
 

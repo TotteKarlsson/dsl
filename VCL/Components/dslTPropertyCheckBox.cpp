@@ -73,7 +73,7 @@ void __fastcall TPropertyCheckBox::derivedOnClick(TObject *Sender)
 	try
 	{
 		*FValue = Checked;
-        mProperty->setModified();
+        mProperty->setValue(*FValue);
 	}
 	catch(Exception &E)
 	{}

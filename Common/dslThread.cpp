@@ -57,7 +57,7 @@ bool Thread::start(bool inThread)
 {
     if(inThread)
     {
-        Thread::run();
+        mThread.start(*this);
     }
     else
     {
@@ -124,12 +124,12 @@ bool Thread::isStarted()
     return mIsStarted;
 }
 
-bool Thread::isWorking()
+bool Thread::isWorking() const
 {
     return mIsWorking;
 }
 
-bool Thread::isRunning()
+bool Thread::isRunning() const
 {
     return mThread.isRunning();
 }

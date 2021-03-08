@@ -18,12 +18,19 @@ __fastcall TLogFileReader::TLogFileReader(TComponent* Owner)
 
 __fastcall 	TLogFileReader::~TLogFileReader()
 {
-    //Log(lInfo) << "LogFile Reader destructor";
+    Log(lInfo) << "LogFile Reader destructor";
 }
 
-bool TLogFileReader::start()
+bool TLogFileReader::start(const string& fName)
 {
-	mReader.setFileName(dsl::gLogger.getLogFileName());
+    if(fName.size() && fileExists(fName))
+    {
+		mReader.setFileName(fName);
+    }
+    else
+    {
+		mReader.setFileName(dsl::gLogger.getLogFileName());
+    }
     mReader.assignOnMessageCallBack(callback);
 	return mReader.start(true);
 }

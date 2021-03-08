@@ -19,6 +19,21 @@ __fastcall TLogMemoFrame::TLogMemoFrame(TComponent* Owner)
 	//LogFileReader1->start();
 }
 
+void TLogMemoFrame::setLogLevel(dsl::LogLevel lvl)
+{
+    gLogger.setLogLevel(lvl);
+
+    string lvls = dsl::toString(gLogger.getLogLevel());
+
+    //Find item in CB with this loglevel
+    int index = LogLevelCB->Items->IndexOf(vclstr(lvls));
+
+    if(index > -1)
+    {
+		LogLevelCB->ItemIndex = index;
+    }
+}
+
 //---------------------------------------------------------------------------
 void TLogMemoFrame::init()
 {

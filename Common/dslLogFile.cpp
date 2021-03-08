@@ -1,8 +1,11 @@
 #pragma hdrstop
 #include "dslLogFile.h"
+#include <sstream>
 //---------------------------------------------------------------------------
 namespace dsl
 {
+
+using namespace std;
 
 LogFile::LogFile(const string& name)
 :
@@ -11,7 +14,9 @@ mFileName(name)
 {
     if (!mFILEHandle)
     {
-        throw std::runtime_error("File Open failure");
+        stringstream msg;
+        msg << "Failed to open logfile: " <<name;
+        throw std::runtime_error(msg.str());
     }
     else
     {

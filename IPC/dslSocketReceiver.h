@@ -2,6 +2,7 @@
 #define SocketReceiverH
 #include "dslSocket.h"
 #include "dslMessageContainer.h"
+#include "dslThread.h"
 
 namespace dsl
 {
@@ -12,6 +13,7 @@ class DSL_IPC SocketReceiver : public Thread
     public:
                                 SocketReceiver(Socket& s, MessageContainer& msgs);
                                 ~SocketReceiver();
+		bool 					start(bool inThread = true);
         void                    run();
         virtual void            worker();
 
