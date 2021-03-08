@@ -9,6 +9,7 @@
 #include <cerrno>
 #include <set>
 #include "Poco/Exception.h"
+#include "dslException.h"
 
 #if !defined(_Linux)
 //#include <io.h>
@@ -60,7 +61,14 @@ string getFileContent(const string& fName)
         return contents;
     }
 
-    throw(errno);
+    stringstream msg;
+    msg <<"Failure in getting filecontent for file: " << fName << endl;
+    msg <<"Error was: " <<string(strerror(errno));
+
+
+	const DSLException e(msg.str());
+
+    throw(e);
 }
 
 //string getFileContent(const string& fName)
@@ -80,13 +88,13 @@ DSL_COMMON double getFileSize(const string& file, FileSizeType type)
     //determine what conversion they want
     switch (type)
     {
-        case fstByte:             return (double) bytes;
-        case fstKiloByte:         return (double) (bytes / (CONVERSION_VALUE));
-        case fstMegaByte:         return (double) (bytes / (CONVERSION_VALUE * CONVERSION_VALUE));
-        case fstGigaByte:         return (double) (bytes / (CONVERSION_VALUE * CONVERSION_VALUE * CONVERSION_VALUE));
+        case fstByte:             return  bytes;
+        case fstKiloByte:         return (bytes / (double) (CONVERSION_VALUE));
+        case fstMegaByte:         return (bytes / (double)(CONVERSION_VALUE * CONVERSION_VALUE));
+        case fstGigaByte:         return (bytes / (double)(CONVERSION_VALUE * CONVERSION_VALUE * CONVERSION_VALUE));
         default:		          break;
 	}
-    return (double) bytes;
+    return bytes;
 }
 
 bool createFile(const string& fName, ios_base::openmode mode)
