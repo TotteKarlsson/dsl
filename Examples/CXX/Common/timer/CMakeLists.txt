@@ -7,7 +7,7 @@ PROJECT(${target})
   
 target_link_libraries(${target} 
 dslFoundation
-poco_foundation
+poco_foundation${LIBRARY_POSTFIX}
 )
 
 install(    

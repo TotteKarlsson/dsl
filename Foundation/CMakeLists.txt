@@ -73,7 +73,8 @@ set(src
 ../IPC/dslSocketReceiver
 ../IPC/dslSocketServer
 ../IPC/dslSocketWorker
-../IPC/dslToggleSocketConnectionThread
+../IPC/dslSocketActionThread
+#../IPC/dslToggleSocketConnectionThread
 
 ../Math/dslDihedralAngle
 ../Math/dslAxisSystem
@@ -104,13 +105,18 @@ endif()
 #===== Shared library
 if(${BUILD_SHARED_LIBS})
 #    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -Hi${CMAKE_SOURCE_DIR}/pch/dsl_pch.h -Hh=${CMAKE_SOURCE_DIR}/pch/dsl_pch.h -H=${CMAKE_SOURCE_DIR}/pch/dsl_pch.cmake -H")
-
-    add_library(${target} SHARED ${src})
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "Embarcadero" AND CMAKE_BASE_NAME STREQUAL "bcc32" )
+    endif()
+ 
+    add_library(${target} SHARED
+        ${src}
+    )
     target_include_directories (${target} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
     
-    set_target_properties(${target} PROPERTIES 
-        OUTPUT_NAME ${target}${LIBRARY_POSTFIX}
-    )
+    if(NOT ${LIBRARY_POSTFIX} STREQUAL "")
+        message(${LIBRARY_POSTFIX})
+        set_target_properties(${target}  PROPERTIES SUFFIX ${LIBRARY_POSTFIX})
+    endif()
 
     target_compile_definitions(${target} PRIVATE EXPORT_COMMON EXPORT_PLUGINS EXPORT_IPC EXPORT_MATH EXPORT_DATABASE)
 
@@ -121,9 +127,9 @@ if(${BUILD_SHARED_LIBS})
                 poco_foundation
                 Shell32.lib
                 ws2_32
+                version
         )
     endif()
-
 
     if(${INSTALL_CXX_LIBS})
         install(    
@@ -147,14 +153,13 @@ if(${BUILD_SHARED_LIBS})
             COMPONENT cxx_headers
         )
 
-        if(${BORLAND})
+        if(CMAKE_CXX_COMPILER_ID STREQUAL "Embarcadero" AND CMAKE_BASE_NAME STREQUAL "bcc32" )
             install(FILES
                 ${PROJECT_BINARY_DIR}/bin/${target}.tds
                 DESTINATION bin
                 COMPONENT debug
             )
-        endif()
-
+        endif()        
 
     endif()
 endif()
